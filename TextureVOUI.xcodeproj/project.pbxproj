@@ -1,0 +1,598 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E5E1483026EF12F000056475 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1482F26EF12F000056475 /* AppDelegate.swift */; };
+		E5E1483226EF12F000056475 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1483126EF12F000056475 /* SceneDelegate.swift */; };
+		E5E1483426EF12F000056475 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1483326EF12F000056475 /* ViewController.swift */; };
+		E5E1483726EF12F000056475 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5E1483526EF12F000056475 /* Main.storyboard */; };
+		E5E1483926EF12F200056475 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5E1483826EF12F200056475 /* Assets.xcassets */; };
+		E5E1483C26EF12F200056475 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5E1483A26EF12F200056475 /* LaunchScreen.storyboard */; };
+		E5E1484726EF12F200056475 /* TextureVOUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1484626EF12F200056475 /* TextureVOUITests.swift */; };
+		E5E1485226EF12F200056475 /* TextureVOUIUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1485126EF12F200056475 /* TextureVOUIUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E5E1484326EF12F200056475 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E5E1482426EF12F000056475 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E5E1482B26EF12F000056475;
+			remoteInfo = TextureVOUI;
+		};
+		E5E1484E26EF12F200056475 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E5E1482426EF12F000056475 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E5E1482B26EF12F000056475;
+			remoteInfo = TextureVOUI;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E5E1482C26EF12F000056475 /* TextureVOUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextureVOUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5E1482F26EF12F000056475 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E5E1483126EF12F000056475 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		E5E1483326EF12F000056475 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E5E1483626EF12F000056475 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E5E1483826EF12F200056475 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E5E1483B26EF12F200056475 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E5E1483D26EF12F200056475 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E5E1484226EF12F200056475 /* TextureVOUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextureVOUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5E1484626EF12F200056475 /* TextureVOUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureVOUITests.swift; sourceTree = "<group>"; };
+		E5E1484826EF12F200056475 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E5E1484D26EF12F200056475 /* TextureVOUIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextureVOUIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5E1485126EF12F200056475 /* TextureVOUIUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureVOUIUITests.swift; sourceTree = "<group>"; };
+		E5E1485326EF12F200056475 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E5E1482926EF12F000056475 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E5E1483F26EF12F200056475 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E5E1484A26EF12F200056475 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E5E1482326EF12F000056475 = {
+			isa = PBXGroup;
+			children = (
+				E5E1482E26EF12F000056475 /* TextureVOUI */,
+				E5E1484526EF12F200056475 /* TextureVOUITests */,
+				E5E1485026EF12F200056475 /* TextureVOUIUITests */,
+				E5E1482D26EF12F000056475 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E5E1482D26EF12F000056475 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E5E1482C26EF12F000056475 /* TextureVOUI.app */,
+				E5E1484226EF12F200056475 /* TextureVOUITests.xctest */,
+				E5E1484D26EF12F200056475 /* TextureVOUIUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E5E1482E26EF12F000056475 /* TextureVOUI */ = {
+			isa = PBXGroup;
+			children = (
+				E5E1482F26EF12F000056475 /* AppDelegate.swift */,
+				E5E1483126EF12F000056475 /* SceneDelegate.swift */,
+				E5E1483326EF12F000056475 /* ViewController.swift */,
+				E5E1483526EF12F000056475 /* Main.storyboard */,
+				E5E1483826EF12F200056475 /* Assets.xcassets */,
+				E5E1483A26EF12F200056475 /* LaunchScreen.storyboard */,
+				E5E1483D26EF12F200056475 /* Info.plist */,
+			);
+			path = TextureVOUI;
+			sourceTree = "<group>";
+		};
+		E5E1484526EF12F200056475 /* TextureVOUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E5E1484626EF12F200056475 /* TextureVOUITests.swift */,
+				E5E1484826EF12F200056475 /* Info.plist */,
+			);
+			path = TextureVOUITests;
+			sourceTree = "<group>";
+		};
+		E5E1485026EF12F200056475 /* TextureVOUIUITests */ = {
+			isa = PBXGroup;
+			children = (
+				E5E1485126EF12F200056475 /* TextureVOUIUITests.swift */,
+				E5E1485326EF12F200056475 /* Info.plist */,
+			);
+			path = TextureVOUIUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E5E1482B26EF12F000056475 /* TextureVOUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E5E1485626EF12F200056475 /* Build configuration list for PBXNativeTarget "TextureVOUI" */;
+			buildPhases = (
+				E5E1482826EF12F000056475 /* Sources */,
+				E5E1482926EF12F000056475 /* Frameworks */,
+				E5E1482A26EF12F000056475 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TextureVOUI;
+			productName = TextureVOUI;
+			productReference = E5E1482C26EF12F000056475 /* TextureVOUI.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E5E1484126EF12F200056475 /* TextureVOUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E5E1485926EF12F200056475 /* Build configuration list for PBXNativeTarget "TextureVOUITests" */;
+			buildPhases = (
+				E5E1483E26EF12F200056475 /* Sources */,
+				E5E1483F26EF12F200056475 /* Frameworks */,
+				E5E1484026EF12F200056475 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E5E1484426EF12F200056475 /* PBXTargetDependency */,
+			);
+			name = TextureVOUITests;
+			productName = TextureVOUITests;
+			productReference = E5E1484226EF12F200056475 /* TextureVOUITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		E5E1484C26EF12F200056475 /* TextureVOUIUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E5E1485C26EF12F200056475 /* Build configuration list for PBXNativeTarget "TextureVOUIUITests" */;
+			buildPhases = (
+				E5E1484926EF12F200056475 /* Sources */,
+				E5E1484A26EF12F200056475 /* Frameworks */,
+				E5E1484B26EF12F200056475 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E5E1484F26EF12F200056475 /* PBXTargetDependency */,
+			);
+			name = TextureVOUIUITests;
+			productName = TextureVOUIUITests;
+			productReference = E5E1484D26EF12F200056475 /* TextureVOUIUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E5E1482426EF12F000056475 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					E5E1482B26EF12F000056475 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					E5E1484126EF12F200056475 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = E5E1482B26EF12F000056475;
+					};
+					E5E1484C26EF12F200056475 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = E5E1482B26EF12F000056475;
+					};
+				};
+			};
+			buildConfigurationList = E5E1482726EF12F000056475 /* Build configuration list for PBXProject "TextureVOUI" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E5E1482326EF12F000056475;
+			productRefGroup = E5E1482D26EF12F000056475 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E5E1482B26EF12F000056475 /* TextureVOUI */,
+				E5E1484126EF12F200056475 /* TextureVOUITests */,
+				E5E1484C26EF12F200056475 /* TextureVOUIUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E5E1482A26EF12F000056475 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5E1483C26EF12F200056475 /* LaunchScreen.storyboard in Resources */,
+				E5E1483926EF12F200056475 /* Assets.xcassets in Resources */,
+				E5E1483726EF12F000056475 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E5E1484026EF12F200056475 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E5E1484B26EF12F200056475 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E5E1482826EF12F000056475 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5E1483426EF12F000056475 /* ViewController.swift in Sources */,
+				E5E1483026EF12F000056475 /* AppDelegate.swift in Sources */,
+				E5E1483226EF12F000056475 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E5E1483E26EF12F200056475 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5E1484726EF12F200056475 /* TextureVOUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E5E1484926EF12F200056475 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E5E1485226EF12F200056475 /* TextureVOUIUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E5E1484426EF12F200056475 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E5E1482B26EF12F000056475 /* TextureVOUI */;
+			targetProxy = E5E1484326EF12F200056475 /* PBXContainerItemProxy */;
+		};
+		E5E1484F26EF12F200056475 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E5E1482B26EF12F000056475 /* TextureVOUI */;
+			targetProxy = E5E1484E26EF12F200056475 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E5E1483526EF12F000056475 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E5E1483626EF12F000056475 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E5E1483A26EF12F200056475 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E5E1483B26EF12F200056475 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E5E1485426EF12F200056475 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		E5E1485526EF12F200056475 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E5E1485726EF12F200056475 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 88NY5L7L59;
+				INFOPLIST_FILE = TextureVOUI/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeffersonsetiawan.TextureVOUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E5E1485826EF12F200056475 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 88NY5L7L59;
+				INFOPLIST_FILE = TextureVOUI/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeffersonsetiawan.TextureVOUI;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E5E1485A26EF12F200056475 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 88NY5L7L59;
+				INFOPLIST_FILE = TextureVOUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeffersonsetiawan.TextureVOUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TextureVOUI.app/TextureVOUI";
+			};
+			name = Debug;
+		};
+		E5E1485B26EF12F200056475 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 88NY5L7L59;
+				INFOPLIST_FILE = TextureVOUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeffersonsetiawan.TextureVOUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TextureVOUI.app/TextureVOUI";
+			};
+			name = Release;
+		};
+		E5E1485D26EF12F200056475 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 88NY5L7L59;
+				INFOPLIST_FILE = TextureVOUIUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeffersonsetiawan.TextureVOUIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TextureVOUI;
+			};
+			name = Debug;
+		};
+		E5E1485E26EF12F200056475 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 88NY5L7L59;
+				INFOPLIST_FILE = TextureVOUIUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeffersonsetiawan.TextureVOUIUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TextureVOUI;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E5E1482726EF12F000056475 /* Build configuration list for PBXProject "TextureVOUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E5E1485426EF12F200056475 /* Debug */,
+				E5E1485526EF12F200056475 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E5E1485626EF12F200056475 /* Build configuration list for PBXNativeTarget "TextureVOUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E5E1485726EF12F200056475 /* Debug */,
+				E5E1485826EF12F200056475 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E5E1485926EF12F200056475 /* Build configuration list for PBXNativeTarget "TextureVOUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E5E1485A26EF12F200056475 /* Debug */,
+				E5E1485B26EF12F200056475 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E5E1485C26EF12F200056475 /* Build configuration list for PBXNativeTarget "TextureVOUIUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E5E1485D26EF12F200056475 /* Debug */,
+				E5E1485E26EF12F200056475 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E5E1482426EF12F000056475 /* Project object */;
+}

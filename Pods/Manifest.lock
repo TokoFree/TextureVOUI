@@ -1,0 +1,39 @@
+PODS:
+  - FLEX (4.5.0)
+  - IGListDiffKit (4.0.0)
+  - IGListKit (4.0.0):
+    - IGListDiffKit (= 4.0.0)
+  - Texture/Core (2.7)
+  - Texture/IGListKit (2.7):
+    - IGListKit (~> 4.0)
+    - Texture/Core
+
+DEPENDENCIES:
+  - FLEX
+  - "Texture/IGListKit (from `git@github.com:TokoFree/Texture.git`, commit `f77e1bd9e50d29d4bdcc46225f63fa5000104989`)"
+
+SPEC REPOS:
+  trunk:
+    - FLEX
+    - IGListDiffKit
+    - IGListKit
+
+EXTERNAL SOURCES:
+  Texture:
+    :commit: f77e1bd9e50d29d4bdcc46225f63fa5000104989
+    :git: "git@github.com:TokoFree/Texture.git"
+
+CHECKOUT OPTIONS:
+  Texture:
+    :commit: f77e1bd9e50d29d4bdcc46225f63fa5000104989
+    :git: "git@github.com:TokoFree/Texture.git"
+
+SPEC CHECKSUMS:
+  FLEX: e51461dd6f0bfb00643c262acdfea5d5d12c596b
+  IGListDiffKit: 665d6cf43ce726e676013db9c7d6c4294259b6b2
+  IGListKit: fd5a5d21935298f5849fa49d426843cff97b77c7
+  Texture: fd48858d030388507518f606775f3f80b38b5092
+
+PODFILE CHECKSUM: c589ebf329bba884a91e867da5902b69ea60ff78
+
+COCOAPODS: 1.10.1

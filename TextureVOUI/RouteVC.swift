@@ -12,6 +12,7 @@ public final class RouteVC: UITableViewController {
         case isAccessibilityFalse = "Is Accessibility False"
         case controlNode = "ASControlNode Issue"
         case tooNested = "Too Nested Case"
+        case wrappingUsingControlNode = "Using ASControlNode to Wrap Layout"
     }
 
     private let routes: [Route] = Route.allCases
@@ -34,6 +35,8 @@ public final class RouteVC: UITableViewController {
             navigationController?.pushViewController(ControlNodeVC(), animated: true)
         case .tooNested:
             navigationController?.pushViewController(TooNestedVC(), animated: true)
+        case .wrappingUsingControlNode:
+            navigationController?.pushViewController(FailureIdentifier1VC(), animated: true)
         }
     }
 

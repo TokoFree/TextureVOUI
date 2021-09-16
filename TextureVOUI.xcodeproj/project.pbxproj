@@ -10,6 +10,9 @@
 		23FF8AEB7D36FEDAEE26529D /* Pods_TextureVOUI_TextureVOUIUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFC37D9B6963553F1467625 /* Pods_TextureVOUI_TextureVOUIUITests.framework */; };
 		6EC8C73C2FDB520A8B6A33BC /* Pods_TextureVOUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C757464E59701BD85B5E9162 /* Pods_TextureVOUI.framework */; };
 		99AEEAB9000E31568945BD76 /* Pods_TextureVOUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E01831D4EB9F64D525C9C53 /* Pods_TextureVOUITests.framework */; };
+		E5CC9DD926F36CB500E21BCE /* FailureIdentifier1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CC9DD826F36CB500E21BCE /* FailureIdentifier1VC.swift */; };
+		E5CC9DE226F36CE300E21BCE /* ActivationPointVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CC9DE126F36CE300E21BCE /* ActivationPointVC.swift */; };
+		E5CC9DE726F36D0B00E21BCE /* NSAttributedString+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5CC9DE626F36D0A00E21BCE /* NSAttributedString+Helper.swift */; };
 		E5E1483026EF12F000056475 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1482F26EF12F000056475 /* AppDelegate.swift */; };
 		E5E1483226EF12F000056475 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1483126EF12F000056475 /* SceneDelegate.swift */; };
 		E5E1483426EF12F000056475 /* RouteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1483326EF12F000056475 /* RouteVC.swift */; };
@@ -48,6 +51,9 @@
 		AC20AACD88606D99EEB1904B /* Pods-TextureVOUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUI.release.xcconfig"; path = "Target Support Files/Pods-TextureVOUI/Pods-TextureVOUI.release.xcconfig"; sourceTree = "<group>"; };
 		C757464E59701BD85B5E9162 /* Pods_TextureVOUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TextureVOUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB87281356DA3F88892A7693 /* Pods-TextureVOUI-TextureVOUIUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUI-TextureVOUIUITests.release.xcconfig"; path = "Target Support Files/Pods-TextureVOUI-TextureVOUIUITests/Pods-TextureVOUI-TextureVOUIUITests.release.xcconfig"; sourceTree = "<group>"; };
+		E5CC9DD826F36CB500E21BCE /* FailureIdentifier1VC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FailureIdentifier1VC.swift; sourceTree = "<group>"; };
+		E5CC9DE126F36CE300E21BCE /* ActivationPointVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivationPointVC.swift; sourceTree = "<group>"; };
+		E5CC9DE626F36D0A00E21BCE /* NSAttributedString+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Helper.swift"; sourceTree = "<group>"; };
 		E5E1482C26EF12F000056475 /* TextureVOUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextureVOUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5E1482F26EF12F000056475 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E5E1483126EF12F000056475 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -118,6 +124,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		E5CC9DE026F36CDD00E21BCE /* VO */ = {
+			isa = PBXGroup;
+			children = (
+				E5CC9DE126F36CE300E21BCE /* ActivationPointVC.swift */,
+			);
+			path = VO;
+			sourceTree = "<group>";
+		};
 		E5E1482326EF12F000056475 = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +157,8 @@
 		E5E1482E26EF12F000056475 /* TextureVOUI */ = {
 			isa = PBXGroup;
 			children = (
+				E5CC9DE026F36CDD00E21BCE /* VO */,
+				E5CC9DD826F36CB500E21BCE /* FailureIdentifier1VC.swift */,
 				E5E1487A26EF2CF300056475 /* SupportingFiles */,
 				E5E1483326EF12F000056475 /* RouteVC.swift */,
 				E5E1483D26EF12F200056475 /* Info.plist */,
@@ -178,6 +194,7 @@
 				E5E1483126EF12F000056475 /* SceneDelegate.swift */,
 				E5E1483826EF12F200056475 /* Assets.xcassets */,
 				E5E1483A26EF12F200056475 /* LaunchScreen.storyboard */,
+				E5CC9DE626F36D0A00E21BCE /* NSAttributedString+Helper.swift */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -422,9 +439,12 @@
 				E5E1487F26EF2D3800056475 /* IsAccessibilityElementVC.swift in Sources */,
 				E5E1488426EF2E0200056475 /* TooNestedVC.swift in Sources */,
 				E5E1483426EF12F000056475 /* RouteVC.swift in Sources */,
+				E5CC9DE726F36D0B00E21BCE /* NSAttributedString+Helper.swift in Sources */,
 				E5E1483026EF12F000056475 /* AppDelegate.swift in Sources */,
 				E5E1488926EF2E0C00056475 /* ControlNodeVC.swift in Sources */,
 				E5E1483226EF12F000056475 /* SceneDelegate.swift in Sources */,
+				E5CC9DD926F36CB500E21BCE /* FailureIdentifier1VC.swift in Sources */,
+				E5CC9DE226F36CE300E21BCE /* ActivationPointVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

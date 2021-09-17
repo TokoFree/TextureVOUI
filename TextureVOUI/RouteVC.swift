@@ -14,6 +14,7 @@ public final class RouteVC: UITableViewController {
         case tooNested = "Too Nested Case"
         case wrappingUsingControlNode = "Using ASControlNode to Wrap Layout"
         case voiceOverActivationPoint = "Voice Over Activation Point"
+        case textureIssue = "⚠️ Texture Issue"
     }
 
     private let routes: [Route] = Route.allCases
@@ -40,6 +41,8 @@ public final class RouteVC: UITableViewController {
             navigationController?.pushViewController(FailureIdentifier1VC(), animated: true)
         case .voiceOverActivationPoint:
             navigationController?.pushViewController(ActivationPointVC(), animated: true)
+        case .textureIssue:
+            navigationController?.pushViewController(TextureIssueRouteVC(), animated: true)
         }
     }
 

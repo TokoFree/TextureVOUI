@@ -14,13 +14,14 @@ class ParentNodeSuccessSetNeedsLayoutVC: ASDKViewController<ASDisplayNode> {
         
         return textNode
     }()
-    var chipNodes: [UnifyChipNode] = []
+    private var chipNodes: [UnifyChipNode] = []
     
-    var chipsData: [ChipModel] = [
-        ChipModel(optionId: 1, title: "2", isSelected: true, isCampaign: true, isStockAvailable: true),
-        ChipModel(optionId: 2, title: "4", isSelected: false, isCampaign: false, isStockAvailable: true),
-        ChipModel(optionId: 3, title: "6", isSelected: false, isCampaign: true, isStockAvailable: true),
+    private var chipsData: [ChipModel] = [
+        ChipModel(optionId: 1, title: "200", isSelected: true, isCampaign: true),
+        ChipModel(optionId: 2, title: "400", isSelected: false, isCampaign: false),
+        ChipModel(optionId: 3, title: "600", isSelected: false, isCampaign: true),
     ]
+    
     override init() {
         let rootNode = ASDisplayNode()
         super.init(node: rootNode)
@@ -44,6 +45,7 @@ class ParentNodeSuccessSetNeedsLayoutVC: ASDKViewController<ASDisplayNode> {
             let chipStack = ASStackLayoutSpec.horizontal()
             chipStack.children = chipNodes
             chipStack.spacing = 8
+            
             let vStack = ASStackLayoutSpec.vertical()
             vStack.spacing = 16
             vStack.children = [titleNode, chipStack]
@@ -99,46 +101,6 @@ public class UnifyChipNode: ASDisplayNode {
                 return .gray
             }
         }
-
-        internal var borderColor: CGColor {
-            switch self {
-            case .normal:
-                return UIColor.white.cgColor
-            case .selected:
-                return UIColor.green.cgColor
-            case .disabled:
-                return UIColor.gray.cgColor
-            }
-        }
-
-        internal var titleColor: UIColor {
-            switch self {
-            case .normal:
-                return .black
-            case .selected:
-                return .green
-            case .disabled:
-                return .lightGray
-            }
-        }
-    }
-
-    /**
-     Styles that available on `ChipNode`. .
-     `normal` style will use gray color for border color and text color
-     `alternate` style will use green color for border color and text color
-     This style only applied when ChipNode `state` is `normal`
-     */
-    public enum ChipStyle {
-        case normal, alternate
-    }
-
-    /**
-     Action Item (clickable) that available for placed on the right of `ChipNode`.
-     You can get callback whenever `accessoryAction` tapped by access `didTapAccessory()` or `rx.tapAccessory`
-     */
-    public enum AccessoryAction {
-        case closeable, dropdown
     }
 
     /// modify title in this chip
@@ -146,7 +108,6 @@ public class UnifyChipNode: ASDisplayNode {
     public var title: String {
         didSet {
             configureTitle()
-            updateAccessibility()
         }
     }
 
@@ -156,9 +117,8 @@ public class UnifyChipNode: ASDisplayNode {
     /// default `state` is `normal`
     public var state: State = .normal {
         didSet {
-            configureChipAppearance(animated: true)
-            configureTitle()
-            updateAccessibility()
+            backgroundColor = state.backgroundColor
+//            configureTitle()
         }
     }
 
@@ -171,7 +131,6 @@ public class UnifyChipNode: ASDisplayNode {
             // safety for case when one of the subnodes is performing one
             // Ex: call set State & set Notification
             setNeedsLayout()
-            updateAccessibility()
         }
     }
 
@@ -179,7 +138,7 @@ public class UnifyChipNode: ASDisplayNode {
     /// default `style` is `normal`
     public var didTap: (() -> Void)?
 
-    private lazy var titleNode: ASTextNode2 = {
+    private let titleNode: ASTextNode2 = {
         let titleNode = ASTextNode2()
         titleNode.style.flexShrink = 1
         titleNode.maximumNumberOfLines = 1
@@ -196,10 +155,7 @@ public class UnifyChipNode: ASDisplayNode {
         self.notification = notification
 
         super.init()
-        accessibilityLabel = title
         automaticallyManagesSubnodes = true
-        isAccessibilityElement = true
-        updateAccessibility()
 
         commonInit()
     }
@@ -212,8 +168,12 @@ public class UnifyChipNode: ASDisplayNode {
 
     override public func didLoad() {
         super.didLoad()
-        configureChipAppearance(animated: false)
-
+        
+        // #1. This cause bug when change the title in didLoad & do the setNeedsLayouut, it's fine if you don't setNeedsLayout
+//        self.title = "AAA \(self.title)"
+//        self.setNeedsLayout()
+        
+        backgroundColor = state.backgroundColor
         layer.borderWidth = 1
         layer.cornerRadius = 16
 
@@ -222,26 +182,14 @@ public class UnifyChipNode: ASDisplayNode {
     }
 
     override public func layoutSpecThatFits(_: ASSizeRange) -> ASLayoutSpec {
-        var children: [ASLayoutElement] = [titleNode]
-
-        // Configure Accessory Layout
-        if let notificationNode = notificationNode {
-            children.append(notificationNode)
-        }
+        print("<<< LayoutSpec \(title)")
         let contentStack = ASStackLayoutSpec(direction: .horizontal,
                                              spacing: 4,
                                              justifyContent: .start,
                                              alignItems: .center,
-                                             children: children)
+                                             children: [titleNode, notificationNode].compactMap { $0 })
 
-        let contentStackRightInset: CGFloat = 12
-        let contentStackInset = ASInsetLayoutSpec(insets: UIEdgeInsets(top: 8, left: 12, bottom: 8, right: contentStackRightInset), child: contentStack)
-
-        return contentStackInset
-    }
-
-    private func configureChipAppearance(animated: Bool) {
-        backgroundColor = state.backgroundColor
+        return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12), child: contentStack)
     }
 
     private func configureTitle() {
@@ -249,38 +197,16 @@ public class UnifyChipNode: ASDisplayNode {
     }
 
     private func configureChipSize() {
-        // height and width are same values
         style.height = ASDimensionMake(40)
         style.minWidth = ASDimensionMake(40)
-
-        // here we apply rules for ellipsis
-        // if true we set maxWidth
-        // if not we let the chip follow its width text
-        style.maxWidth = ASDimensionMake(180)
     }
 
     private func configureNotification() {
-        if let notification = notification, !notification.isEmpty {
+        if let notification = notification {
             notificationNode = ASTextNode2()
             notificationNode?.attributedText = .title(notification)
         } else {
             notificationNode = nil
-        }
-    }
-
-    private func updateAccessibility() {
-        switch state {
-        case .disabled:
-            accessibilityTraits = [.notEnabled, .button]
-        case .normal:
-            accessibilityTraits = [.button]
-        case .selected:
-            accessibilityTraits = [.button, .selected]
-        }
-        if let notification = notification, !notification.isEmpty {
-            accessibilityLabel = "\(title), \(notification)"
-        } else {
-            accessibilityLabel = title
         }
     }
 

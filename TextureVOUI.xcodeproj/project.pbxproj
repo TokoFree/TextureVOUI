@@ -10,6 +10,7 @@
 		23FF8AEB7D36FEDAEE26529D /* Pods_TextureVOUI_TextureVOUIUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFC37D9B6963553F1467625 /* Pods_TextureVOUI_TextureVOUIUITests.framework */; };
 		6EC8C73C2FDB520A8B6A33BC /* Pods_TextureVOUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C757464E59701BD85B5E9162 /* Pods_TextureVOUI.framework */; };
 		99AEEAB9000E31568945BD76 /* Pods_TextureVOUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E01831D4EB9F64D525C9C53 /* Pods_TextureVOUITests.framework */; };
+		E5AC4FDC26FB040D00E467FF /* SafeAreaIssueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5AC4FDB26FB040D00E467FF /* SafeAreaIssueVC.swift */; };
 		E5B9476426F470DF00700F5B /* ParentNodeSetNeedsLayoutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B9476326F470DF00700F5B /* ParentNodeSetNeedsLayoutVC.swift */; };
 		E5B9476726F4ECA500700F5B /* ParentNodeSuccessSetNeedsLayoutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B9476626F4ECA500700F5B /* ParentNodeSuccessSetNeedsLayoutVC.swift */; };
 		E5B9476926F4EFA900700F5B /* TextureIssueRouteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B9476826F4EFA900700F5B /* TextureIssueRouteVC.swift */; };
@@ -54,6 +55,8 @@
 		AC20AACD88606D99EEB1904B /* Pods-TextureVOUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUI.release.xcconfig"; path = "Target Support Files/Pods-TextureVOUI/Pods-TextureVOUI.release.xcconfig"; sourceTree = "<group>"; };
 		C757464E59701BD85B5E9162 /* Pods_TextureVOUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TextureVOUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB87281356DA3F88892A7693 /* Pods-TextureVOUI-TextureVOUIUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUI-TextureVOUIUITests.release.xcconfig"; path = "Target Support Files/Pods-TextureVOUI-TextureVOUIUITests/Pods-TextureVOUI-TextureVOUIUITests.release.xcconfig"; sourceTree = "<group>"; };
+		E5AC4FD926FB03F600E467FF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		E5AC4FDB26FB040D00E467FF /* SafeAreaIssueVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeAreaIssueVC.swift; sourceTree = "<group>"; };
 		E5B9476326F470DF00700F5B /* ParentNodeSetNeedsLayoutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentNodeSetNeedsLayoutVC.swift; sourceTree = "<group>"; };
 		E5B9476626F4ECA500700F5B /* ParentNodeSuccessSetNeedsLayoutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentNodeSuccessSetNeedsLayoutVC.swift; sourceTree = "<group>"; };
 		E5B9476826F4EFA900700F5B /* TextureIssueRouteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureIssueRouteVC.swift; sourceTree = "<group>"; };
@@ -130,9 +133,18 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		E5AC4FDA26FB040200E467FF /* SafeAreaInsetIssue */ = {
+			isa = PBXGroup;
+			children = (
+				E5AC4FDB26FB040D00E467FF /* SafeAreaIssueVC.swift */,
+			);
+			path = SafeAreaInsetIssue;
+			sourceTree = "<group>";
+		};
 		E5B9476226F4706500700F5B /* TextureIssue */ = {
 			isa = PBXGroup;
 			children = (
+				E5AC4FDA26FB040200E467FF /* SafeAreaInsetIssue */,
 				E5B9476526F4EC8000700F5B /* ParentDoesNotAutoSetNeedsLayout */,
 				E5B9476826F4EFA900700F5B /* TextureIssueRouteVC.swift */,
 			);
@@ -144,6 +156,7 @@
 			children = (
 				E5B9476326F470DF00700F5B /* ParentNodeSetNeedsLayoutVC.swift */,
 				E5B9476626F4ECA500700F5B /* ParentNodeSuccessSetNeedsLayoutVC.swift */,
+				E5AC4FD926FB03F600E467FF /* README.md */,
 			);
 			path = ParentDoesNotAutoSetNeedsLayout;
 			sourceTree = "<group>";
@@ -467,6 +480,7 @@
 				E5B9476426F470DF00700F5B /* ParentNodeSetNeedsLayoutVC.swift in Sources */,
 				E5B9476726F4ECA500700F5B /* ParentNodeSuccessSetNeedsLayoutVC.swift in Sources */,
 				E5E1483426EF12F000056475 /* RouteVC.swift in Sources */,
+				E5AC4FDC26FB040D00E467FF /* SafeAreaIssueVC.swift in Sources */,
 				E5CC9DE726F36D0B00E21BCE /* NSAttributedString+Helper.swift in Sources */,
 				E5E1483026EF12F000056475 /* AppDelegate.swift in Sources */,
 				E5E1488926EF2E0C00056475 /* ControlNodeVC.swift in Sources */,

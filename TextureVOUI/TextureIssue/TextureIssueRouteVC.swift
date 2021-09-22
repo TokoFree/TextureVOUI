@@ -10,13 +10,14 @@ import UIKit
 public final class TextureIssueRouteVC: UITableViewController {
     private enum Route: String, CaseIterable {
         case setNeedsLayoutChildIssue = "Parent setNeedsLayout issue"
-        case setNeedsLayoutChildSuccess = "Parent setNeedsLayout non issue Unify"
+        case setNeedsLayoutChildSuccess = "Parent setNeedsLayout non issue in Unify"
+        case safeAreaIssue = "ChildNode doesn't have the same safeArea as parent"
     }
 
     private let routes: [Route] = Route.allCases
 
     public init() {
-        super.init(style: .plain)
+        super.init(style: .insetGrouped)
 
         title = "Texture UITest Issue"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -31,6 +32,8 @@ public final class TextureIssueRouteVC: UITableViewController {
             navigationController?.pushViewController(ParentNodeSetNeedsLayoutVC(), animated: true)
         case .setNeedsLayoutChildSuccess:
             navigationController?.pushViewController(ParentNodeSuccessSetNeedsLayoutVC(), animated: true)
+        case .safeAreaIssue:
+            navigationController?.pushViewController(SafeAreaIssueVC(), animated: true)
         }
     }
 

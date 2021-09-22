@@ -20,7 +20,7 @@ public final class RouteVC: UITableViewController {
     private let routes: [Route] = Route.allCases
 
     public init() {
-        super.init(style: .plain)
+        super.init(style: .insetGrouped)
 
         title = "Texture UITest Issue"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")

@@ -7,6 +7,7 @@
 
 import AsyncDisplayKit
 
+/// Minimal STR to reproduct Texture 2 UI Test issue that can't get the deeper element
 class TooNestedVC: ASDKViewController<ASDisplayNode> {
     private let textNode: ASTextNode2 = {
         let node = ASTextNode2()

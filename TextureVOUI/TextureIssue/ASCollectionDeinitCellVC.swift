@@ -9,7 +9,7 @@ import AsyncDisplayKit
 
 internal final class ASCollectionDeinitCellVC: ASDKViewController<ASDisplayNode> {
     
-    private var items: [Int] = [0,1,2,3,4,5,6,7,8,9,10]
+    private var items: [Int] = [0,1,2,3,4,5,6,7,8,9]
     private let explanationNode: ASTextNode2 = {
         let textNode = ASTextNode2()
         textNode.attributedText = NSAttributedString(string: """
@@ -102,6 +102,10 @@ class TestCellNode: ASCellNode {
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         let inset = ASInsetLayoutSpec(insets: UIEdgeInsets(top: 40, left: 16, bottom: 40, right: 16), child: titleNode)
         return ASWrapperLayoutSpec(layoutElement: inset)
+    }
+    
+    override var debugDescription: String {
+        return "TestCellNode-\(number)"
     }
     
     deinit {

@@ -26,6 +26,7 @@
 #import <AsyncDisplayKit/ASDisplayNode+FrameworkPrivate.h>
 #import <AsyncDisplayKit/ASObjectDescriptionHelpers.h>
 #import <AsyncDisplayKit/ASLog.h>
+#import <AsyncDisplayKit/ASInternalHelpers.h>
 
 @implementation _ASDisplayLayer
 {
@@ -142,6 +143,8 @@
     return @YES;
   } else if ([key isEqualToString:@"opaque"]) {
     return @YES;
+  } else if ([key isEqualToString:@"contentsScale"]) {
+    return @(ASScreenScale());
   } else {
     return [super defaultValueForKey:key];
   }

@@ -235,7 +235,7 @@ static ASDisplayNodeMethodOverrides GetASDisplayNodeMethodOverrides(Class c)
 #if !AS_INITIALIZE_FRAMEWORK_MANUALLY
 + (void)load
 {
-  ASInitializeFrameworkMainThread();
+  ASInitializeFrameworkMainThreadOnConstructor();
 }
 #endif
 

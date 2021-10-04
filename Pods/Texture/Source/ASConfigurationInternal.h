@@ -26,6 +26,7 @@ ASDISPLAYNODE_EXTERN_C_BEGIN
  * The delegate will be notified asynchronously.
  */
 BOOL ASActivateExperimentalFeature(ASExperimentalFeatures option);
+void ASNotifyInitialized(void);
 
 AS_SUBCLASSING_RESTRICTED
 @interface ASConfigurationManager : NSObject

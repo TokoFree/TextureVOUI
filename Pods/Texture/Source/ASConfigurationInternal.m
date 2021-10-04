@@ -13,6 +13,7 @@
 #import "ASConfigurationInternal.h"
 #import <AsyncDisplayKit/ASConfiguration.h>
 #import <AsyncDisplayKit/ASConfigurationDelegate.h>
+#import <AsyncDisplayKit/ASAssert.h>
 #import <stdatomic.h>
 
 #define ASGetSharedConfigMgr() (__bridge ASConfigurationManager *)ASConfigurationManager.sharedInstance
@@ -20,6 +21,7 @@
 @implementation ASConfigurationManager {
   ASConfiguration *_config;
   dispatch_queue_t _delegateQueue;
+  BOOL _frameworkInitialized;
   _Atomic(ASExperimentalFeatures) _activatedExperiments;
 }
 
@@ -53,6 +55,21 @@
     }
   }
   return self;
+}
+
+- (void)frameworkDidInitialize
+{
+  ASDisplayNodeAssertMainThread();
+  if (_frameworkInitialized) {
+    ASDisplayNodeFailAssert(@"Framework initialized twice.");
+    return;
+  }
+  _frameworkInitialized = YES;
+  
+  __unsafe_unretained id<ASConfigurationDelegate> delegate = _config.delegate;
+  if ([delegate respondsToSelector:@selector(textureDidInitialize)]) {
+    [delegate textureDidInitialize];
+  }
 }
 
 - (BOOL)activateExperimentalFeature:(ASExperimentalFeatures)requested
@@ -93,4 +110,9 @@
 BOOL ASActivateExperimentalFeature(ASExperimentalFeatures feature)
 {
   return [ASGetSharedConfigMgr() activateExperimentalFeature:feature];
+}
+
+void ASNotifyInitialized()
+{
+  [ASGetSharedConfigMgr() frameworkDidInitialize];
 }

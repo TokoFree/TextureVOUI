@@ -25,7 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 ASDISPLAYNODE_EXTERN_C_BEGIN
 
-void ASInitializeFrameworkMainThread(void);
+void ASInitializeFrameworkMainThreadOnConstructor(void);
+void ASInitializeFrameworkMainThreadOnDestructor(void);
 
 BOOL ASDefaultAllowsGroupOpacity(void);
 BOOL ASDefaultAllowsEdgeAntialiasing(void);

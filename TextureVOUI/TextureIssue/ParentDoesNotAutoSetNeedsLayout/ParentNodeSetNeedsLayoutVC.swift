@@ -42,7 +42,7 @@ class ParentNodeSetNeedsLayoutVC: ASDKViewController<ASDisplayNode> {
             let vStack = ASStackLayoutSpec.vertical()
             vStack.spacing = 16
             vStack.children = [titleNode, chipStack]
-            return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 90, left: 8, bottom: 0, right: 8), child: vStack)
+            return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8), child: vStack)
         }
     }
     

@@ -120,7 +120,7 @@ class FailureIdentifier1VC: ASDKViewController<ASDisplayNode> {
                 controlTestNode2
             ]
             
-            return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0), child: stack)
+            return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0), child: stack)
         }
     }
     

@@ -14,6 +14,8 @@ public final class TextureIssueRouteVC: UITableViewController {
         case safeAreaIssue = "ChildNode doesn't have the same safeArea as parent"
         case collectionNodeCell = "CollectionNode deinit cell on reload"
         case tableNodeCell = "ASTableNode deinit cell on reload"
+        case animateLayoutTransitionIssue = "Animate Layout Transition is not called when node not visible"
+        case parentWrapperSetNeedsLayoutIssue = "Parent node with ASWrapperLayout does not auto setNeedsLayout after setNeedsLayout children"
     }
 
     private let routes: [Route] = Route.allCases
@@ -40,6 +42,10 @@ public final class TextureIssueRouteVC: UITableViewController {
             navigationController?.pushViewController(ASCollectionDeinitCellVC(), animated: true)
         case .tableNodeCell:
             navigationController?.pushViewController(ASTableDeinitCellVC(), animated: true)
+        case .animateLayoutTransitionIssue:
+            navigationController?.pushViewController(AnimateLayoutTransitionNotCalledVC(), animated: true)
+        case .parentWrapperSetNeedsLayoutIssue:
+            navigationController?.pushViewController(ParentWithWrapperDoesNotAutoSetNeedsLayoutVC(), animated: true)
         }
     }
 

@@ -46,7 +46,7 @@ internal final class ASCollectionDeinitCellVC: ASDKViewController<ASDisplayNode>
             let stack = ASStackLayoutSpec.vertical()
             stack.spacing = 16
             stack.children = [self.explanationNode, self.collectionNode, self.buttonNode]
-            return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 80, left: 8, bottom: 0, right: 8), child: stack)
+            return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 8, left: 8, bottom: 0, right: 8), child: stack)
         }
     }
     

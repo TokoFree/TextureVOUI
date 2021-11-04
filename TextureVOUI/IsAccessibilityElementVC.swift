@@ -27,7 +27,7 @@ class IsAccessibilityElementVC: ASDKViewController<ASDisplayNode> {
             stack.spacing = 16
             stack.children = [textNode, button]
             
-            return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0), child: stack)
+            return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0), child: stack)
         }
     }
     

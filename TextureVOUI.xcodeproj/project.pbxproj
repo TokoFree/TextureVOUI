@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1DF26781273BAE9600F1F1D3 /* AnimateLayoutTransitionNotCalledVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF2677E273BAE9600F1F1D3 /* AnimateLayoutTransitionNotCalledVC.swift */; };
 		1DF26782273BAE9600F1F1D3 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF26780273BAE9600F1F1D3 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift */; };
+		1DF26784273BB9C700F1F1D3 /* ASOverlayTexture2IssueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF26783273BB9C700F1F1D3 /* ASOverlayTexture2IssueVC.swift */; };
 		23FF8AEB7D36FEDAEE26529D /* Pods_TextureVOUI_TextureVOUIUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFC37D9B6963553F1467625 /* Pods_TextureVOUI_TextureVOUIUITests.framework */; };
 		6EC8C73C2FDB520A8B6A33BC /* Pods_TextureVOUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C757464E59701BD85B5E9162 /* Pods_TextureVOUI.framework */; };
 		99AEEAB9000E31568945BD76 /* Pods_TextureVOUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E01831D4EB9F64D525C9C53 /* Pods_TextureVOUITests.framework */; };
@@ -54,6 +55,7 @@
 		0FFC37D9B6963553F1467625 /* Pods_TextureVOUI_TextureVOUIUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TextureVOUI_TextureVOUIUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF2677E273BAE9600F1F1D3 /* AnimateLayoutTransitionNotCalledVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimateLayoutTransitionNotCalledVC.swift; sourceTree = "<group>"; };
 		1DF26780273BAE9600F1F1D3 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift; sourceTree = "<group>"; };
+		1DF26783273BB9C700F1F1D3 /* ASOverlayTexture2IssueVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASOverlayTexture2IssueVC.swift; sourceTree = "<group>"; };
 		6E01831D4EB9F64D525C9C53 /* Pods_TextureVOUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TextureVOUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		797B6ED780A0AD5400238063 /* Pods-TextureVOUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUITests.debug.xcconfig"; path = "Target Support Files/Pods-TextureVOUITests/Pods-TextureVOUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		90ACBB9AB6AC129260717D47 /* Pods-TextureVOUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUI.debug.xcconfig"; path = "Target Support Files/Pods-TextureVOUI/Pods-TextureVOUI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				E5B9476826F4EFA900700F5B /* TextureIssueRouteVC.swift */,
 				E5941CF72705688C00E3841D /* ASCollectionDeinitCellVC.swift */,
 				E5941CF927057ACD00E3841D /* ASTableNodeDeinitCellVC.swift */,
+				1DF26783273BB9C700F1F1D3 /* ASOverlayTexture2IssueVC.swift */,
 			);
 			path = TextureIssue;
 			sourceTree = "<group>";
@@ -510,6 +513,7 @@
 				E5E1483426EF12F000056475 /* RouteVC.swift in Sources */,
 				E5AC4FDC26FB040D00E467FF /* SafeAreaIssueVC.swift in Sources */,
 				E5941CFA27057ACD00E3841D /* ASTableNodeDeinitCellVC.swift in Sources */,
+				1DF26784273BB9C700F1F1D3 /* ASOverlayTexture2IssueVC.swift in Sources */,
 				E5941CF82705688C00E3841D /* ASCollectionDeinitCellVC.swift in Sources */,
 				E5CC9DE726F36D0B00E21BCE /* NSAttributedString+Helper.swift in Sources */,
 				1DF26782273BAE9600F1F1D3 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift in Sources */,

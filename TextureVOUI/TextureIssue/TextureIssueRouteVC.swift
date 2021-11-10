@@ -16,6 +16,7 @@ public final class TextureIssueRouteVC: UITableViewController {
         case tableNodeCell = "ASTableNode deinit cell on reload"
         case animateLayoutTransitionIssue = "Animate Layout Transition is not called when node not visible"
         case parentWrapperSetNeedsLayoutIssue = "Parent node with ASWrapperLayout does not auto setNeedsLayout after setNeedsLayout children"
+        case overlayTexture2Problem = "ASOverlaySpec Depth Issue on Texture 2"
     }
 
     private let routes: [Route] = Route.allCases
@@ -46,6 +47,8 @@ public final class TextureIssueRouteVC: UITableViewController {
             navigationController?.pushViewController(AnimateLayoutTransitionNotCalledVC(), animated: true)
         case .parentWrapperSetNeedsLayoutIssue:
             navigationController?.pushViewController(ParentWithWrapperDoesNotAutoSetNeedsLayoutVC(), animated: true)
+        case .overlayTexture2Problem:
+            navigationController?.pushViewController(ASOverlayTexture2IssueVC(), animated: true)
         }
     }
 

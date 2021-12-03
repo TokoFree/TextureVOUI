@@ -10,6 +10,11 @@
 		23FF8AEB7D36FEDAEE26529D /* Pods_TextureVOUI_TextureVOUIUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFC37D9B6963553F1467625 /* Pods_TextureVOUI_TextureVOUIUITests.framework */; };
 		6EC8C73C2FDB520A8B6A33BC /* Pods_TextureVOUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C757464E59701BD85B5E9162 /* Pods_TextureVOUI.framework */; };
 		99AEEAB9000E31568945BD76 /* Pods_TextureVOUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E01831D4EB9F64D525C9C53 /* Pods_TextureVOUITests.framework */; };
+		9C495730273B830500788D64 /* AnimateLayoutTransitionNotCalledVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C49572F273B7F1B00788D64 /* AnimateLayoutTransitionNotCalledVC.swift */; };
+		9C495737273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C495736273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift */; };
+		9C68D7DB2757756200AA7E29 /* AccessibilityUIKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C68D7DA2757756200AA7E29 /* AccessibilityUIKitViewController.swift */; };
+		9C68D7DD2759CC3200AA7E29 /* TextureAccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C68D7DC2759CC3200AA7E29 /* TextureAccessibilityIdentifier.swift */; };
+		9C9158912744F7AE0017B797 /* ViewWrapperNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9158902744F7AE0017B797 /* ViewWrapperNode.swift */; };
 		E5941CF82705688C00E3841D /* ASCollectionDeinitCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5941CF72705688C00E3841D /* ASCollectionDeinitCellVC.swift */; };
 		E5941CFA27057ACD00E3841D /* ASTableNodeDeinitCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5941CF927057ACD00E3841D /* ASTableNodeDeinitCellVC.swift */; };
 		E5AC4FDC26FB040D00E467FF /* SafeAreaIssueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5AC4FDB26FB040D00E467FF /* SafeAreaIssueVC.swift */; };
@@ -54,6 +59,11 @@
 		797B6ED780A0AD5400238063 /* Pods-TextureVOUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUITests.debug.xcconfig"; path = "Target Support Files/Pods-TextureVOUITests/Pods-TextureVOUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		90ACBB9AB6AC129260717D47 /* Pods-TextureVOUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUI.debug.xcconfig"; path = "Target Support Files/Pods-TextureVOUI/Pods-TextureVOUI.debug.xcconfig"; sourceTree = "<group>"; };
 		98A1B4C62DA3CA0DE17D25FB /* Pods-TextureVOUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUITests.release.xcconfig"; path = "Target Support Files/Pods-TextureVOUITests/Pods-TextureVOUITests.release.xcconfig"; sourceTree = "<group>"; };
+		9C49572F273B7F1B00788D64 /* AnimateLayoutTransitionNotCalledVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimateLayoutTransitionNotCalledVC.swift; sourceTree = "<group>"; };
+		9C495736273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift; sourceTree = "<group>"; };
+		9C68D7DA2757756200AA7E29 /* AccessibilityUIKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityUIKitViewController.swift; sourceTree = "<group>"; };
+		9C68D7DC2759CC3200AA7E29 /* TextureAccessibilityIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureAccessibilityIdentifier.swift; sourceTree = "<group>"; };
+		9C9158902744F7AE0017B797 /* ViewWrapperNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWrapperNode.swift; sourceTree = "<group>"; };
 		AC20AACD88606D99EEB1904B /* Pods-TextureVOUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUI.release.xcconfig"; path = "Target Support Files/Pods-TextureVOUI/Pods-TextureVOUI.release.xcconfig"; sourceTree = "<group>"; };
 		C757464E59701BD85B5E9162 /* Pods_TextureVOUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TextureVOUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB87281356DA3F88892A7693 /* Pods-TextureVOUI-TextureVOUIUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUI-TextureVOUIUITests.release.xcconfig"; path = "Target Support Files/Pods-TextureVOUI-TextureVOUIUITests/Pods-TextureVOUI-TextureVOUIUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -124,6 +134,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		9C49572E273B7F1B00788D64 /* TransitionLayoutIssue */ = {
+			isa = PBXGroup;
+			children = (
+				9C49572F273B7F1B00788D64 /* AnimateLayoutTransitionNotCalledVC.swift */,
+			);
+			path = TransitionLayoutIssue;
+			sourceTree = "<group>";
+		};
+		9C495738273B83AD00788D64 /* ASWrapperLayoutIssue */ = {
+			isa = PBXGroup;
+			children = (
+				9C495736273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift */,
+			);
+			path = ASWrapperLayoutIssue;
+			sourceTree = "<group>";
+		};
 		BF718DD8AB0417D75F62F0D5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,7 +177,9 @@
 				E5AC4FDA26FB040200E467FF /* SafeAreaInsetIssue */,
 				E5B9476526F4EC8000700F5B /* ParentDoesNotAutoSetNeedsLayout */,
 				E5B9476826F4EFA900700F5B /* TextureIssueRouteVC.swift */,
+				9C495738273B83AD00788D64 /* ASWrapperLayoutIssue */,
 				E5941CF72705688C00E3841D /* ASCollectionDeinitCellVC.swift */,
+				9C49572E273B7F1B00788D64 /* TransitionLayoutIssue */,
 				E5941CF927057ACD00E3841D /* ASTableNodeDeinitCellVC.swift */,
 			);
 			path = TextureIssue;
@@ -209,6 +237,8 @@
 				E5E1487E26EF2D3800056475 /* IsAccessibilityElementVC.swift */,
 				E5E1488326EF2E0200056475 /* TooNestedVC.swift */,
 				E5E1488826EF2E0C00056475 /* ControlNodeVC.swift */,
+				9C68D7DA2757756200AA7E29 /* AccessibilityUIKitViewController.swift */,
+				9C68D7DC2759CC3200AA7E29 /* TextureAccessibilityIdentifier.swift */,
 			);
 			path = TextureVOUI;
 			sourceTree = "<group>";
@@ -239,6 +269,7 @@
 				E5E1483826EF12F200056475 /* Assets.xcassets */,
 				E5E1483A26EF12F200056475 /* LaunchScreen.storyboard */,
 				E5CC9DE626F36D0A00E21BCE /* NSAttributedString+Helper.swift */,
+				9C9158902744F7AE0017B797 /* ViewWrapperNode.swift */,
 			);
 			path = SupportingFiles;
 			sourceTree = "<group>";
@@ -487,13 +518,18 @@
 				E5B9476726F4ECA500700F5B /* ParentNodeSuccessSetNeedsLayoutVC.swift in Sources */,
 				E5E1483426EF12F000056475 /* RouteVC.swift in Sources */,
 				E5AC4FDC26FB040D00E467FF /* SafeAreaIssueVC.swift in Sources */,
+				9C68D7DD2759CC3200AA7E29 /* TextureAccessibilityIdentifier.swift in Sources */,
 				E5941CFA27057ACD00E3841D /* ASTableNodeDeinitCellVC.swift in Sources */,
 				E5941CF82705688C00E3841D /* ASCollectionDeinitCellVC.swift in Sources */,
 				E5CC9DE726F36D0B00E21BCE /* NSAttributedString+Helper.swift in Sources */,
+				9C495737273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift in Sources */,
+				9C68D7DB2757756200AA7E29 /* AccessibilityUIKitViewController.swift in Sources */,
+				9C495730273B830500788D64 /* AnimateLayoutTransitionNotCalledVC.swift in Sources */,
 				E5E1483026EF12F000056475 /* AppDelegate.swift in Sources */,
 				E5E1488926EF2E0C00056475 /* ControlNodeVC.swift in Sources */,
 				E5E1483226EF12F000056475 /* SceneDelegate.swift in Sources */,
 				E5CC9DD926F36CB500E21BCE /* FailureIdentifier1VC.swift in Sources */,
+				9C9158912744F7AE0017B797 /* ViewWrapperNode.swift in Sources */,
 				E5CC9DE226F36CE300E21BCE /* ActivationPointVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

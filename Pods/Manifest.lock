@@ -1,5 +1,5 @@
 PODS:
-  - FLEX (4.5.0)
+  - FLEX (4.6.0)
   - IGListDiffKit (4.0.0)
   - IGListKit (4.0.0):
     - IGListDiffKit (= 4.0.0)
@@ -29,11 +29,11 @@ CHECKOUT OPTIONS:
     :git: "git@github.com:TokoFree/Texture.git"
 
 SPEC CHECKSUMS:
-  FLEX: e51461dd6f0bfb00643c262acdfea5d5d12c596b
+  FLEX: 6223ad3d853fb6177a6ab1cda85f372a72768da8
   IGListDiffKit: 665d6cf43ce726e676013db9c7d6c4294259b6b2
   IGListKit: fd5a5d21935298f5849fa49d426843cff97b77c7
   Texture: fd48858d030388507518f606775f3f80b38b5092
 
 PODFILE CHECKSUM: a8dabf23f82e3e4281a1372e700d095d7b5b8d05
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

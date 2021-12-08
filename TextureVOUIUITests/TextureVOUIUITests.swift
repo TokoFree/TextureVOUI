@@ -80,15 +80,16 @@ class TextureVOUIUITests: XCTestCase {
         XCTAssertEqual(app.textFields["textfield"].title, "test")
     }
     
-    func test_sharing_identifier() {
+    func testToNestedElement() {
         
         let app = XCUIApplication()
         app.launch()
-        app.tables.cells.element(boundBy: 6).tap()
+        app.tables.cells.element(boundBy: 2).tap()
+        XCTAssertTrue(app.otherElements["rowNodeIdentifier3"].exists)
+        XCTAssertTrue(app.staticTexts["pengirimanLabel3"].exists)
+        XCTAssertTrue(app.staticTexts["priceLabel3"].exists)
+        XCTAssertTrue(app.otherElements["nodeWrapper3"].exists)
+        XCTAssertTrue(app.staticTexts["node3Text"].exists)
         
-        XCTAssertTrue(app.staticTexts["titleText"].exists)
-        XCTAssertTrue(app.buttons["usePromoButton"].exists)
-        XCTAssertTrue(app.staticTexts["NewTextLabel"].exists)
-        XCTAssertTrue(app.otherElements["rowNodeIdentifier"].exists)
     }
 }

@@ -37,7 +37,7 @@ internal final class TextureAccessibilityIdentifier: ASDKViewController<ASScroll
         let node = ASTextNode2()
         node.backgroundColor = .red
         node.attributedText = .body("text baru", color: .white)
-        node.accessibilityIdentifier = "NewTextLabel"
+        node.accessibilityIdentifier = "newTextLabel"
         return node
     }()
     
@@ -117,21 +117,21 @@ internal final class TextureAccessibilityIdentifier: ASDKViewController<ASScroll
     private let rowNode3: ASDisplayNode = {
         let node1 = ASTextNode2()
         node1.attributedText = .body("Pengiriman", color: .white)
-        node1.accessibilityIdentifier = "pengirimanLabel2"
+        node1.accessibilityIdentifier = "pengirimanLabel3"
 
         let node2 = ASTextNode2()
         node2.attributedText = .body("Rp15.000", color: .white)
-        node2.accessibilityIdentifier = "priceLabel2"
+        node2.accessibilityIdentifier = "priceLabel3"
         
         let node3 = ASDisplayNode()
         node3.backgroundColor = .green
         node3.style.preferredSize = CGSize(width: 100, height: 100)
-        node3.accessibilityIdentifier = "node3Dummy2"
+        node3.accessibilityIdentifier = "node3Dummy3"
         
         let nodeWrapper = ASDisplayNode()
         nodeWrapper.backgroundColor = .blue
         nodeWrapper.style.preferredSize = CGSize(width: 200, height: 200)
-        nodeWrapper.accessibilityIdentifier = "nodeWrapper"
+        nodeWrapper.accessibilityIdentifier = "nodeWrapper3"
         nodeWrapper.isAccessibilityElement = false
         nodeWrapper.layoutSpecBlock = { _,_ in
             return ASWrapperLayoutSpec(layoutElement: node3)
@@ -139,7 +139,7 @@ internal final class TextureAccessibilityIdentifier: ASDKViewController<ASScroll
         
         let node = ASDisplayNode()
         node.automaticallyManagesSubnodes = true
-        node.accessibilityIdentifier = "rowNodeIdentifier2"
+        node.accessibilityIdentifier = "rowNodeIdentifier3"
         node.layoutSpecBlock = { _, _ in
             let stack = ASStackLayoutSpec.vertical()
             stack.spacing = 8
@@ -157,28 +157,28 @@ internal final class TextureAccessibilityIdentifier: ASDKViewController<ASScroll
     private let rowNode4: ASDisplayNode = {
         let node1 = ASTextNode2()
         node1.attributedText = .body("Pengiriman", color: .white)
-        node1.accessibilityIdentifier = "pengirimanLabel2"
+        node1.accessibilityIdentifier = "pengirimanLabel4"
 
         let node2 = ASTextNode2()
         node2.attributedText = .body("Rp15.000", color: .white)
-        node2.accessibilityIdentifier = "priceLabel2"
+        node2.accessibilityIdentifier = "priceLabel4"
         
         let node3 = ASTextNode2()
         node3.attributedText = .body("Rp15.000", color: .white)
-        node3.accessibilityIdentifier = "priceLabel3"
+        node3.accessibilityIdentifier = "node3Dummy4"
         node3.isAccessibilityElement = true
         
         let nodeWrapper = ASDisplayNode()
         nodeWrapper.backgroundColor = .blue
         nodeWrapper.style.preferredSize = CGSize(width: 200, height: 200)
-        nodeWrapper.accessibilityIdentifier = "nodeWrapper"
+        nodeWrapper.accessibilityIdentifier = "nodeWrapper4"
         nodeWrapper.layoutSpecBlock = { _,_ in
             return ASWrapperLayoutSpec(layoutElement: node3)
         }
         
         let node = ASDisplayNode()
         node.automaticallyManagesSubnodes = true
-        node.accessibilityIdentifier = "rowNodeIdentifier3"
+        node.accessibilityIdentifier = "rowNodeIdentifier4"
         node.layoutSpecBlock = { _, _ in
             let stack = ASStackLayoutSpec.vertical()
             stack.spacing = 8

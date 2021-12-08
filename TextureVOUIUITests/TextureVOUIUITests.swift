@@ -87,5 +87,7 @@ class TextureVOUIUITests: XCTestCase {
         app.tables.cells.element(boundBy: 6).tap()
         
         XCTAssertTrue(app.staticTexts["titleText"].exists)
+        XCTAssertTrue(app.buttons["buttonNode"].exists)
+        XCTAssertTrue(app.staticTexts["NewTextLabel"].exists)
     }
 }

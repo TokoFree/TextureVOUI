@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1100"
+   LastUpgradeVersion = "1240"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "41ADE7C6D02CCE77A4EBAE036FA9A8FE"
-               BuildableName = "Pods_TextureVOUITests.framework"
-               BlueprintName = "Pods-TextureVOUITests"
+               BlueprintIdentifier = "B235DFCE784414634178D0E39D99CC40"
+               BuildableName = "Pods_TextureVOUI.framework"
+               BlueprintName = "Pods-TextureVOUI"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

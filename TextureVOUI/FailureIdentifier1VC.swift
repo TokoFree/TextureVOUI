@@ -6,6 +6,7 @@
 //
 
 import AsyncDisplayKit
+import UIKit
 
 class FailureIdentifier1VC: ASDKViewController<ASDisplayNode> {
     private let dummyNode3: ASDisplayNode = {
@@ -63,12 +64,23 @@ class FailureIdentifier1VC: ASDKViewController<ASDisplayNode> {
         dummyNode2.backgroundColor = .magenta
         dummyNode2.accessibilityIdentifier = "magenta-box-textInput-identifier"
         
+        let textNode = ASTextNode()
+        textNode.isAccessibilityElement = true
+        textNode.attributedText = .body("test")
+        textNode.accessibilityIdentifier = "textAssert2"
+        textNode.accessibilityLabel = "textLabelNih"
+        textNode.accessibilityValue = "siValue"
+        
+        // id: textLabel
+        // label: ini title, ini desc
+        
         wrapperNode.layoutSpecBlock = { _,_ in
             let stack = ASStackLayoutSpec.vertical()
             stack.spacing = 16
             stack.children = [
                 dummyNode,
-                dummyNode2
+                dummyNode2,
+                textNode
             ]
             return stack
         }
@@ -92,15 +104,37 @@ class FailureIdentifier1VC: ASDKViewController<ASDisplayNode> {
         dummyNode2.backgroundColor = .blue
         dummyNode2.accessibilityIdentifier = "blue-box-textInput-identifier"
         
+        let textNode = ASTextNode()
+        textNode.isAccessibilityElement = true
+        textNode.attributedText = .body("test")
+        textNode.accessibilityIdentifier = "textAssert"
+        
         wrapperNode.layoutSpecBlock = { _,_ in
             let stack = ASStackLayoutSpec.vertical()
             stack.spacing = 16
             stack.children = [
                 dummyNode,
-                dummyNode2
+                dummyNode2,
+                textNode
             ]
             return stack
         }
+        return wrapperNode
+    }()
+    
+    private let controlNode: ViewWrapperNode<UIButton> = {
+        let wrapperNode = ViewWrapperNode<UIButton>(createView: {
+            let controlView = UIButton()
+            controlView.setTitle("This is button", for: .normal)
+            controlView.accessibilityIdentifier = "controlView"
+            controlView.backgroundColor = .red
+            return controlView
+        })
+        
+        wrapperNode.isAccessibilityElement = false
+        wrapperNode.accessibilityIdentifier = "controlNode"
+        wrapperNode.backgroundColor = .yellow
+        //wrapperNode.style.preferredSize = CGSize(width: 32, height: 32)
         return wrapperNode
     }()
     
@@ -117,7 +151,8 @@ class FailureIdentifier1VC: ASDKViewController<ASDisplayNode> {
                 dummyNode3,
                 dummyInputNode2,
                 dummyNode4,
-                controlTestNode2
+                controlTestNode2,
+                controlNode
             ]
             
             return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0), child: stack)

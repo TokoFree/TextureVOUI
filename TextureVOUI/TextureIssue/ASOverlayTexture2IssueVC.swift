@@ -124,14 +124,14 @@ internal final class GlobalVariantImageNode: ASDisplayNode {
 
     override public func layoutSpecThatFits(_: ASSizeRange) -> ASLayoutSpec {
         if let overlay = overlayEmptyVariant {
-//            imageNode.zPosition = -1
+//            imageNode.zPosition = -1 // Uncomment this
             let textCenter = ASCenterLayoutSpec(centeringOptions: .XY, sizingOptions: .minimumXY, child: textOverLay ?? ASDisplayNode())
             let overlayWrapper = ASWrapperLayoutSpec(layoutElements: [overlay, textCenter])
             let centerImage = ASCenterLayoutSpec(centeringOptions: .XY, sizingOptions: .minimumXY, child: imageNode)
             return ASBackgroundLayoutSpec(child: overlayWrapper, background: centerImage)
         }
 
-//        imageNode.zPosition = 1
+//        imageNode.zPosition = 1 // Uncomment this
         if model.isPromo {
             let relativeSpec = ASRelativeLayoutSpec(
                 horizontalPosition: .center,

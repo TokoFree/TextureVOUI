@@ -43,7 +43,6 @@ class TooNestedVC: ASDKViewController<ASDisplayNode> {
         nodeWrapper.style.preferredSize = CGSize(width: 200, height: 200)
         nodeWrapper.accessibilityIdentifier = "nodeWrapper3"
         nodeWrapper.automaticallyManagesSubnodes = true
-//        nodeWrapper.isAccessibilityElement = true // Uncomment this, the `node3Text` will not visible
         nodeWrapper.layoutSpecBlock = { _,_ in
             return ASWrapperLayoutSpec(layoutElement: node3)
         }

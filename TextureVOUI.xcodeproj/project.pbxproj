@@ -7,14 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1DF26781273BAE9600F1F1D3 /* AnimateLayoutTransitionNotCalledVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF2677E273BAE9600F1F1D3 /* AnimateLayoutTransitionNotCalledVC.swift */; };
-		1DF26782273BAE9600F1F1D3 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF26780273BAE9600F1F1D3 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift */; };
 		1DF26784273BB9C700F1F1D3 /* ASOverlayTexture2IssueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF26783273BB9C700F1F1D3 /* ASOverlayTexture2IssueVC.swift */; };
 		23FF8AEB7D36FEDAEE26529D /* Pods_TextureVOUI_TextureVOUIUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFC37D9B6963553F1467625 /* Pods_TextureVOUI_TextureVOUIUITests.framework */; };
 		6EC8C73C2FDB520A8B6A33BC /* Pods_TextureVOUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C757464E59701BD85B5E9162 /* Pods_TextureVOUI.framework */; };
 		99AEEAB9000E31568945BD76 /* Pods_TextureVOUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E01831D4EB9F64D525C9C53 /* Pods_TextureVOUITests.framework */; };
 		9C495730273B830500788D64 /* AnimateLayoutTransitionNotCalledVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C49572F273B7F1B00788D64 /* AnimateLayoutTransitionNotCalledVC.swift */; };
 		9C495737273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C495736273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift */; };
+		9C5C5302276736E200C7632C /* AccessibilityIdentifierCasesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C5301276736E200C7632C /* AccessibilityIdentifierCasesViewController.swift */; };
+		9C5C530527673EB400C7632C /* ControlNodeAsWrapperIdentifierViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C530427673EB400C7632C /* ControlNodeAsWrapperIdentifierViewController.swift */; };
+		9C5C530A276748C500C7632C /* UITestPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C5309276748C500C7632C /* UITestPage.swift */; };
+		9C5C530C2769F9A700C7632C /* CellNodeAsWrapperIdentifierViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C530B2769F9A700C7632C /* CellNodeAsWrapperIdentifierViewController.swift */; };
 		9C68D7DB2757756200AA7E29 /* AccessibilityUIKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C68D7DA2757756200AA7E29 /* AccessibilityUIKitViewController.swift */; };
 		9C68D7DD2759CC3200AA7E29 /* TextureAccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C68D7DC2759CC3200AA7E29 /* TextureAccessibilityIdentifier.swift */; };
 		9C9158912744F7AE0017B797 /* ViewWrapperNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9158902744F7AE0017B797 /* ViewWrapperNode.swift */; };
@@ -67,6 +69,10 @@
 		98A1B4C62DA3CA0DE17D25FB /* Pods-TextureVOUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUITests.release.xcconfig"; path = "Target Support Files/Pods-TextureVOUITests/Pods-TextureVOUITests.release.xcconfig"; sourceTree = "<group>"; };
 		9C49572F273B7F1B00788D64 /* AnimateLayoutTransitionNotCalledVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimateLayoutTransitionNotCalledVC.swift; sourceTree = "<group>"; };
 		9C495736273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift; sourceTree = "<group>"; };
+		9C5C5301276736E200C7632C /* AccessibilityIdentifierCasesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifierCasesViewController.swift; sourceTree = "<group>"; };
+		9C5C530427673EB400C7632C /* ControlNodeAsWrapperIdentifierViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlNodeAsWrapperIdentifierViewController.swift; sourceTree = "<group>"; };
+		9C5C5309276748C500C7632C /* UITestPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestPage.swift; sourceTree = "<group>"; };
+		9C5C530B2769F9A700C7632C /* CellNodeAsWrapperIdentifierViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellNodeAsWrapperIdentifierViewController.swift; sourceTree = "<group>"; };
 		9C68D7DA2757756200AA7E29 /* AccessibilityUIKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityUIKitViewController.swift; sourceTree = "<group>"; };
 		9C68D7DC2759CC3200AA7E29 /* TextureAccessibilityIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextureAccessibilityIdentifier.swift; sourceTree = "<group>"; };
 		9C9158902744F7AE0017B797 /* ViewWrapperNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewWrapperNode.swift; sourceTree = "<group>"; };
@@ -172,6 +178,32 @@
 			path = ASWrapperLayoutIssue;
 			sourceTree = "<group>";
 		};
+		9C5C5300276736BC00C7632C /* AccessibilityUITest */ = {
+			isa = PBXGroup;
+			children = (
+				9C5C53032767378200C7632C /* CasesVC */,
+				9C5C5301276736E200C7632C /* AccessibilityIdentifierCasesViewController.swift */,
+			);
+			path = AccessibilityUITest;
+			sourceTree = "<group>";
+		};
+		9C5C53032767378200C7632C /* CasesVC */ = {
+			isa = PBXGroup;
+			children = (
+				9C5C530427673EB400C7632C /* ControlNodeAsWrapperIdentifierViewController.swift */,
+				9C5C530B2769F9A700C7632C /* CellNodeAsWrapperIdentifierViewController.swift */,
+			);
+			path = CasesVC;
+			sourceTree = "<group>";
+		};
+		9C5C5308276748B600C7632C /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				9C5C5309276748C500C7632C /* UITestPage.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		BF718DD8AB0417D75F62F0D5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -253,6 +285,7 @@
 		E5E1482E26EF12F000056475 /* TextureVOUI */ = {
 			isa = PBXGroup;
 			children = (
+				9C5C5300276736BC00C7632C /* AccessibilityUITest */,
 				E5B9476226F4706500700F5B /* TextureIssue */,
 				E5CC9DE026F36CDD00E21BCE /* VO */,
 				E5CC9DD826F36CB500E21BCE /* FailureIdentifier1VC.swift */,
@@ -280,6 +313,7 @@
 		E5E1485026EF12F200056475 /* TextureVOUIUITests */ = {
 			isa = PBXGroup;
 			children = (
+				9C5C5308276748B600C7632C /* Helper */,
 				E5E1485126EF12F200056475 /* TextureVOUIUITests.swift */,
 				E5E1485326EF12F200056475 /* Info.plist */,
 			);
@@ -538,6 +572,7 @@
 			files = (
 				E5E1487F26EF2D3800056475 /* IsAccessibilityElementVC.swift in Sources */,
 				E5E1488426EF2E0200056475 /* TooNestedVC.swift in Sources */,
+				9C5C5302276736E200C7632C /* AccessibilityIdentifierCasesViewController.swift in Sources */,
 				E5B9476926F4EFA900700F5B /* TextureIssueRouteVC.swift in Sources */,
 				E5B9476426F470DF00700F5B /* ParentNodeSetNeedsLayoutVC.swift in Sources */,
 				E5B9476726F4ECA500700F5B /* ParentNodeSuccessSetNeedsLayoutVC.swift in Sources */,
@@ -550,7 +585,9 @@
 				E5CC9DE726F36D0B00E21BCE /* NSAttributedString+Helper.swift in Sources */,
 				9C495737273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift in Sources */,
 				9C68D7DB2757756200AA7E29 /* AccessibilityUIKitViewController.swift in Sources */,
+				9C5C530C2769F9A700C7632C /* CellNodeAsWrapperIdentifierViewController.swift in Sources */,
 				9C495730273B830500788D64 /* AnimateLayoutTransitionNotCalledVC.swift in Sources */,
+				9C5C530527673EB400C7632C /* ControlNodeAsWrapperIdentifierViewController.swift in Sources */,
 				E5E1483026EF12F000056475 /* AppDelegate.swift in Sources */,
 				E5E1488926EF2E0C00056475 /* ControlNodeVC.swift in Sources */,
 				E5E1483226EF12F000056475 /* SceneDelegate.swift in Sources */,
@@ -573,6 +610,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5E1485226EF12F200056475 /* TextureVOUIUITests.swift in Sources */,
+				9C5C530A276748C500C7632C /* UITestPage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

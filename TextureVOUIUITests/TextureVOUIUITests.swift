@@ -34,6 +34,22 @@ class TextureVOUIUITests: XCTestCase {
 
         XCTAssertTrue(UITestPage.app.tables["tableNodeWrapper"].exists)
         XCTAssertTrue(UITestPage.app.otherElements["CellNodeWrapper"].exists)
+        
+        let codCell = UITestPage.app.otherElements["CellNodeWrapper"]
+        
+        let isCODLabelOnFirstCell = codCell.accessibilityLabel?.lowercased().contains("cod")
+        XCTAssertTrue(isCODLabelOnFirstCell)
+    }
+    
+    // MARK: Cases Nested Example VC (setup identifier)
+
+    internal func testNestedImplementationAccessibilityIdentifier() {
+        runBefore()
+        
+        UITestPage.app.tables.cells.element(boundBy: 2).tap()
+
+        XCTAssertTrue(UITestPage.app.staticTexts["explanationTextNode"].exists)
+        XCTAssertTrue(UITestPage.app.otherElements["rowNodeIdentifier3"].exists)
     }
     
 //    func testIsAccessibilityElementTrue() throws {

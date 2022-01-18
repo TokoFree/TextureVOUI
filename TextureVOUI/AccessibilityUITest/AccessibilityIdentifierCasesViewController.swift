@@ -21,6 +21,7 @@ internal final class AccessibilityIdentifierCasesViewController: ASDKViewControl
     private enum CasesExample: String, CaseIterable {
         case controlNode = "Identifier in ASControlNode Parent"
         case cellNode = "Identifier in ASCellNode Parent"
+        case tooNested = "Identifier on Nested UI"
     }
     
     private let cases: [CasesExample] = CasesExample.allCases
@@ -64,6 +65,8 @@ extension AccessibilityIdentifierCasesViewController: ASTableDelegate {
             navigationController?.pushViewController(ControlNodeAsWrapperIdentifierViewController(), animated: true)
         case .cellNode:
             navigationController?.pushViewController(CellNodeAsWrapperIdentifierViewController(), animated: true)
+        case .tooNested:
+            navigationController?.pushViewController(TooNestedExampleViewController(), animated: true)
         }
     }
 }

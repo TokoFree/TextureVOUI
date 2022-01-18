@@ -40,16 +40,16 @@ extension CellNodeAsWrapperIdentifierViewController: ASTableDataSource {
     
     internal func tableNode(_ tableNode: ASTableNode, nodeBlockForRowAt indexPath: IndexPath) -> ASCellNodeBlock {
         return {
-            let node = DummyAccessibleCellNode()
+            let node = DummyAccessibleCellNode(index: indexPath.row)
             return node
         }
     }
 }
 
 extension CellNodeAsWrapperIdentifierViewController: ASTableDelegate {
-    internal func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
-        print("item at \(indexPath.row)")
-    }
+//    internal func tableNode(_ tableNode: ASTableNode, didSelectRowAt indexPath: IndexPath) {
+//        print("item at \(indexPath.row)")
+//    }
 }
 
 // MARK: Dummy CellNode with many child
@@ -97,23 +97,51 @@ internal final class DummyAccessibleCellNode: ASCellNode {
         return textNode
     }()
     
-    internal override init() {
+    private let cellIndex: Int
+    
+    internal init(index: Int) {
+        self.cellIndex = index
+        
         super.init()
         
         accessibilityIdentifier = "CellNodeWrapper"
+        
+        if cellIndex == 1 {
+            accessibilityLabel = "COD Dynamic, estimasi tiba pada 27 September sampai dengan 29 September"
+        } else {
+            accessibilityLabel = "estimasi tiba pada 27 September sampai dengan 29 September"
+        }
+        
         automaticallyManagesSubnodes = true
     }
     
+    internal override func didLoad() {
+        super.didLoad()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onPress))
+        view.addGestureRecognizer(tapGesture)
+    }
+    
     override internal func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+        var children: [ASLayoutElement] = [estimationTextNode]
+        
+        if cellIndex == 1 {
+            children = [
+                codLabelNode,
+                estimationTextNode,
+                dynamicLabelNode
+            ]
+        }
+        
         let stack = ASStackLayoutSpec.vertical()
         stack.justifyContent = .start
         stack.alignItems = .start
         stack.spacing = 4
-        stack.children = [
-            codLabelNode,
-            estimationTextNode,
-            dynamicLabelNode
-        ]
+        stack.children = children
         return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8), child: stack)
+    }
+    
+    @objc func onPress() {
+        print("pressed cell - \(cellIndex)")
     }
 }

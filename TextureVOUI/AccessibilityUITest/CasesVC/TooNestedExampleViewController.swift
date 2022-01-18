@@ -1,5 +1,5 @@
 //
-//  TooNestedVC.swift
+//  TooNestedExampleViewController.swift
 //  TextureVOUI
 //
 //  Created by Jefferson Setiawan on 13/09/21.
@@ -8,13 +8,15 @@
 import AsyncDisplayKit
 
 /// Minimal STR to reproduct Texture 2 UI Test issue that can't get the deepest element
-class TooNestedVC: ASDKViewController<ASDisplayNode> {
+class TooNestedExampleViewController: ASDKViewController<ASDisplayNode> {
+    
     private let explanationNode: ASTextNode2 = {
         let node = ASTextNode2()
         node.attributedText = NSAttributedString(string: "Demo for too nested hierarchy")
         node.accessibilityIdentifier = "explanationTextNode"
         return node
     }()
+    
     private let scrollNode: ASScrollNode = {
         let node = ASScrollNode()
         node.automaticallyManagesContentSize = true
@@ -61,6 +63,7 @@ class TooNestedVC: ASDKViewController<ASDisplayNode> {
 
             return stack
         }
+
         return node
     }()
     

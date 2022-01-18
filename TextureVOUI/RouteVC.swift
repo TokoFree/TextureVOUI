@@ -9,14 +9,9 @@ import UIKit
 
 public final class RouteVC: UITableViewController {
     private enum Route: String, CaseIterable {
-//        case isAccessibilityFalse = "Is Accessibility False"
-//        case controlNode = "ASControlNode Issue"
-//        case tooNested = "Too Nested Case"
         case wrappingUsingControlNode = "Using ASControlNode to Wrap Layout"
         case voiceOverActivationPoint = "Voice Over Activation Point"
-//        case accesibilityOnUIKit = "UIKit Example for Accessibility"
-//        case exampleForSharingSession = "Example Identifier in Texture"
-        case accessibilityExampleCases = "Accessibility Cases Example"
+        case uiTestRoute = "UITest Accessibility Cases Example"
         case textureIssue = "⚠️ Texture Issue"
     }
 
@@ -34,21 +29,11 @@ public final class RouteVC: UITableViewController {
 
         let selectedRoute = routes[indexPath.row]
         switch selectedRoute {
-//        case .isAccessibilityFalse:
-//            navigationController?.pushViewController(IsAccessibilityElementVC(), animated: true)
-//        case .controlNode:
-//            navigationController?.pushViewController(ControlNodeVC(), animated: true)
-//        case .tooNested:
-//            navigationController?.pushViewController(TooNestedVC(), animated: true)
         case .wrappingUsingControlNode:
             navigationController?.pushViewController(FailureIdentifier1VC(), animated: true)
         case .voiceOverActivationPoint:
             navigationController?.pushViewController(ActivationPointVC(), animated: true)
-//        case .accesibilityOnUIKit:
-//            navigationController?.pushViewController(AccessibilityUIKitViewController(), animated: true)
-//        case .exampleForSharingSession:
-//            navigationController?.pushViewController(TextureAccessibilityIdentifier(), animated: true)
-        case .accessibilityExampleCases:
+        case .uiTestRoute:
             navigationController?.pushViewController(AccessibilityIdentifierCasesViewController(), animated: true)
         case .textureIssue:
             navigationController?.pushViewController(TextureIssueRouteVC(), animated: true)

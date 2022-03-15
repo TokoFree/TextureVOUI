@@ -9,6 +9,8 @@ import UIKit
 
 public final class RouteVC: UITableViewController {
     private enum Route: String, CaseIterable {
+        case dynamicFontUikit = "Dynamic font UIKit"
+        case dynamicFontTexture = "Dynamic font Texture"
         case wrappingUsingControlNode = "Using ASControlNode to Wrap Layout"
         case voiceOverActivationPoint = "Voice Over Activation Point"
         case uiTestRoute = "UITest Accessibility Cases Example"
@@ -29,6 +31,10 @@ public final class RouteVC: UITableViewController {
 
         let selectedRoute = routes[indexPath.row]
         switch selectedRoute {
+        case .dynamicFontUikit:
+            navigationController?.pushViewController(DynamicFontUIKitVC(), animated: true)
+        case .dynamicFontTexture:
+            navigationController?.pushViewController(DynamicFontTextureVC(), animated: true)
         case .wrappingUsingControlNode:
             navigationController?.pushViewController(FailureIdentifier1VC(), animated: true)
         case .voiceOverActivationPoint:

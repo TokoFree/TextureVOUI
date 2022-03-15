@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1DBD127727E0590400C2AC9B /* DynamicFontUIKitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD127627E0590400C2AC9B /* DynamicFontUIKitVC.swift */; };
+		1DBD127C27E075D000C2AC9B /* NunitoSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DBD127B27E075D000C2AC9B /* NunitoSans-ExtraBold.ttf */; };
+		1DBD127E27E0775700C2AC9B /* Nunito.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD127D27E0775700C2AC9B /* Nunito.swift */; };
+		1DBD128027E07E9400C2AC9B /* DynamicFontTextureVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD127F27E07E9400C2AC9B /* DynamicFontTextureVC.swift */; };
 		1DF26784273BB9C700F1F1D3 /* ASOverlayTexture2IssueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF26783273BB9C700F1F1D3 /* ASOverlayTexture2IssueVC.swift */; };
 		23FF8AEB7D36FEDAEE26529D /* Pods_TextureVOUI_TextureVOUIUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFC37D9B6963553F1467625 /* Pods_TextureVOUI_TextureVOUIUITests.framework */; };
 		6EC8C73C2FDB520A8B6A33BC /* Pods_TextureVOUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C757464E59701BD85B5E9162 /* Pods_TextureVOUI.framework */; };
@@ -60,6 +64,10 @@
 
 /* Begin PBXFileReference section */
 		0FFC37D9B6963553F1467625 /* Pods_TextureVOUI_TextureVOUIUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TextureVOUI_TextureVOUIUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DBD127627E0590400C2AC9B /* DynamicFontUIKitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFontUIKitVC.swift; sourceTree = "<group>"; };
+		1DBD127B27E075D000C2AC9B /* NunitoSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NunitoSans-ExtraBold.ttf"; sourceTree = "<group>"; };
+		1DBD127D27E0775700C2AC9B /* Nunito.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nunito.swift; sourceTree = "<group>"; };
+		1DBD127F27E07E9400C2AC9B /* DynamicFontTextureVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFontTextureVC.swift; sourceTree = "<group>"; };
 		1DF2677E273BAE9600F1F1D3 /* AnimateLayoutTransitionNotCalledVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimateLayoutTransitionNotCalledVC.swift; sourceTree = "<group>"; };
 		1DF26780273BAE9600F1F1D3 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift; sourceTree = "<group>"; };
 		1DF26783273BB9C700F1F1D3 /* ASOverlayTexture2IssueVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASOverlayTexture2IssueVC.swift; sourceTree = "<group>"; };
@@ -136,6 +144,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1DBD127527E058FC00C2AC9B /* DynamicFont */ = {
+			isa = PBXGroup;
+			children = (
+				1DBD127627E0590400C2AC9B /* DynamicFontUIKitVC.swift */,
+				1DBD127F27E07E9400C2AC9B /* DynamicFontTextureVC.swift */,
+			);
+			path = DynamicFont;
+			sourceTree = "<group>";
+		};
+		1DBD127827E075A000C2AC9B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1DBD127B27E075D000C2AC9B /* NunitoSans-ExtraBold.ttf */,
+				1DBD127D27E0775700C2AC9B /* Nunito.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		1DF2677D273BAE9600F1F1D3 /* TransitionLayoutIssue */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +325,8 @@
 		E5E1482E26EF12F000056475 /* TextureVOUI */ = {
 			isa = PBXGroup;
 			children = (
+				1DBD127827E075A000C2AC9B /* Resources */,
+				1DBD127527E058FC00C2AC9B /* DynamicFont */,
 				9C5C5300276736BC00C7632C /* AccessibilityUITest */,
 				E5B9476226F4706500700F5B /* TextureIssue */,
 				E5CC9DE026F36CDD00E21BCE /* VO */,
@@ -450,6 +478,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E5E1483C26EF12F200056475 /* LaunchScreen.storyboard in Resources */,
+				1DBD127C27E075D000C2AC9B /* NunitoSans-ExtraBold.ttf in Resources */,
 				E5E1483926EF12F200056475 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -581,6 +610,7 @@
 				E5E1487F26EF2D3800056475 /* IsAccessibilityElementVC.swift in Sources */,
 				E5E1488426EF2E0200056475 /* TooNestedExampleViewController.swift in Sources */,
 				9C5C5302276736E200C7632C /* AccessibilityIdentifierCasesViewController.swift in Sources */,
+				1DBD128027E07E9400C2AC9B /* DynamicFontTextureVC.swift in Sources */,
 				E5B9476926F4EFA900700F5B /* TextureIssueRouteVC.swift in Sources */,
 				E5B9476426F470DF00700F5B /* ParentNodeSetNeedsLayoutVC.swift in Sources */,
 				E5B9476726F4ECA500700F5B /* ParentNodeSuccessSetNeedsLayoutVC.swift in Sources */,
@@ -598,9 +628,11 @@
 				9C5C530527673EB400C7632C /* ControlNodeAsWrapperIdentifierViewController.swift in Sources */,
 				E5E1483026EF12F000056475 /* AppDelegate.swift in Sources */,
 				E5E1488926EF2E0C00056475 /* ControlNodeVC.swift in Sources */,
+				1DBD127727E0590400C2AC9B /* DynamicFontUIKitVC.swift in Sources */,
 				E5E1483226EF12F000056475 /* SceneDelegate.swift in Sources */,
 				E5CC9DD926F36CB500E21BCE /* FailureIdentifier1VC.swift in Sources */,
 				9C9158912744F7AE0017B797 /* ViewWrapperNode.swift in Sources */,
+				1DBD127E27E0775700C2AC9B /* Nunito.swift in Sources */,
 				E5CC9DE226F36CE300E21BCE /* ActivationPointVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -17,6 +17,7 @@ public final class TextureIssueRouteVC: UITableViewController {
         case animateLayoutTransitionIssue = "Animate Layout Transition is not called when node not visible"
         case parentWrapperSetNeedsLayoutIssue = "Parent node with ASWrapperLayout does not auto setNeedsLayout after setNeedsLayout children"
         case overlayTexture2Problem = "ASOverlaySpec Depth Issue on Texture 2"
+        case ancestorInCollectionNode = "Can't Convert between ASCollectionNode and ASCellNode"
     }
 
     private let routes: [Route] = Route.allCases
@@ -49,6 +50,8 @@ public final class TextureIssueRouteVC: UITableViewController {
             navigationController?.pushViewController(ParentWithWrapperDoesNotAutoSetNeedsLayoutVC(), animated: true)
         case .overlayTexture2Problem:
             navigationController?.pushViewController(ASOverlayTexture2IssueVC(), animated: true)
+        case .ancestorInCollectionNode:
+            navigationController?.pushViewController(UIViewConvertRouteVC(), animated: true)
         }
     }
 

@@ -62,3 +62,32 @@ extension UILabel {
         return label
     }
 }
+
+/*
+ userdefaults = .large
+ .xtraLarge
+ 
+ NotifCenter. {
+    UserDefaults.xtraLarge
+ 
+ switch size {
+    case .xtraSmall, .small, .medium:  return 12
+    case .large: return 13
+ }
+ 
+ 
+ didLaunch {
+    .body1() { 16 + size.multiplier }
+ }
+ 
+ 
+ textNode.adjustsFontForContentSizeCategory = false
+ textNode.attributedString = .body1(..., isAccessible: true)
+ 
+ Why use custom not apple side:
+ Pros:
+ - Full custom.
+ 
+ Cons:
+ - Discoverability.
+ */

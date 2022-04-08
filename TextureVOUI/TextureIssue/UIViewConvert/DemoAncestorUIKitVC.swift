@@ -106,7 +106,7 @@ extension DemoAncestorCollectionUIKitVC: UICollectionViewDataSource, UICollectio
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let cells = self.colView.visibleCells as! [MyCellView]
-        for (num, cell) in cells.enumerated() {
+        for cell in cells {
             let f = cell.frame
             let w = self.view.window!
 //            let rect = cell.convert(cell.bounds, to: colView)

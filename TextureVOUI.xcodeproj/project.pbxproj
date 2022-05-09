@@ -46,6 +46,7 @@
 		E5E1487F26EF2D3800056475 /* IsAccessibilityElementVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1487E26EF2D3800056475 /* IsAccessibilityElementVC.swift */; };
 		E5E1488426EF2E0200056475 /* TooNestedExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1488326EF2E0200056475 /* TooNestedExampleViewController.swift */; };
 		E5E1488926EF2E0C00056475 /* ControlNodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E1488826EF2E0C00056475 /* ControlNodeVC.swift */; };
+		F23AEC0F2828FC9A00869423 /* SetNeedLayoutSizingIssue.swift in Sources */ = {isa = PBXBuildFile; fileRef = F23AEC0E2828FC9A00869423 /* SetNeedLayoutSizingIssue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +121,7 @@
 		E5E1488326EF2E0200056475 /* TooNestedExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TooNestedExampleViewController.swift; sourceTree = "<group>"; };
 		E5E1488826EF2E0C00056475 /* ControlNodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlNodeVC.swift; sourceTree = "<group>"; };
 		EB5E3E9C783E12C97D991B84 /* Pods-TextureVOUI-TextureVOUIUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUI-TextureVOUIUITests.debug.xcconfig"; path = "Target Support Files/Pods-TextureVOUI-TextureVOUIUITests/Pods-TextureVOUI-TextureVOUIUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		F23AEC0E2828FC9A00869423 /* SetNeedLayoutSizingIssue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetNeedLayoutSizingIssue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,6 +286,7 @@
 		E5B9476226F4706500700F5B /* TextureIssue */ = {
 			isa = PBXGroup;
 			children = (
+				F23AEC0D2828FBC000869423 /* SetNeedLayoutSizingIssue */,
 				1DF2677F273BAE9600F1F1D3 /* ASWrapperLayoutIssue */,
 				1DF2677D273BAE9600F1F1D3 /* TransitionLayoutIssue */,
 				E5AC4FDA26FB040200E467FF /* SafeAreaInsetIssue */,
@@ -384,6 +387,14 @@
 				9C9158902744F7AE0017B797 /* ViewWrapperNode.swift */,
 			);
 			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		F23AEC0D2828FBC000869423 /* SetNeedLayoutSizingIssue */ = {
+			isa = PBXGroup;
+			children = (
+				F23AEC0E2828FC9A00869423 /* SetNeedLayoutSizingIssue.swift */,
+			);
+			path = SetNeedLayoutSizingIssue;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -624,6 +635,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F23AEC0F2828FC9A00869423 /* SetNeedLayoutSizingIssue.swift in Sources */,
 				E5E1487F26EF2D3800056475 /* IsAccessibilityElementVC.swift in Sources */,
 				E5E1488426EF2E0200056475 /* TooNestedExampleViewController.swift in Sources */,
 				9C5C5302276736E200C7632C /* AccessibilityIdentifierCasesViewController.swift in Sources */,

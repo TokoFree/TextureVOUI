@@ -51,7 +51,7 @@ public final class TextureIssueRouteVC: UITableViewController {
         case .overlayTexture2Problem:
             navigationController?.pushViewController(ASOverlayTexture2IssueVC(), animated: true)
         case .ancestorInCollectionNode:
-            navigationController?.pushViewController(UIViewConvertRouteVC(), animated: true)
+            navigationController?.pushViewController(DemoScrollHorizontalVC(), animated: true)
         }
     }
 

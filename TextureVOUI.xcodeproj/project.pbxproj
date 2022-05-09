@@ -309,12 +309,12 @@
 			path = ParentDoesNotAutoSetNeedsLayout;
 			sourceTree = "<group>";
 		};
-		E5CC9DE026F36CDD00E21BCE /* VO */ = {
+		E5CC9DE026F36CDD00E21BCE /* VoiceOver */ = {
 			isa = PBXGroup;
 			children = (
 				E5CC9DE126F36CE300E21BCE /* ActivationPointVC.swift */,
 			);
-			path = VO;
+			path = VoiceOver;
 			sourceTree = "<group>";
 		};
 		E5E1482326EF12F000056475 = {
@@ -346,7 +346,7 @@
 				1DBD127527E058FC00C2AC9B /* DynamicFont */,
 				9C5C5300276736BC00C7632C /* AccessibilityUITest */,
 				E5B9476226F4706500700F5B /* TextureIssue */,
-				E5CC9DE026F36CDD00E21BCE /* VO */,
+				E5CC9DE026F36CDD00E21BCE /* VoiceOver */,
 				E5E1487A26EF2CF300056475 /* SupportingFiles */,
 				E5E1483326EF12F000056475 /* RouteVC.swift */,
 				E5E1483D26EF12F200056475 /* Info.plist */,

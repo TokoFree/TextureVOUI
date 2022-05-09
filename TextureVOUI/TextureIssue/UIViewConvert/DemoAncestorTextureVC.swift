@@ -144,3 +144,67 @@ internal final class MyCellNode: ASCellNode {
         ASStackLayoutSpec(direction: .vertical, spacing: 8, justifyContent: .start, alignItems: .start, children: [textNode])
     }
 }
+
+internal final class DemoScrollHorizontalVC: ASDKViewController<ASDisplayNode> {
+    private let explanationNode: ASTextNode2 = {
+        let node = ASTextNode2()
+        node.attributedText = .body("""
+        Demo on ScrollNode horizontal
+        """)
+        return node
+    }()
+    
+    private let hScrollNode: ASScrollNode = {
+        let scroll = ASScrollNode()
+        scroll.scrollableDirections = [.left, .right]
+        scroll.automaticallyManagesSubnodes = true
+        scroll.automaticallyManagesContentSize = true
+        return scroll
+    }()
+    
+    private let text1: ASTextNode2 = {
+        let node = ASTextNode2()
+        node.attributedText = .body("""
+        Text 1st
+        """)
+        return node
+    }()
+    private let text2: ASTextNode2 = {
+        let node = ASTextNode2()
+        node.attributedText = .body("""
+        Ini Text ke dua yg lumayan panjang
+        """)
+        return node
+    }()
+    private let text3: ASTextNode2 = {
+        let node = ASTextNode2()
+        node.attributedText = .body("""
+        Text 3rd
+        """)
+        return node
+    }()
+    private let text4: ASTextNode2 = {
+        let node = ASTextNode2()
+        node.attributedText = .body("""
+        Text 4th
+        """)
+        return node
+    }()
+    
+    override init() {
+        super.init(node: ASDisplayNode())
+        node.backgroundColor = .white
+        node.automaticallyManagesSubnodes = true
+        node.layoutSpecBlock = { [unowned self] _, _ in
+            let stack = ASStackLayoutSpec.vertical()
+            stack.children = [explanationNode, hScrollNode]
+            return stack
+        }
+        hScrollNode.layoutSpecBlock = { [unowned self] _, _ in
+            ASStackLayoutSpec(direction: .horizontal, spacing: 16, justifyContent: .start, alignItems: .start, children: [text1, text2, text3, text4])
+        }
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}

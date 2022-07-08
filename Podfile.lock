@@ -1,39 +1,90 @@
 PODS:
   - FLEX (4.6.1)
-  - IGListDiffKit (4.0.0)
-  - IGListKit (4.0.0):
-    - IGListDiffKit (= 4.0.0)
-  - Texture/Core (2.7)
-  - Texture/IGListKit (2.7):
-    - IGListKit (~> 4.0)
+  - KIF/Core (3.8.7)
+  - KIF/IdentifierTests (3.8.7):
+    - KIF/Core
+  - libwebp (1.2.1):
+    - libwebp/demux (= 1.2.1)
+    - libwebp/mux (= 1.2.1)
+    - libwebp/webp (= 1.2.1)
+  - libwebp/demux (1.2.1):
+    - libwebp/webp
+  - libwebp/mux (1.2.1):
+    - libwebp/demux
+  - libwebp/webp (1.2.1)
+  - PINCache (3.0.3):
+    - PINCache/Arc-exception-safe (= 3.0.3)
+    - PINCache/Core (= 3.0.3)
+  - PINCache/Arc-exception-safe (3.0.3):
+    - PINCache/Core
+  - PINCache/Core (3.0.3):
+    - PINOperation (~> 1.2.1)
+  - PINOperation (1.2.1)
+  - PINRemoteImage/Core (3.0.3):
+    - PINOperation
+  - PINRemoteImage/iOS (3.0.3):
+    - PINRemoteImage/Core
+  - PINRemoteImage/PINCache (3.0.3):
+    - PINCache (~> 3.0.3)
+    - PINRemoteImage/Core
+  - PINRemoteImage/WebP (3.0.3):
+    - libwebp
+    - PINRemoteImage/Core
+  - Texture (3.1.0):
+    - Texture/AssetsLibrary (= 3.1.0)
+    - Texture/Core (= 3.1.0)
+    - Texture/MapKit (= 3.1.0)
+    - Texture/Photos (= 3.1.0)
+    - Texture/PINRemoteImage (= 3.1.0)
+    - Texture/Video (= 3.1.0)
+  - Texture/AssetsLibrary (3.1.0):
+    - Texture/Core
+  - Texture/Core (3.1.0)
+  - Texture/MapKit (3.1.0):
+    - Texture/Core
+  - Texture/Photos (3.1.0):
+    - Texture/Core
+  - Texture/PINRemoteImage (3.1.0):
+    - PINRemoteImage/iOS (~> 3.0.0)
+    - PINRemoteImage/PINCache
+    - PINRemoteImage/WebP
+    - Texture/Core
+  - Texture/Video (3.1.0):
     - Texture/Core
 
 DEPENDENCIES:
   - FLEX (= 4.6.1)
-  - "Texture/IGListKit (from `git@github.com:TokoFree/Texture.git`, commit `6eef31e4de6bbb35d9bdd33614164fdd4f6146a3`)"
+  - KIF/IdentifierTests
+  - "Texture (from `git@github.com:jeffersonsetiawan/Texture.git`, commit `185597f9b83aca344cb961c34ba56be9250e6513`)"
 
 SPEC REPOS:
   trunk:
     - FLEX
-    - IGListDiffKit
-    - IGListKit
+    - KIF
+    - libwebp
+    - PINCache
+    - PINOperation
+    - PINRemoteImage
 
 EXTERNAL SOURCES:
   Texture:
-    :commit: 6eef31e4de6bbb35d9bdd33614164fdd4f6146a3
-    :git: "git@github.com:TokoFree/Texture.git"
+    :commit: 185597f9b83aca344cb961c34ba56be9250e6513
+    :git: "git@github.com:jeffersonsetiawan/Texture.git"
 
 CHECKOUT OPTIONS:
   Texture:
-    :commit: 6eef31e4de6bbb35d9bdd33614164fdd4f6146a3
-    :git: "git@github.com:TokoFree/Texture.git"
+    :commit: 185597f9b83aca344cb961c34ba56be9250e6513
+    :git: "git@github.com:jeffersonsetiawan/Texture.git"
 
 SPEC CHECKSUMS:
   FLEX: bbc55d197f87d7cde2454c3981aa47069b694144
-  IGListDiffKit: 665d6cf43ce726e676013db9c7d6c4294259b6b2
-  IGListKit: fd5a5d21935298f5849fa49d426843cff97b77c7
-  Texture: fd48858d030388507518f606775f3f80b38b5092
+  KIF: 779cdbca106633b94ecee7b036537490ebdbd9de
+  libwebp: 98a37e597e40bfdb4c911fc98f2c53d0b12d05fc
+  PINCache: 7a8fc1a691173d21dbddbf86cd515de6efa55086
+  PINOperation: 00c935935f1e8cf0d1e2d6b542e75b88fc3e5e20
+  PINRemoteImage: f1295b29f8c5e640e25335a1b2bd9d805171bd01
+  Texture: ecae92c2f078bcd777cb084bf0876e10fc71729b
 
-PODFILE CHECKSUM: e8b870466199458a49660fde6718df70951a191c
+PODFILE CHECKSUM: a3af7107f2105f919ba88f2ebe259cd96660c2df
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

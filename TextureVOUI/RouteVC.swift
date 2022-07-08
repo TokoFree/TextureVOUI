@@ -5,6 +5,7 @@
 //  Created by Jefferson Setiawan on 13/09/21.
 //
 
+import AsyncDisplayKit
 import UIKit
 
 public final class RouteVC: UITableViewController {
@@ -24,6 +25,7 @@ public final class RouteVC: UITableViewController {
 
         title = "Texture UITest Issue"
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.accessibilityIdentifier = "tableView"
     }
 
     override public func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {

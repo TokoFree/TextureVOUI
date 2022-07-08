@@ -200,6 +200,7 @@ internal final class DemoScrollHorizontalVC: ASDKViewController<ASDisplayNode> {
             stack.children = [explanationNode, hScrollNode]
             return stack
         }
+        node.setNeedsLayout()
         hScrollNode.layoutSpecBlock = { [unowned self] _, _ in
             ASStackLayoutSpec(direction: .horizontal, spacing: 16, justifyContent: .start, alignItems: .start, children: [text1, text2, text3, text4])
         }

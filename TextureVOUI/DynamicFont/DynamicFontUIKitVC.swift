@@ -5,6 +5,7 @@
 //  Created by jefferson.setiawan on 15/03/22.
 //
 
+import AsyncDisplayKit
 import UIKit
 
 internal final class DynamicFontUIKitVC: UIViewController {
@@ -42,6 +43,16 @@ internal final class DynamicFontUIKitVC: UIViewController {
         vStack.addArrangedSubview(attributedLabel)
         vStack.addArrangedSubview(customFontLabel)
         vStack.addArrangedSubview(customFontAttributedLabel)
+        let node = ASDisplayNode()
+        node.backgroundColor = .red
+        node.automaticallyManagesSubnodes = true
+        node.style.flexGrow = 1
+        node.frame = CGRect(origin: .zero, size: CGSize(width: 80, height: 80))
+        node.style.preferredSize = CGSize(width: 50, height: 60)
+        node.layoutIfNeeded()
+        node.clipsToBounds = false
+        node.canBecomeFirstResponder()
+        vStack.addArrangedSubview(node.view)
         
         view.addSubview(vStack)
         NSLayoutConstraint.activate([

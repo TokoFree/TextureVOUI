@@ -2,17 +2,9 @@
 //  _ASHierarchyChangeSet.h
 //  Texture
 //
-//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
-//  This source code is licensed under the BSD-style license found in the
-//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
-//  grant of patent rights can be found in the PATENTS file in the same directory.
-//
-//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
-//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
+//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
+//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <Foundation/Foundation.h>
@@ -121,6 +113,9 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType);
 /// Indicates whether the change set is empty, that is it includes neither reload data nor per item or section changes.
 @property (nonatomic, readonly) BOOL isEmpty;
 
+/// The count of new ASCellNodes that can undergo async layout calculation. May be zero if all UIKit passthrough cells.
+@property (nonatomic, assign) NSUInteger countForAsyncLayout;
+
 /// The top-level activity for this update.
 @property (nonatomic, OS_ACTIVITY_NULLABLE) os_activity_t rootActivity;
 
@@ -203,16 +198,6 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType);
 
 /// Returns all item indexes affected by changes of the given type in the given section.
 - (NSIndexSet *)indexesForItemChangesOfType:(_ASHierarchyChangeType)changeType inSection:(NSUInteger)section;
-
-/**
- * A callback property that is going to be called during texture assertion of invalid section issue.
- *
- * This callback is used to determine the things that will be done during collection perform update crash issue,
- * in which to log the current View Controller that is currently crashing.
- *
- * The default value is nil.
-*/
-@property (nonatomic, copy, nullable) void (^callbackOnAssert)(void);
 
 - (void)reloadData;
 - (void)deleteSections:(NSIndexSet *)sections animationOptions:(ASDataControllerAnimationOptions)options;

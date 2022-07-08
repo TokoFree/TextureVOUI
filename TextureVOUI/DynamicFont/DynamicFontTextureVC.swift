@@ -7,19 +7,29 @@
 
 import AsyncDisplayKit
 
-internal final class DynamicFontTextureVC: ASDKViewController<ASScrollNode> {
+internal final class DynamicFontTextureVC: ASDKViewController<ASDisplayNode> {
     
-    private let textNode = ASTextNode()
+//    private let textNode = ASTextNode()
     override init() {
-        super.init(node: ASScrollNode())
-        node.automaticallyManagesContentSize = true
-        node.automaticallyManagesSubnodes = true
-        node.backgroundColor = .white
-        node.layoutSpecBlock = { [unowned self] _, _ in
-            return ASWrapperLayoutSpec(layoutElement: self.textNode)
+        super.init(node: ASDisplayNode())
+//        node.automaticallyManagesContentSize = true
+//        node.automaticallyManagesSubnodes = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.node.backgroundColor = .red
+            self.node.addSubnode(ASDisplayNode())
+//            node.layoutSpecBlock = {
+//
+//            }
+            
+            let asd = ASLayoutSpec()
+            asd.style.height = ASDimensionMake(1)
         }
-        let attr = NSAttributedString.setFont(font: UIFont.preferredFont(forTextStyle: .title1), color: .black, alignment: .left, strikethrough: false)
-        textNode.attributedText = NSMutableAttributedString(string: "This is attributed text", attributes: attr)
+        
+//        node.layoutSpecBlock = { [unowned self] _, _ in
+//            return ASWrapperLayoutSpec(layoutElement: self.textNode)
+//        }
+//        let attr = NSAttributedString.setFont(font: UIFont.preferredFont(forTextStyle: .title1), color: .black, alignment: .left, strikethrough: false)
+//        textNode.attributedText = NSMutableAttributedString(string: "This is attributed text", attributes: attr)
     }
     
     required init?(coder: NSCoder) {

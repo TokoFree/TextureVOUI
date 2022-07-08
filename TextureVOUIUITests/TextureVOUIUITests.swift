@@ -38,7 +38,7 @@ class TextureVOUIUITests: XCTestCase {
         let codCell = UITestPage.app.otherElements["CellNodeWrapper"]
         
         let isCODLabelOnFirstCell = codCell.accessibilityLabel?.lowercased().contains("cod")
-        XCTAssertTrue(isCODLabelOnFirstCell)
+        XCTAssertTrue(isCODLabelOnFirstCell!)
     }
     
     // MARK: Cases Nested Example VC (setup identifier)

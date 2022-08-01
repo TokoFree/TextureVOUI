@@ -9,6 +9,8 @@ import UIKit
 
 public final class RouteVC: UITableViewController {
     private enum Route: String, CaseIterable {
+        case collectionViewSection = "UICollectionView with Section"
+        case collectionNodeSection = "ASCollectionNode with Section"
         case dynamicFontUikit = "Dynamic font UIKit"
         case dynamicFontTexture = "Dynamic font Texture"
         case wrappingUsingControlNode = "Using ASControlNode to Wrap Layout"
@@ -43,6 +45,10 @@ public final class RouteVC: UITableViewController {
             navigationController?.pushViewController(AccessibilityIdentifierCasesViewController(), animated: true)
         case .textureIssue:
             navigationController?.pushViewController(TextureIssueRouteVC(), animated: true)
+        case .collectionViewSection:
+            navigationController?.pushViewController(CollectionWithSectionVC(), animated: true)
+        case .collectionNodeSection:
+            navigationController?.pushViewController(CollectionWithSectionNodeVC(), animated: true)
         }
     }
 

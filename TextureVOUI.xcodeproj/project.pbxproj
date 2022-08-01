@@ -10,6 +10,8 @@
 		1D20867C27FE9B5A00D9F9F0 /* DemoAncestorUIKitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D20867B27FE9B5A00D9F9F0 /* DemoAncestorUIKitVC.swift */; };
 		1D20867E27FE9DB800D9F9F0 /* DemoAncestorTextureVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D20867D27FE9DB800D9F9F0 /* DemoAncestorTextureVC.swift */; };
 		1D20868127FFCB3A00D9F9F0 /* UIViewConvertRouteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D20868027FFCB3A00D9F9F0 /* UIViewConvertRouteVC.swift */; };
+		1D372CA8289277520020A50B /* CollectionWithSectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D372CA7289277520020A50B /* CollectionWithSectionVC.swift */; };
+		1D372CAA289287570020A50B /* CollectionWithSectionNodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D372CA9289287570020A50B /* CollectionWithSectionNodeVC.swift */; };
 		1DBD127727E0590400C2AC9B /* DynamicFontUIKitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD127627E0590400C2AC9B /* DynamicFontUIKitVC.swift */; };
 		1DBD127C27E075D000C2AC9B /* NunitoSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DBD127B27E075D000C2AC9B /* NunitoSans-ExtraBold.ttf */; };
 		1DBD127E27E0775700C2AC9B /* Nunito.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD127D27E0775700C2AC9B /* Nunito.swift */; };
@@ -70,6 +72,8 @@
 		1D20867B27FE9B5A00D9F9F0 /* DemoAncestorUIKitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAncestorUIKitVC.swift; sourceTree = "<group>"; };
 		1D20867D27FE9DB800D9F9F0 /* DemoAncestorTextureVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAncestorTextureVC.swift; sourceTree = "<group>"; };
 		1D20868027FFCB3A00D9F9F0 /* UIViewConvertRouteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewConvertRouteVC.swift; sourceTree = "<group>"; };
+		1D372CA7289277520020A50B /* CollectionWithSectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionWithSectionVC.swift; sourceTree = "<group>"; };
+		1D372CA9289287570020A50B /* CollectionWithSectionNodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionWithSectionNodeVC.swift; sourceTree = "<group>"; };
 		1DBD127627E0590400C2AC9B /* DynamicFontUIKitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFontUIKitVC.swift; sourceTree = "<group>"; };
 		1DBD127B27E075D000C2AC9B /* NunitoSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NunitoSans-ExtraBold.ttf"; sourceTree = "<group>"; };
 		1DBD127D27E0775700C2AC9B /* Nunito.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nunito.swift; sourceTree = "<group>"; };
@@ -350,6 +354,8 @@
 				E5E1487A26EF2CF300056475 /* SupportingFiles */,
 				E5E1483326EF12F000056475 /* RouteVC.swift */,
 				E5E1483D26EF12F200056475 /* Info.plist */,
+				1D372CA7289277520020A50B /* CollectionWithSectionVC.swift */,
+				1D372CA9289287570020A50B /* CollectionWithSectionNodeVC.swift */,
 			);
 			path = TextureVOUI;
 			sourceTree = "<group>";
@@ -630,7 +636,9 @@
 				1DBD128027E07E9400C2AC9B /* DynamicFontTextureVC.swift in Sources */,
 				1D20867E27FE9DB800D9F9F0 /* DemoAncestorTextureVC.swift in Sources */,
 				E5B9476926F4EFA900700F5B /* TextureIssueRouteVC.swift in Sources */,
+				1D372CA8289277520020A50B /* CollectionWithSectionVC.swift in Sources */,
 				E5B9476426F470DF00700F5B /* ParentNodeSetNeedsLayoutVC.swift in Sources */,
+				1D372CAA289287570020A50B /* CollectionWithSectionNodeVC.swift in Sources */,
 				E5B9476726F4ECA500700F5B /* ParentNodeSuccessSetNeedsLayoutVC.swift in Sources */,
 				E5E1483426EF12F000056475 /* RouteVC.swift in Sources */,
 				E5AC4FDC26FB040D00E467FF /* SafeAreaIssueVC.swift in Sources */,

@@ -1,6 +1,9 @@
 # TextureVOUI
 Repo Code for all Tokopedia Texture problems!
 
+# How to Switch Between Texture 2 & 3
+Open Podfile, uncomment the desire version and comment the other one.
+
 # How to Contribute
 Depends on the problem, we have 3 big areas right now:
 - Texture Issues

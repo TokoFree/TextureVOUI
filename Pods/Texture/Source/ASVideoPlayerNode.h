@@ -2,14 +2,18 @@
 //  ASVideoPlayerNode.h
 //  Texture
 //
-//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
-//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
-//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
 //
-
-#import <AsyncDisplayKit/ASAvailability.h>
-
-#if AS_USE_VIDEO
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
 
 #if TARGET_OS_IOS
 #import <CoreMedia/CoreMedia.h>
@@ -63,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// You should never set any value on the backing video node. Use exclusivively the video player node to set properties
 @property (nonatomic, readonly) ASVideoNode *videoNode;
 
-//! Defaults to 10000
+//! Defaults to 100
 @property (nonatomic) int32_t periodicTimeObserverTimescale;
 //! Defaults to AVLayerVideoGravityResizeAspect
 @property (nonatomic, copy) NSString *gravity;
@@ -220,6 +224,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 NS_ASSUME_NONNULL_END
-#endif  // TARGET_OS_IOS
-
 #endif

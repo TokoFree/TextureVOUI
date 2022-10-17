@@ -12,6 +12,7 @@
 		1D20868127FFCB3A00D9F9F0 /* UIViewConvertRouteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D20868027FFCB3A00D9F9F0 /* UIViewConvertRouteVC.swift */; };
 		1D372CA8289277520020A50B /* CollectionWithSectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D372CA7289277520020A50B /* CollectionWithSectionVC.swift */; };
 		1D372CAA289287570020A50B /* CollectionWithSectionNodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D372CA9289287570020A50B /* CollectionWithSectionNodeVC.swift */; };
+		1D51BD1A28CA08900041FA51 /* Texture3SubjectCompleteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D51BD1928CA08900041FA51 /* Texture3SubjectCompleteVC.swift */; };
 		1DBD127727E0590400C2AC9B /* DynamicFontUIKitVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD127627E0590400C2AC9B /* DynamicFontUIKitVC.swift */; };
 		1DBD127C27E075D000C2AC9B /* NunitoSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DBD127B27E075D000C2AC9B /* NunitoSans-ExtraBold.ttf */; };
 		1DBD127E27E0775700C2AC9B /* Nunito.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD127D27E0775700C2AC9B /* Nunito.swift */; };
@@ -74,6 +75,7 @@
 		1D20868027FFCB3A00D9F9F0 /* UIViewConvertRouteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewConvertRouteVC.swift; sourceTree = "<group>"; };
 		1D372CA7289277520020A50B /* CollectionWithSectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionWithSectionVC.swift; sourceTree = "<group>"; };
 		1D372CA9289287570020A50B /* CollectionWithSectionNodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionWithSectionNodeVC.swift; sourceTree = "<group>"; };
+		1D51BD1928CA08900041FA51 /* Texture3SubjectCompleteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Texture3SubjectCompleteVC.swift; sourceTree = "<group>"; };
 		1DBD127627E0590400C2AC9B /* DynamicFontUIKitVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFontUIKitVC.swift; sourceTree = "<group>"; };
 		1DBD127B27E075D000C2AC9B /* NunitoSans-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NunitoSans-ExtraBold.ttf"; sourceTree = "<group>"; };
 		1DBD127D27E0775700C2AC9B /* Nunito.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nunito.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				E5941CF927057ACD00E3841D /* ASTableNodeDeinitCellVC.swift */,
 				1DF26783273BB9C700F1F1D3 /* ASOverlayTexture2IssueVC.swift */,
 				1D20867F27FFCA8A00D9F9F0 /* UIViewConvert */,
+				1D51BD1928CA08900041FA51 /* Texture3SubjectCompleteVC.swift */,
 			);
 			path = TextureIssue;
 			sourceTree = "<group>";
@@ -650,6 +653,7 @@
 				9C495737273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift in Sources */,
 				9C68D7DB2757756200AA7E29 /* AccessibilityUIKitViewController.swift in Sources */,
 				9C5C530C2769F9A700C7632C /* CellNodeAsWrapperIdentifierViewController.swift in Sources */,
+				1D51BD1A28CA08900041FA51 /* Texture3SubjectCompleteVC.swift in Sources */,
 				9C495730273B830500788D64 /* AnimateLayoutTransitionNotCalledVC.swift in Sources */,
 				9C5C530527673EB400C7632C /* ControlNodeAsWrapperIdentifierViewController.swift in Sources */,
 				1D20867C27FE9B5A00D9F9F0 /* DemoAncestorUIKitVC.swift in Sources */,
@@ -832,14 +836,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 88NY5L7L59;
+				DEVELOPMENT_TEAM = Y4SHBBLB3Q;
 				INFOPLIST_FILE = TextureVOUI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jeffersonsetiawan.TextureVOUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeffersonsetiawan93.TextureVOUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -853,14 +857,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 88NY5L7L59;
+				DEVELOPMENT_TEAM = Y4SHBBLB3Q;
 				INFOPLIST_FILE = TextureVOUI/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jeffersonsetiawan.TextureVOUI;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jeffersonsetiawan93.TextureVOUI;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -2,25 +2,31 @@
 //  _ASPendingState.mm
 //  Texture
 //
-//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
-//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
-//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <AsyncDisplayKit/_ASPendingState.h>
 
 #import <AsyncDisplayKit/_ASCoreAnimationExtras.h>
+#import <AsyncDisplayKit/_ASAsyncTransactionContainer.h>
+#import <AsyncDisplayKit/ASAssert.h>
 #import <AsyncDisplayKit/ASEqualityHelpers.h>
+#import <AsyncDisplayKit/ASDisplayNodeInternal.h>
 #import <AsyncDisplayKit/ASInternalHelpers.h>
 
-#define __shouldSetNeedsDisplayForView(view) (flags.needsDisplay \
-  || (flags.setOpaque && _flags.opaque != (view).opaque)\
-  || (flags.setBackgroundColor && ![backgroundColor isEqual:(view).backgroundColor])\
-  || (flags.setTintColor && ![tintColor isEqual:(view).tintColor]))
-
-#define __shouldSetNeedsDisplayForLayer(layer) (flags.needsDisplay \
-  || (flags.setOpaque && _flags.opaque != (layer).opaque)\
-  || (flags.setBackgroundColor && ![backgroundColor isEqual:[UIColor colorWithCGColor:(layer).backgroundColor]]))
+#define __shouldSetNeedsDisplay(layer) (flags.needsDisplay \
+  || (flags.setOpaque && opaque != (layer).opaque)\
+  || (flags.setBackgroundColor && !CGColorEqualToColor(backgroundColor, (layer).backgroundColor)))
 
 typedef struct {
   // Properties
@@ -81,7 +87,6 @@ typedef struct {
   int setShouldGroupAccessibilityChildren:1;
   int setAccessibilityIdentifier:1;
   int setAccessibilityNavigationStyle:1;
-  int setAccessibilityCustomActions:1;
   int setAccessibilityHeaderElements:1;
   int setAccessibilityActivationPoint:1;
   int setAccessibilityPath:1;
@@ -89,23 +94,17 @@ typedef struct {
   int setLayoutMargins:1;
   int setPreservesSuperviewLayoutMargins:1;
   int setInsetsLayoutMarginsFromSafeArea:1;
-  int setActions:1;
-  int setMaskedCorners : 1;
 } ASPendingStateFlags;
-
-
-static constexpr ASPendingStateFlags kZeroFlags = {0};
 
 @implementation _ASPendingState
 {
   @package //Expose all ivars for ASDisplayNode to bypass getters for efficiency
 
   UIViewAutoresizing autoresizingMask;
-  CAEdgeAntialiasingMask edgeAntialiasingMask;
+  unsigned int edgeAntialiasingMask;
   CGRect frame;   // Frame is only to be used for synchronous views wrapped by nodes (see setFrame:)
   CGRect bounds;
-  UIColor *backgroundColor;
-  UIColor *tintColor;
+  CGColorRef backgroundColor;
   CGFloat alpha;
   CGFloat cornerRadius;
   UIViewContentMode contentMode;
@@ -126,7 +125,11 @@ static constexpr ASPendingStateFlags kZeroFlags = {0};
   CGFloat shadowRadius;
   CGFloat borderWidth;
   CGColorRef borderColor;
+  BOOL asyncTransactionContainer;
   UIEdgeInsets layoutMargins;
+  BOOL preservesSuperviewLayoutMargins;
+  BOOL insetsLayoutMarginsFromSafeArea;
+  BOOL isAccessibilityElement;
   NSString *accessibilityLabel;
   NSAttributedString *accessibilityAttributedLabel;
   NSString *accessibilityHint;
@@ -136,34 +139,17 @@ static constexpr ASPendingStateFlags kZeroFlags = {0};
   UIAccessibilityTraits accessibilityTraits;
   CGRect accessibilityFrame;
   NSString *accessibilityLanguage;
+  BOOL accessibilityElementsHidden;
+  BOOL accessibilityViewIsModal;
+  BOOL shouldGroupAccessibilityChildren;
   NSString *accessibilityIdentifier;
   UIAccessibilityNavigationStyle accessibilityNavigationStyle;
-  NSArray *accessibilityCustomActions;
   NSArray *accessibilityHeaderElements;
   CGPoint accessibilityActivationPoint;
   UIBezierPath *accessibilityPath;
   UISemanticContentAttribute semanticContentAttribute API_AVAILABLE(ios(9.0), tvos(9.0));
-  NSDictionary<NSString *, id<CAAction>> *actions;
 
-  ASPendingStateFlags _stateToApplyFlags;
-  struct {
-    unsigned int asyncTransactionContainer:1;
-    unsigned int preservesSuperviewLayoutMargins:1;
-    unsigned int insetsLayoutMarginsFromSafeArea:1;
-    unsigned int isAccessibilityElement:1;
-    unsigned int accessibilityElementsHidden:1;
-    unsigned int accessibilityViewIsModal:1;
-    unsigned int shouldGroupAccessibilityChildren:1;
-    unsigned int clipsToBounds:1;
-    unsigned int opaque:1;
-    unsigned int hidden:1;
-    unsigned int needsDisplayOnBoundsChange:1;
-    unsigned int allowsGroupOpacity:1;
-    unsigned int allowsEdgeAntialiasing:1;
-    unsigned int autoresizesSubviews:1;
-    unsigned int userInteractionEnabled:1;
-    unsigned int exclusiveTouch:1;
-  } _flags;
+  ASPendingStateFlags _flags;
 }
 
 /**
@@ -176,7 +162,7 @@ static constexpr ASPendingStateFlags kZeroFlags = {0};
  * value intact until application time (now).
  */
 ASDISPLAYNODE_INLINE void ASPendingStateApplyMetricsToLayer(_ASPendingState *state, CALayer *layer) {
-  ASPendingStateFlags flags = state->_stateToApplyFlags;
+  ASPendingStateFlags flags = state->_flags;
   if (flags.setFrame) {
     CGRect _bounds = CGRectZero;
     CGPoint _position = CGPointZero;
@@ -191,10 +177,17 @@ ASDISPLAYNODE_INLINE void ASPendingStateApplyMetricsToLayer(_ASPendingState *sta
   }
 }
 
+@synthesize clipsToBounds=clipsToBounds;
+@synthesize opaque=opaque;
 @synthesize frame=frame;
 @synthesize bounds=bounds;
 @synthesize backgroundColor=backgroundColor;
+@synthesize hidden=isHidden;
+@synthesize needsDisplayOnBoundsChange=needsDisplayOnBoundsChange;
+@synthesize allowsGroupOpacity=allowsGroupOpacity;
+@synthesize allowsEdgeAntialiasing=allowsEdgeAntialiasing;
 @synthesize edgeAntialiasingMask=edgeAntialiasingMask;
+@synthesize autoresizesSubviews=autoresizesSubviews;
 @synthesize autoresizingMask=autoresizingMask;
 @synthesize tintColor=tintColor;
 @synthesize alpha=alpha;
@@ -224,10 +217,9 @@ ASDISPLAYNODE_INLINE void ASPendingStateApplyMetricsToLayer(_ASPendingState *sta
 @synthesize layoutMargins=layoutMargins;
 @synthesize preservesSuperviewLayoutMargins=preservesSuperviewLayoutMargins;
 @synthesize insetsLayoutMarginsFromSafeArea=insetsLayoutMarginsFromSafeArea;
-@synthesize actions=actions;
-@synthesize maskedCorners = maskedCorners;
 
 static CGColorRef blackColorRef = NULL;
+static UIColor *defaultTintColor = nil;
 
 - (instancetype)init
 {
@@ -242,24 +234,25 @@ static CGColorRef blackColorRef = NULL;
     blackColorRef = CGColorCreate(colorSpace, (CGFloat[]){0,0,0,1} );
     CFRetain(blackColorRef);
     CGColorSpaceRelease(colorSpace);
+    defaultTintColor = [UIColor colorWithRed:0.0 green:0.478 blue:1.0 alpha:1.0];
   });
 
   // Set defaults, these come from the defaults specified in CALayer and UIView
-  _flags.clipsToBounds = NO;
-  _flags.opaque = YES;
+  clipsToBounds = NO;
+  opaque = YES;
   frame = CGRectZero;
   bounds = CGRectZero;
   backgroundColor = nil;
-  tintColor = nil;
-  _flags.hidden = NO;
-  _flags.needsDisplayOnBoundsChange = NO;
-  _flags.allowsGroupOpacity = ASDefaultAllowsGroupOpacity();
-  _flags.allowsEdgeAntialiasing = ASDefaultAllowsEdgeAntialiasing();
-  _flags.autoresizesSubviews = YES;
+  tintColor = defaultTintColor;
+  isHidden = NO;
+  needsDisplayOnBoundsChange = NO;
+  allowsGroupOpacity = ASDefaultAllowsGroupOpacity();
+  allowsEdgeAntialiasing = ASDefaultAllowsEdgeAntialiasing();
+  autoresizesSubviews = YES;
   alpha = 1.0f;
   cornerRadius = 0.0f;
   contentMode = UIViewContentModeScaleToFill;
-  _stateToApplyFlags.needsDisplay = NO;
+  _flags.needsDisplay = NO;
   anchorPoint = CGPointMake(0.5, 0.5);
   position = CGPointZero;
   zPosition = 0.0;
@@ -271,7 +264,7 @@ static CGColorRef blackColorRef = NULL;
   contentsCenter = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
   contentsScale = 1.0f;
   rasterizationScale = 1.0f;
-  _flags.userInteractionEnabled = YES;
+  userInteractionEnabled = YES;
   shadowColor = blackColorRef;
   shadowOpacity = 0.0;
   shadowOffset = CGSizeMake(0, -3);
@@ -279,9 +272,9 @@ static CGColorRef blackColorRef = NULL;
   borderWidth = 0;
   borderColor = blackColorRef;
   layoutMargins = UIEdgeInsetsMake(8, 8, 8, 8);
-  _flags.preservesSuperviewLayoutMargins = NO;
-  _flags.insetsLayoutMarginsFromSafeArea = YES;
-  _flags.isAccessibilityElement = NO;
+  preservesSuperviewLayoutMargins = NO;
+  insetsLayoutMarginsFromSafeArea = YES;
+  isAccessibilityElement = NO;
   accessibilityLabel = nil;
   accessibilityAttributedLabel = nil;
   accessibilityHint = nil;
@@ -291,12 +284,11 @@ static CGColorRef blackColorRef = NULL;
   accessibilityTraits = UIAccessibilityTraitNone;
   accessibilityFrame = CGRectZero;
   accessibilityLanguage = nil;
-  _flags.accessibilityElementsHidden = NO;
-  _flags.accessibilityViewIsModal = NO;
-  _flags.shouldGroupAccessibilityChildren = NO;
+  accessibilityElementsHidden = NO;
+  accessibilityViewIsModal = NO;
+  shouldGroupAccessibilityChildren = NO;
   accessibilityIdentifier = nil;
   accessibilityNavigationStyle = UIAccessibilityNavigationStyleAutomatic;
-  accessibilityCustomActions = nil;
   accessibilityHeaderElements = nil;
   accessibilityActivationPoint = CGPointZero;
   accessibilityPath = nil;
@@ -308,101 +300,71 @@ static CGColorRef blackColorRef = NULL;
 
 - (void)setNeedsDisplay
 {
-  _stateToApplyFlags.needsDisplay = YES;
+  _flags.needsDisplay = YES;
 }
 
 - (void)setNeedsLayout
 {
-  _stateToApplyFlags.needsLayout = YES;
+  _flags.needsLayout = YES;
 }
 
 - (void)layoutIfNeeded
 {
-  _stateToApplyFlags.layoutIfNeeded = YES;
+  _flags.layoutIfNeeded = YES;
 }
 
 - (void)setClipsToBounds:(BOOL)flag
 {
-  _flags.clipsToBounds = flag;
-  _stateToApplyFlags.setClipsToBounds = YES;
-}
-
-- (BOOL)clipsToBounds
-{
-    return _flags.clipsToBounds;
+  clipsToBounds = flag;
+  _flags.setClipsToBounds = YES;
 }
 
 - (void)setOpaque:(BOOL)flag
 {
-  _flags.opaque = flag;
-  _stateToApplyFlags.setOpaque = YES;
-}
-
-- (BOOL)isOpaque
-{
-    return _flags.opaque;
+  opaque = flag;
+  _flags.setOpaque = YES;
 }
 
 - (void)setNeedsDisplayOnBoundsChange:(BOOL)flag
 {
-  _flags.needsDisplayOnBoundsChange = flag;
-  _stateToApplyFlags.setNeedsDisplayOnBoundsChange = YES;
-}
-
-- (BOOL)needsDisplayOnBoundsChange
-{
-    return _flags.needsDisplayOnBoundsChange;
+  needsDisplayOnBoundsChange = flag;
+  _flags.setNeedsDisplayOnBoundsChange = YES;
 }
 
 - (void)setAllowsGroupOpacity:(BOOL)flag
 {
-  _flags.allowsGroupOpacity = flag;
-  _stateToApplyFlags.setAllowsGroupOpacity = YES;
-}
-
-- (BOOL)allowsGroupOpacity
-{
-    return _flags.allowsGroupOpacity;
+  allowsGroupOpacity = flag;
+  _flags.setAllowsGroupOpacity = YES;
 }
 
 - (void)setAllowsEdgeAntialiasing:(BOOL)flag
 {
-  _flags.allowsEdgeAntialiasing = flag;
-  _stateToApplyFlags.setAllowsEdgeAntialiasing = YES;
+  allowsEdgeAntialiasing = flag;
+  _flags.setAllowsEdgeAntialiasing = YES;
 }
 
-- (BOOL)allowsEdgeAntialiasing
-{
-    return _flags.allowsEdgeAntialiasing;
-}
-
-- (void)setEdgeAntialiasingMask:(CAEdgeAntialiasingMask)mask
+- (void)setEdgeAntialiasingMask:(unsigned int)mask
 {
   edgeAntialiasingMask = mask;
-  _stateToApplyFlags.setEdgeAntialiasingMask = YES;
+  _flags.setEdgeAntialiasingMask = YES;
 }
 
 - (void)setAutoresizesSubviews:(BOOL)flag
 {
-  _flags.autoresizesSubviews = flag;
-  _stateToApplyFlags.setAutoresizesSubviews = YES;
-}
-
-- (BOOL)autoresizesSubviews
-{
-    return _flags.autoresizesSubviews;
+  autoresizesSubviews = flag;
+  _flags.setAutoresizesSubviews = YES;
 }
 
 - (void)setAutoresizingMask:(UIViewAutoresizing)mask
 {
   autoresizingMask = mask;
-  _stateToApplyFlags.setAutoresizingMask = YES;
+  _flags.setAutoresizingMask = YES;
 }
 
 - (void)setFrame:(CGRect)newFrame
 {
   frame = newFrame;
-  _stateToApplyFlags.setFrame = YES;
+  _flags.setFrame = YES;
 }
 
 - (void)setBounds:(CGRect)newBounds
@@ -413,76 +375,59 @@ static CGColorRef blackColorRef = NULL;
   if (isnan(newBounds.size.height))
     newBounds.size.height = 0.0;
   bounds = newBounds;
-  _stateToApplyFlags.setBounds = YES;
+  _flags.setBounds = YES;
 }
 
-- (UIColor *)backgroundColor
+- (CGColorRef)backgroundColor
 {
   return backgroundColor;
 }
 
-- (void)setBackgroundColor:(UIColor *)color
+- (void)setBackgroundColor:(CGColorRef)color
 {
-  if ([color isEqual:backgroundColor]) {
+  if (color == backgroundColor) {
     return;
   }
-  backgroundColor = color;
-  _stateToApplyFlags.setBackgroundColor = YES;
-}
 
-- (UIColor *)tintColor
-{
-  return tintColor;
+  CGColorRelease(backgroundColor);
+  backgroundColor = CGColorRetain(color);
+  _flags.setBackgroundColor = YES;
 }
 
 - (void)setTintColor:(UIColor *)newTintColor
 {
-  if ([newTintColor isEqual:tintColor]) {
-    return;
-  }
   tintColor = newTintColor;
-  _stateToApplyFlags.setTintColor = YES;
+  _flags.setTintColor = YES;
 }
 
 - (void)setHidden:(BOOL)flag
 {
-  _flags.hidden = flag;
-  _stateToApplyFlags.setHidden = YES;
-}
-
-- (BOOL)isHidden
-{
-    return _flags.hidden;
+  isHidden = flag;
+  _flags.setHidden = YES;
 }
 
 - (void)setAlpha:(CGFloat)newAlpha
 {
   alpha = newAlpha;
-  _stateToApplyFlags.setAlpha = YES;
+  _flags.setAlpha = YES;
 }
 
 - (void)setCornerRadius:(CGFloat)newCornerRadius
 {
   cornerRadius = newCornerRadius;
-  _stateToApplyFlags.setCornerRadius = YES;
-}
-
-- (void)setMaskedCorners:(CACornerMask)newMaskedCorners
-{
-  maskedCorners = newMaskedCorners;
-  _stateToApplyFlags.setMaskedCorners = YES;
+  _flags.setCornerRadius = YES;
 }
 
 - (void)setContentMode:(UIViewContentMode)newContentMode
 {
   contentMode = newContentMode;
-  _stateToApplyFlags.setContentMode = YES;
+  _flags.setContentMode = YES;
 }
 
 - (void)setAnchorPoint:(CGPoint)newAnchorPoint
 {
   anchorPoint = newAnchorPoint;
-  _stateToApplyFlags.setAnchorPoint = YES;
+  _flags.setAnchorPoint = YES;
 }
 
 - (void)setPosition:(CGPoint)newPosition
@@ -493,25 +438,25 @@ static CGColorRef blackColorRef = NULL;
   if (isnan(newPosition.y))
     newPosition.y = 0.0;
   position = newPosition;
-  _stateToApplyFlags.setPosition = YES;
+  _flags.setPosition = YES;
 }
 
 - (void)setZPosition:(CGFloat)newPosition
 {
   zPosition = newPosition;
-  _stateToApplyFlags.setZPosition = YES;
+  _flags.setZPosition = YES;
 }
 
 - (void)setTransform:(CATransform3D)newTransform
 {
   transform = newTransform;
-  _stateToApplyFlags.setTransform = YES;
+  _flags.setTransform = YES;
 }
 
 - (void)setSublayerTransform:(CATransform3D)newSublayerTransform
 {
   sublayerTransform = newSublayerTransform;
-  _stateToApplyFlags.setSublayerTransform = YES;
+  _flags.setSublayerTransform = YES;
 }
 
 - (void)setContents:(id)newContents
@@ -521,59 +466,49 @@ static CGColorRef blackColorRef = NULL;
   }
 
   contents = newContents;
-  _stateToApplyFlags.setContents = YES;
+  _flags.setContents = YES;
 }
 
 - (void)setContentsGravity:(NSString *)newContentsGravity
 {
   contentsGravity = newContentsGravity;
-  _stateToApplyFlags.setContentsGravity = YES;
+  _flags.setContentsGravity = YES;
 }
 
 - (void)setContentsRect:(CGRect)newContentsRect
 {
   contentsRect = newContentsRect;
-  _stateToApplyFlags.setContentsRect = YES;
+  _flags.setContentsRect = YES;
 }
 
 - (void)setContentsCenter:(CGRect)newContentsCenter
 {
   contentsCenter = newContentsCenter;
-  _stateToApplyFlags.setContentsCenter = YES;
+  _flags.setContentsCenter = YES;
 }
 
 - (void)setContentsScale:(CGFloat)newContentsScale
 {
   contentsScale = newContentsScale;
-  _stateToApplyFlags.setContentsScale = YES;
+  _flags.setContentsScale = YES;
 }
 
 - (void)setRasterizationScale:(CGFloat)newRasterizationScale
 {
   rasterizationScale = newRasterizationScale;
-  _stateToApplyFlags.setRasterizationScale = YES;
+  _flags.setRasterizationScale = YES;
 }
 
 - (void)setUserInteractionEnabled:(BOOL)flag
 {
-  _flags.userInteractionEnabled = flag;
-  _stateToApplyFlags.setUserInteractionEnabled = YES;
-}
-
-- (BOOL)isUserInteractionEnabled
-{
-    return _flags.userInteractionEnabled;
+  userInteractionEnabled = flag;
+  _flags.setUserInteractionEnabled = YES;
 }
 
 - (void)setExclusiveTouch:(BOOL)flag
 {
-  _flags.exclusiveTouch = flag;
-  _stateToApplyFlags.setExclusiveTouch = YES;
-}
-
-- (BOOL)isExclusiveTouch
-{
-    return _flags.exclusiveTouch;
+  exclusiveTouch = flag;
+  _flags.setExclusiveTouch = YES;
 }
 
 - (void)setShadowColor:(CGColorRef)color
@@ -588,31 +523,31 @@ static CGColorRef blackColorRef = NULL;
   shadowColor = color;
   CGColorRetain(shadowColor);
 
-  _stateToApplyFlags.setShadowColor = YES;
+  _flags.setShadowColor = YES;
 }
 
 - (void)setShadowOpacity:(CGFloat)newOpacity
 {
   shadowOpacity = newOpacity;
-  _stateToApplyFlags.setShadowOpacity = YES;
+  _flags.setShadowOpacity = YES;
 }
 
 - (void)setShadowOffset:(CGSize)newOffset
 {
   shadowOffset = newOffset;
-  _stateToApplyFlags.setShadowOffset = YES;
+  _flags.setShadowOffset = YES;
 }
 
 - (void)setShadowRadius:(CGFloat)newRadius
 {
   shadowRadius = newRadius;
-  _stateToApplyFlags.setShadowRadius = YES;
+  _flags.setShadowRadius = YES;
 }
 
 - (void)setBorderWidth:(CGFloat)newWidth
 {
   borderWidth = newWidth;
-  _stateToApplyFlags.setBorderWidth = YES;
+  _flags.setBorderWidth = YES;
 }
 
 - (void)setBorderColor:(CGColorRef)color
@@ -627,158 +562,137 @@ static CGColorRef blackColorRef = NULL;
   borderColor = color;
   CGColorRetain(borderColor);
 
-  _stateToApplyFlags.setBorderColor = YES;
+  _flags.setBorderColor = YES;
 }
 
 - (void)asyncdisplaykit_setAsyncTransactionContainer:(BOOL)flag
 {
-  _flags.asyncTransactionContainer = flag;
-  _stateToApplyFlags.setAsyncTransactionContainer = YES;
-}
-
-- (BOOL)asyncdisplaykit_isAsyncTransactionContainer
-{
-    return _flags.asyncTransactionContainer;
+  asyncTransactionContainer = flag;
+  _flags.setAsyncTransactionContainer = YES;
 }
 
 - (void)setLayoutMargins:(UIEdgeInsets)margins
 {
   layoutMargins = margins;
-  _stateToApplyFlags.setLayoutMargins = YES;
+  _flags.setLayoutMargins = YES;
 }
 
 - (void)setPreservesSuperviewLayoutMargins:(BOOL)flag
 {
-  _flags.preservesSuperviewLayoutMargins = flag;
-  _stateToApplyFlags.setPreservesSuperviewLayoutMargins = YES;
-}
-
-- (BOOL)preservesSuperviewLayoutMargins
-{
-    return _flags.preservesSuperviewLayoutMargins;
+  preservesSuperviewLayoutMargins = flag;
+  _flags.setPreservesSuperviewLayoutMargins = YES;
 }
 
 - (void)setInsetsLayoutMarginsFromSafeArea:(BOOL)flag
 {
-  _flags.insetsLayoutMarginsFromSafeArea = flag;
-  _stateToApplyFlags.setInsetsLayoutMarginsFromSafeArea = YES;
-}
-
-- (BOOL)insetsLayoutMarginsFromSafeArea
-{
-    return _flags.insetsLayoutMarginsFromSafeArea;
+  insetsLayoutMarginsFromSafeArea = flag;
+  _flags.setInsetsLayoutMarginsFromSafeArea = YES;
 }
 
 - (void)setSemanticContentAttribute:(UISemanticContentAttribute)attribute API_AVAILABLE(ios(9.0), tvos(9.0)) {
   semanticContentAttribute = attribute;
-  _stateToApplyFlags.setSemanticContentAttribute = YES;
-}
-
-- (void)setActions:(NSDictionary<NSString *,id<CAAction>> *)actionsArg
-{
-  actions = [actionsArg copy];
-  _stateToApplyFlags.setActions = YES;
+  _flags.setSemanticContentAttribute = YES;
 }
 
 - (BOOL)isAccessibilityElement
 {
-  return _flags.isAccessibilityElement;
+  return isAccessibilityElement;
 }
 
 - (void)setIsAccessibilityElement:(BOOL)newIsAccessibilityElement
 {
-  _flags.isAccessibilityElement = newIsAccessibilityElement;
-  _stateToApplyFlags.setIsAccessibilityElement = YES;
+  isAccessibilityElement = newIsAccessibilityElement;
+  _flags.setIsAccessibilityElement = YES;
 }
 
 - (NSString *)accessibilityLabel
 {
-  if (_stateToApplyFlags.setAccessibilityAttributedLabel) {
-    return accessibilityAttributedLabel.string;
-  }
   return accessibilityLabel;
 }
 
 - (void)setAccessibilityLabel:(NSString *)newAccessibilityLabel
 {
-  ASCompareAssignCopy(accessibilityLabel, newAccessibilityLabel);
-  _stateToApplyFlags.setAccessibilityLabel = YES;
-  _stateToApplyFlags.setAccessibilityAttributedLabel = NO;
+  if (! ASObjectIsEqual(accessibilityLabel, newAccessibilityLabel)) {
+    _flags.setAccessibilityLabel = YES;
+    _flags.setAccessibilityAttributedLabel = YES;
+    accessibilityLabel = newAccessibilityLabel ? [newAccessibilityLabel copy] : nil;
+    accessibilityAttributedLabel = newAccessibilityLabel ? [[NSAttributedString alloc] initWithString:newAccessibilityLabel] : nil;
+  }
 }
 
 - (NSAttributedString *)accessibilityAttributedLabel
 {
-  if (_stateToApplyFlags.setAccessibilityLabel) {
-    return [[NSAttributedString alloc] initWithString:accessibilityLabel];
-  }
   return accessibilityAttributedLabel;
 }
 
 - (void)setAccessibilityAttributedLabel:(NSAttributedString *)newAccessibilityAttributedLabel
 {
-  ASCompareAssignCopy(accessibilityAttributedLabel, newAccessibilityAttributedLabel);
-  _stateToApplyFlags.setAccessibilityAttributedLabel = YES;
-  _stateToApplyFlags.setAccessibilityLabel = NO;
+  if (! ASObjectIsEqual(accessibilityAttributedLabel, newAccessibilityAttributedLabel)) {
+    _flags.setAccessibilityAttributedLabel = YES;
+    _flags.setAccessibilityLabel = YES;
+    accessibilityAttributedLabel = newAccessibilityAttributedLabel ? [newAccessibilityAttributedLabel copy] : nil;
+    accessibilityLabel = newAccessibilityAttributedLabel ? [newAccessibilityAttributedLabel.string copy] : nil;
+  }
 }
 
 - (NSString *)accessibilityHint
 {
-  if (_stateToApplyFlags.setAccessibilityAttributedHint) {
-    return accessibilityAttributedHint.string;
-  }
   return accessibilityHint;
 }
 
 - (void)setAccessibilityHint:(NSString *)newAccessibilityHint
 {
-  ASCompareAssignCopy(accessibilityHint, newAccessibilityHint);
-  _stateToApplyFlags.setAccessibilityHint = YES;
-  _stateToApplyFlags.setAccessibilityAttributedHint = NO;
+  if (! ASObjectIsEqual(accessibilityHint, newAccessibilityHint)) {
+    _flags.setAccessibilityHint = YES;
+    _flags.setAccessibilityAttributedHint = YES;
+    accessibilityHint = newAccessibilityHint ? [newAccessibilityHint copy] : nil;
+    accessibilityAttributedHint = newAccessibilityHint ? [[NSAttributedString alloc] initWithString:newAccessibilityHint] : nil;
+  }
 }
 
 - (NSAttributedString *)accessibilityAttributedHint
 {
-  if (_stateToApplyFlags.setAccessibilityHint) {
-    return [[NSAttributedString alloc] initWithString:accessibilityHint];
-  }
   return accessibilityAttributedHint;
 }
 
 - (void)setAccessibilityAttributedHint:(NSAttributedString *)newAccessibilityAttributedHint
 {
-  ASCompareAssignCopy(accessibilityAttributedHint, newAccessibilityAttributedHint);
-  _stateToApplyFlags.setAccessibilityAttributedHint = YES;
-  _stateToApplyFlags.setAccessibilityHint = NO;
+  if (! ASObjectIsEqual(accessibilityAttributedHint, newAccessibilityAttributedHint)) {
+    _flags.setAccessibilityAttributedHint = YES;
+    _flags.setAccessibilityHint = YES;
+    accessibilityAttributedHint = newAccessibilityAttributedHint ? [newAccessibilityAttributedHint copy] : nil;
+    accessibilityHint = newAccessibilityAttributedHint ? [newAccessibilityAttributedHint.string copy] : nil;
+  }
 }
 
 - (NSString *)accessibilityValue
 {
-  if (_stateToApplyFlags.setAccessibilityAttributedValue) {
-    return accessibilityAttributedValue.string;
-  }
   return accessibilityValue;
 }
 
 - (void)setAccessibilityValue:(NSString *)newAccessibilityValue
 {
-  ASCompareAssignCopy(accessibilityValue, newAccessibilityValue);
-  _stateToApplyFlags.setAccessibilityValue = YES;
-  _stateToApplyFlags.setAccessibilityAttributedValue = NO;
+  if (! ASObjectIsEqual(accessibilityValue, newAccessibilityValue)) {
+    _flags.setAccessibilityValue = YES;
+    _flags.setAccessibilityAttributedValue = YES;
+    accessibilityValue = newAccessibilityValue ? [newAccessibilityValue copy] : nil;
+    accessibilityAttributedValue = newAccessibilityValue ? [[NSAttributedString alloc] initWithString:newAccessibilityValue] : nil;
+  }
 }
 
 - (NSAttributedString *)accessibilityAttributedValue
 {
-  if (_stateToApplyFlags.setAccessibilityValue) {
-    return [[NSAttributedString alloc] initWithString:accessibilityValue];
-  }
   return accessibilityAttributedValue;
 }
 
 - (void)setAccessibilityAttributedValue:(NSAttributedString *)newAccessibilityAttributedValue
 {
-  ASCompareAssignCopy(accessibilityAttributedValue, newAccessibilityAttributedValue);
-  _stateToApplyFlags.setAccessibilityAttributedValue = YES;
-  _stateToApplyFlags.setAccessibilityValue = NO;
+  if (! ASObjectIsEqual(accessibilityAttributedValue, newAccessibilityAttributedValue)) {
+    _flags.setAccessibilityAttributedValue = YES;
+    _flags.setAccessibilityValue = YES;
+    accessibilityAttributedValue = newAccessibilityAttributedValue?  [newAccessibilityAttributedValue copy] : nil;
+    accessibilityValue = newAccessibilityAttributedValue ? [newAccessibilityAttributedValue.string copy] : nil;
+  }
 }
 
 - (UIAccessibilityTraits)accessibilityTraits
@@ -789,7 +703,7 @@ static CGColorRef blackColorRef = NULL;
 - (void)setAccessibilityTraits:(UIAccessibilityTraits)newAccessibilityTraits
 {
   accessibilityTraits = newAccessibilityTraits;
-  _stateToApplyFlags.setAccessibilityTraits = YES;
+  _flags.setAccessibilityTraits = YES;
 }
 
 - (CGRect)accessibilityFrame
@@ -800,7 +714,7 @@ static CGColorRef blackColorRef = NULL;
 - (void)setAccessibilityFrame:(CGRect)newAccessibilityFrame
 {
   accessibilityFrame = newAccessibilityFrame;
-  _stateToApplyFlags.setAccessibilityFrame = YES;
+  _flags.setAccessibilityFrame = YES;
 }
 
 - (NSString *)accessibilityLanguage
@@ -810,41 +724,41 @@ static CGColorRef blackColorRef = NULL;
 
 - (void)setAccessibilityLanguage:(NSString *)newAccessibilityLanguage
 {
-  _stateToApplyFlags.setAccessibilityLanguage = YES;
+  _flags.setAccessibilityLanguage = YES;
   accessibilityLanguage = newAccessibilityLanguage;
 }
 
 - (BOOL)accessibilityElementsHidden
 {
-  return _flags.accessibilityElementsHidden;
+  return accessibilityElementsHidden;
 }
 
 - (void)setAccessibilityElementsHidden:(BOOL)newAccessibilityElementsHidden
 {
-  _flags.accessibilityElementsHidden = newAccessibilityElementsHidden;
-  _stateToApplyFlags.setAccessibilityElementsHidden = YES;
+  accessibilityElementsHidden = newAccessibilityElementsHidden;
+  _flags.setAccessibilityElementsHidden = YES;
 }
 
 - (BOOL)accessibilityViewIsModal
 {
-  return _flags.accessibilityViewIsModal;
+  return accessibilityViewIsModal;
 }
 
 - (void)setAccessibilityViewIsModal:(BOOL)newAccessibilityViewIsModal
 {
-  _flags.accessibilityViewIsModal = newAccessibilityViewIsModal;
-  _stateToApplyFlags.setAccessibilityViewIsModal = YES;
+  accessibilityViewIsModal = newAccessibilityViewIsModal;
+  _flags.setAccessibilityViewIsModal = YES;
 }
 
 - (BOOL)shouldGroupAccessibilityChildren
 {
-  return _flags.shouldGroupAccessibilityChildren;
+  return shouldGroupAccessibilityChildren;
 }
 
 - (void)setShouldGroupAccessibilityChildren:(BOOL)newShouldGroupAccessibilityChildren
 {
-  _flags.shouldGroupAccessibilityChildren = newShouldGroupAccessibilityChildren;
-  _stateToApplyFlags.setShouldGroupAccessibilityChildren = YES;
+  shouldGroupAccessibilityChildren = newShouldGroupAccessibilityChildren;
+  _flags.setShouldGroupAccessibilityChildren = YES;
 }
 
 - (NSString *)accessibilityIdentifier
@@ -854,7 +768,7 @@ static CGColorRef blackColorRef = NULL;
 
 - (void)setAccessibilityIdentifier:(NSString *)newAccessibilityIdentifier
 {
-  _stateToApplyFlags.setAccessibilityIdentifier = YES;
+  _flags.setAccessibilityIdentifier = YES;
   if (accessibilityIdentifier != newAccessibilityIdentifier) {
     accessibilityIdentifier = [newAccessibilityIdentifier copy];
   }
@@ -867,25 +781,10 @@ static CGColorRef blackColorRef = NULL;
 
 - (void)setAccessibilityNavigationStyle:(UIAccessibilityNavigationStyle)newAccessibilityNavigationStyle
 {
-  _stateToApplyFlags.setAccessibilityNavigationStyle = YES;
+  _flags.setAccessibilityNavigationStyle = YES;
   accessibilityNavigationStyle = newAccessibilityNavigationStyle;
 }
 
-- (NSArray *)accessibilityCustomActions
-{
-  return accessibilityCustomActions;
-}
-
-- (void)setAccessibilityCustomActions:(NSArray *)newAccessibilityCustomActions
-{
-  _stateToApplyFlags.setAccessibilityCustomActions = YES;
-  if (accessibilityCustomActions != newAccessibilityCustomActions) {
-    accessibilityCustomActions = [newAccessibilityCustomActions copy];
-  }
-}
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (NSArray *)accessibilityHeaderElements
 {
   return accessibilityHeaderElements;
@@ -893,16 +792,15 @@ static CGColorRef blackColorRef = NULL;
 
 - (void)setAccessibilityHeaderElements:(NSArray *)newAccessibilityHeaderElements
 {
-  _stateToApplyFlags.setAccessibilityHeaderElements = YES;
+  _flags.setAccessibilityHeaderElements = YES;
   if (accessibilityHeaderElements != newAccessibilityHeaderElements) {
     accessibilityHeaderElements = [newAccessibilityHeaderElements copy];
   }
 }
-#pragma clang diagnostic pop
 
 - (CGPoint)accessibilityActivationPoint
 {
-  if (_stateToApplyFlags.setAccessibilityActivationPoint) {
+  if (_flags.setAccessibilityActivationPoint) {
     return accessibilityActivationPoint;
   }
   
@@ -912,7 +810,7 @@ static CGColorRef blackColorRef = NULL;
 
 - (void)setAccessibilityActivationPoint:(CGPoint)newAccessibilityActivationPoint
 {
-  _stateToApplyFlags.setAccessibilityActivationPoint = YES;
+  _flags.setAccessibilityActivationPoint = YES;
   accessibilityActivationPoint = newAccessibilityActivationPoint;
 }
 
@@ -923,7 +821,7 @@ static CGColorRef blackColorRef = NULL;
 
 - (void)setAccessibilityPath:(UIBezierPath *)newAccessibilityPath
 {
-  _stateToApplyFlags.setAccessibilityPath = YES;
+  _flags.setAccessibilityPath = YES;
   if (accessibilityPath != newAccessibilityPath) {
     accessibilityPath = newAccessibilityPath;
   }
@@ -931,9 +829,9 @@ static CGColorRef blackColorRef = NULL;
 
 - (void)applyToLayer:(CALayer *)layer
 {
-  ASPendingStateFlags flags = _stateToApplyFlags;
+  ASPendingStateFlags flags = _flags;
 
-  if (__shouldSetNeedsDisplayForLayer(layer)) {
+  if (__shouldSetNeedsDisplay(layer)) {
     [layer setNeedsDisplay];
   }
 
@@ -968,28 +866,22 @@ static CGColorRef blackColorRef = NULL;
     layer.rasterizationScale = rasterizationScale;
 
   if (flags.setClipsToBounds)
-    layer.masksToBounds = _flags.clipsToBounds;
+    layer.masksToBounds = clipsToBounds;
 
   if (flags.setBackgroundColor)
-    layer.backgroundColor = backgroundColor.CGColor;
+    layer.backgroundColor = backgroundColor;
 
   if (flags.setOpaque)
-    layer.opaque = _flags.opaque;
+    layer.opaque = opaque;
 
   if (flags.setHidden)
-    layer.hidden = _flags.hidden;
+    layer.hidden = isHidden;
 
   if (flags.setAlpha)
     layer.opacity = alpha;
 
   if (flags.setCornerRadius)
     layer.cornerRadius = cornerRadius;
-
-  if (AS_AVAILABLE_IOS_TVOS(11, 11)) {
-    if (flags.setMaskedCorners) {
-      layer.maskedCorners = maskedCorners;
-    }
-  }
 
   if (flags.setContentMode)
     layer.contentsGravity = ASDisplayNodeCAContentsGravityFromUIContentMode(contentMode);
@@ -1013,25 +905,22 @@ static CGColorRef blackColorRef = NULL;
     layer.borderColor = borderColor;
 
   if (flags.setNeedsDisplayOnBoundsChange)
-    layer.needsDisplayOnBoundsChange = _flags.needsDisplayOnBoundsChange;
+    layer.needsDisplayOnBoundsChange = needsDisplayOnBoundsChange;
   
   if (flags.setAllowsGroupOpacity)
-    layer.allowsGroupOpacity = _flags.allowsGroupOpacity;
+    layer.allowsGroupOpacity = allowsGroupOpacity;
 
   if (flags.setAllowsEdgeAntialiasing)
-    layer.allowsEdgeAntialiasing = _flags.allowsEdgeAntialiasing;
+    layer.allowsEdgeAntialiasing = allowsEdgeAntialiasing;
 
   if (flags.setEdgeAntialiasingMask)
     layer.edgeAntialiasingMask = edgeAntialiasingMask;
 
   if (flags.setAsyncTransactionContainer)
-    layer.asyncdisplaykit_asyncTransactionContainer = _flags.asyncTransactionContainer;
+    layer.asyncdisplaykit_asyncTransactionContainer = asyncTransactionContainer;
 
   if (flags.setOpaque)
-    ASDisplayNodeAssert(layer.opaque == _flags.opaque, @"Didn't set opaque as desired");
-
-  if (flags.setActions)
-    layer.actions = actions;
+    ASDisplayNodeAssert(layer.opaque == opaque, @"Didn't set opaque as desired");
 
   ASPendingStateApplyMetricsToLayer(self, layer);
   
@@ -1052,10 +941,10 @@ static CGColorRef blackColorRef = NULL;
    because a different setter would be called.
    */
 
-  unowned CALayer *layer = view.layer;
+  CALayer *layer = view.layer;
 
-  ASPendingStateFlags flags = _stateToApplyFlags;
-  if (__shouldSetNeedsDisplayForView(view)) {
+  ASPendingStateFlags flags = _flags;
+  if (__shouldSetNeedsDisplay(layer)) {
     [view setNeedsDisplay];
   }
 
@@ -1095,27 +984,27 @@ static CGColorRef blackColorRef = NULL;
   if (flags.setRasterizationScale)
     layer.rasterizationScale = rasterizationScale;
 
-  if (flags.setActions)
-    layer.actions = actions;
-
   if (flags.setClipsToBounds)
-    view.clipsToBounds = _flags.clipsToBounds;
+    view.clipsToBounds = clipsToBounds;
 
   if (flags.setBackgroundColor) {
-    view.backgroundColor = backgroundColor;
-    layer.backgroundColor = backgroundColor.CGColor;
+    // We have to make sure certain nodes get the background color call directly set
+    if (specialPropertiesHandling) {
+      view.backgroundColor = [UIColor colorWithCGColor:backgroundColor];
+    } else {
+      // Set the background color to the layer as in the UIView bridge we use this value as background color
+      layer.backgroundColor = backgroundColor;
+    }
   }
 
   if (flags.setTintColor)
-    view.tintColor = tintColor;
+    view.tintColor = self.tintColor;
 
-  if (flags.setOpaque) {
-    view.opaque = _flags.opaque;
-    layer.opaque = _flags.opaque;
-  }
+  if (flags.setOpaque)
+    layer.opaque = opaque;
 
   if (flags.setHidden)
-    view.hidden = _flags.hidden;
+    view.hidden = isHidden;
 
   if (flags.setAlpha)
     view.alpha = alpha;
@@ -1127,11 +1016,11 @@ static CGColorRef blackColorRef = NULL;
     view.contentMode = contentMode;
 
   if (flags.setUserInteractionEnabled)
-    view.userInteractionEnabled = _flags.userInteractionEnabled;
+    view.userInteractionEnabled = userInteractionEnabled;
 
   #if TARGET_OS_IOS
   if (flags.setExclusiveTouch)
-    view.exclusiveTouch = _flags.exclusiveTouch;
+    view.exclusiveTouch = exclusiveTouch;
   #endif
     
   if (flags.setShadowColor)
@@ -1156,35 +1045,35 @@ static CGColorRef blackColorRef = NULL;
     view.autoresizingMask = autoresizingMask;
 
   if (flags.setAutoresizesSubviews)
-    view.autoresizesSubviews = _flags.autoresizesSubviews;
+    view.autoresizesSubviews = autoresizesSubviews;
 
   if (flags.setNeedsDisplayOnBoundsChange)
-    layer.needsDisplayOnBoundsChange = _flags.needsDisplayOnBoundsChange;
+    layer.needsDisplayOnBoundsChange = needsDisplayOnBoundsChange;
   
   if (flags.setAllowsGroupOpacity)
-    layer.allowsGroupOpacity = _flags.allowsGroupOpacity;
+    layer.allowsGroupOpacity = allowsGroupOpacity;
 
   if (flags.setAllowsEdgeAntialiasing)
-    layer.allowsEdgeAntialiasing = _flags.allowsEdgeAntialiasing;
+    layer.allowsEdgeAntialiasing = allowsEdgeAntialiasing;
 
   if (flags.setEdgeAntialiasingMask)
     layer.edgeAntialiasingMask = edgeAntialiasingMask;
 
   if (flags.setAsyncTransactionContainer)
-    view.asyncdisplaykit_asyncTransactionContainer = _flags.asyncTransactionContainer;
+    view.asyncdisplaykit_asyncTransactionContainer = asyncTransactionContainer;
 
   if (flags.setOpaque)
-    ASDisplayNodeAssert(layer.opaque == _flags.opaque, @"Didn't set opaque as desired");
+    ASDisplayNodeAssert(layer.opaque == opaque, @"Didn't set opaque as desired");
 
   if (flags.setLayoutMargins)
     view.layoutMargins = layoutMargins;
 
   if (flags.setPreservesSuperviewLayoutMargins)
-    view.preservesSuperviewLayoutMargins = _flags.preservesSuperviewLayoutMargins;
+    view.preservesSuperviewLayoutMargins = preservesSuperviewLayoutMargins;
 
-  if (AS_AVAILABLE_IOS_TVOS(11.0, 11.0)) {
+  if (AS_AVAILABLE_IOS(11.0)) {
     if (flags.setInsetsLayoutMarginsFromSafeArea) {
-      view.insetsLayoutMarginsFromSafeArea = _flags.insetsLayoutMarginsFromSafeArea;
+      view.insetsLayoutMarginsFromSafeArea = insetsLayoutMarginsFromSafeArea;
     }
   }
 
@@ -1193,28 +1082,25 @@ static CGColorRef blackColorRef = NULL;
   }
 
   if (flags.setIsAccessibilityElement)
-    view.isAccessibilityElement = _flags.isAccessibilityElement;
+    view.isAccessibilityElement = isAccessibilityElement;
 
   if (flags.setAccessibilityLabel)
     view.accessibilityLabel = accessibilityLabel;
 
+  if (AS_AT_LEAST_IOS11 && flags.setAccessibilityAttributedLabel)
+    [view setValue:accessibilityAttributedLabel forKey:@"accessibilityAttributedLabel"];
+
   if (flags.setAccessibilityHint)
     view.accessibilityHint = accessibilityHint;
+
+  if (AS_AT_LEAST_IOS11 && flags.setAccessibilityAttributedHint)
+    [view setValue:accessibilityAttributedHint forKey:@"accessibilityAttributedHint"];
 
   if (flags.setAccessibilityValue)
     view.accessibilityValue = accessibilityValue;
 
-  if (AS_AVAILABLE_IOS_TVOS(11, 11)) {
-    if (flags.setAccessibilityAttributedLabel) {
-      view.accessibilityAttributedLabel = accessibilityAttributedLabel;
-    }
-    if (flags.setAccessibilityAttributedHint) {
-      view.accessibilityAttributedHint = accessibilityAttributedHint;
-    }
-    if (flags.setAccessibilityAttributedValue) {
-      view.accessibilityAttributedValue = accessibilityAttributedValue;
-    }
-  }
+  if (AS_AT_LEAST_IOS11 && flags.setAccessibilityAttributedValue)
+    [view setValue:accessibilityAttributedValue forKey:@"accessibilityAttributedValue"];
 
   if (flags.setAccessibilityTraits)
     view.accessibilityTraits = accessibilityTraits;
@@ -1226,24 +1112,20 @@ static CGColorRef blackColorRef = NULL;
     view.accessibilityLanguage = accessibilityLanguage;
 
   if (flags.setAccessibilityElementsHidden)
-    view.accessibilityElementsHidden = _flags.accessibilityElementsHidden;
+    view.accessibilityElementsHidden = accessibilityElementsHidden;
 
   if (flags.setAccessibilityViewIsModal)
-    view.accessibilityViewIsModal = _flags.accessibilityViewIsModal;
+    view.accessibilityViewIsModal = accessibilityViewIsModal;
 
   if (flags.setShouldGroupAccessibilityChildren)
-    view.shouldGroupAccessibilityChildren = _flags.shouldGroupAccessibilityChildren;
+    view.shouldGroupAccessibilityChildren = shouldGroupAccessibilityChildren;
 
   if (flags.setAccessibilityIdentifier)
     view.accessibilityIdentifier = accessibilityIdentifier;
   
   if (flags.setAccessibilityNavigationStyle)
     view.accessibilityNavigationStyle = accessibilityNavigationStyle;
-
-  if (flags.setAccessibilityCustomActions) {
-    view.accessibilityCustomActions = accessibilityCustomActions;
-  }
-
+  
 #if TARGET_OS_TV
   if (flags.setAccessibilityHeaderElements)
     view.accessibilityHeaderElements = accessibilityHeaderElements;
@@ -1293,7 +1175,7 @@ static CGColorRef blackColorRef = NULL;
   pendingState.contentsScale = layer.contentsScale;
   pendingState.rasterizationScale = layer.rasterizationScale;
   pendingState.clipsToBounds = layer.masksToBounds;
-  pendingState.backgroundColor = [UIColor colorWithCGColor:layer.backgroundColor];
+  pendingState.backgroundColor = layer.backgroundColor;
   pendingState.opaque = layer.opaque;
   pendingState.hidden = layer.hidden;
   pendingState.alpha = layer.opacity;
@@ -1334,7 +1216,7 @@ static CGColorRef blackColorRef = NULL;
   pendingState.contentsScale = layer.contentsScale;
   pendingState.rasterizationScale = layer.rasterizationScale;
   pendingState.clipsToBounds = view.clipsToBounds;
-  pendingState.backgroundColor = view.backgroundColor;
+  pendingState.backgroundColor = layer.backgroundColor;
   pendingState.tintColor = view.tintColor;
   pendingState.opaque = layer.opaque;
   pendingState.hidden = view.hidden;
@@ -1360,18 +1242,20 @@ static CGColorRef blackColorRef = NULL;
   pendingState.semanticContentAttribute = view.semanticContentAttribute;
   pendingState.layoutMargins = view.layoutMargins;
   pendingState.preservesSuperviewLayoutMargins = view.preservesSuperviewLayoutMargins;
-  if (AS_AVAILABLE_IOS_TVOS(11, 11)) {
+  if (AS_AVAILABLE_IOS(11)) {
     pendingState.insetsLayoutMarginsFromSafeArea = view.insetsLayoutMarginsFromSafeArea;
   }
   pendingState.isAccessibilityElement = view.isAccessibilityElement;
   pendingState.accessibilityLabel = view.accessibilityLabel;
   pendingState.accessibilityHint = view.accessibilityHint;
   pendingState.accessibilityValue = view.accessibilityValue;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
   if (AS_AVAILABLE_IOS_TVOS(11, 11)) {
     pendingState.accessibilityAttributedLabel = view.accessibilityAttributedLabel;
     pendingState.accessibilityAttributedHint = view.accessibilityAttributedHint;
     pendingState.accessibilityAttributedValue = view.accessibilityAttributedValue;
   }
+#endif
   pendingState.accessibilityTraits = view.accessibilityTraits;
   pendingState.accessibilityFrame = view.accessibilityFrame;
   pendingState.accessibilityLanguage = view.accessibilityLanguage;
@@ -1380,7 +1264,6 @@ static CGColorRef blackColorRef = NULL;
   pendingState.shouldGroupAccessibilityChildren = view.shouldGroupAccessibilityChildren;
   pendingState.accessibilityIdentifier = view.accessibilityIdentifier;
   pendingState.accessibilityNavigationStyle = view.accessibilityNavigationStyle;
-  pendingState.accessibilityCustomActions = view.accessibilityCustomActions;
 #if TARGET_OS_TV
   pendingState.accessibilityHeaderElements = view.accessibilityHeaderElements;
 #endif
@@ -1391,26 +1274,90 @@ static CGColorRef blackColorRef = NULL;
 
 - (void)clearChanges
 {
-  _stateToApplyFlags = kZeroFlags;
+  _flags = (ASPendingStateFlags){ 0 };
 }
 
 - (BOOL)hasSetNeedsLayout
 {
-  return _stateToApplyFlags.needsLayout;
+  return _flags.needsLayout;
 }
 
 - (BOOL)hasSetNeedsDisplay
 {
-  return _stateToApplyFlags.needsDisplay;
+  return _flags.needsDisplay;
 }
 
 - (BOOL)hasChanges
 {
-  return memcmp(&_stateToApplyFlags, &kZeroFlags, sizeof(ASPendingStateFlags));
+  ASPendingStateFlags flags = _flags;
+
+  return (flags.setAnchorPoint
+  || flags.setPosition
+  || flags.setZPosition
+  || flags.setFrame
+  || flags.setBounds
+  || flags.setPosition
+  || flags.setTransform
+  || flags.setSublayerTransform
+  || flags.setContents
+  || flags.setContentsGravity
+  || flags.setContentsRect
+  || flags.setContentsCenter
+  || flags.setContentsScale
+  || flags.setRasterizationScale
+  || flags.setClipsToBounds
+  || flags.setBackgroundColor
+  || flags.setTintColor
+  || flags.setHidden
+  || flags.setAlpha
+  || flags.setCornerRadius
+  || flags.setContentMode
+  || flags.setUserInteractionEnabled
+  || flags.setExclusiveTouch
+  || flags.setShadowOpacity
+  || flags.setShadowOffset
+  || flags.setShadowRadius
+  || flags.setShadowColor
+  || flags.setBorderWidth
+  || flags.setBorderColor
+  || flags.setAutoresizingMask
+  || flags.setAutoresizesSubviews
+  || flags.setNeedsDisplayOnBoundsChange
+  || flags.setAllowsGroupOpacity
+  || flags.setAllowsEdgeAntialiasing
+  || flags.setEdgeAntialiasingMask
+  || flags.needsDisplay
+  || flags.needsLayout
+  || flags.setAsyncTransactionContainer
+  || flags.setOpaque
+  || flags.setSemanticContentAttribute
+  || flags.setLayoutMargins
+  || flags.setPreservesSuperviewLayoutMargins
+  || flags.setInsetsLayoutMarginsFromSafeArea
+  || flags.setIsAccessibilityElement
+  || flags.setAccessibilityLabel
+  || flags.setAccessibilityAttributedLabel
+  || flags.setAccessibilityHint
+  || flags.setAccessibilityAttributedHint
+  || flags.setAccessibilityValue
+  || flags.setAccessibilityAttributedValue
+  || flags.setAccessibilityTraits
+  || flags.setAccessibilityFrame
+  || flags.setAccessibilityLanguage
+  || flags.setAccessibilityElementsHidden
+  || flags.setAccessibilityViewIsModal
+  || flags.setShouldGroupAccessibilityChildren
+  || flags.setAccessibilityIdentifier
+  || flags.setAccessibilityNavigationStyle
+  || flags.setAccessibilityHeaderElements
+  || flags.setAccessibilityActivationPoint
+  || flags.setAccessibilityPath);
 }
 
 - (void)dealloc
 {
+  CGColorRelease(backgroundColor);
+  
   if (shadowColor != blackColorRef) {
     CGColorRelease(shadowColor);
   }

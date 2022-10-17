@@ -2,32 +2,34 @@
 //  _ASHierarchyChangeSet.mm
 //  Texture
 //
-//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
-//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
-//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <AsyncDisplayKit/_ASHierarchyChangeSet.h>
 #import <AsyncDisplayKit/ASInternalHelpers.h>
-#import <AsyncDisplayKit/ASCollections.h>
 #import <AsyncDisplayKit/NSIndexSet+ASHelpers.h>
+#import <AsyncDisplayKit/ASAssert.h>
 #import <AsyncDisplayKit/ASDisplayNode+Beta.h>
+#import <AsyncDisplayKit/ASObjectDescriptionHelpers.h>
 #import <unordered_map>
 #import <AsyncDisplayKit/ASDataController.h>
+#import <AsyncDisplayKit/ASBaseDefines.h>
 
-// If assertions are enabled and they haven't forced us to suppress the exception,
-// then throw, otherwise log.
+// If assertions are enabled, throw. Otherwise log.
 #if ASDISPLAYNODE_ASSERTIONS_ENABLED
   #define ASFailUpdateValidation(...)\
-    _Pragma("clang diagnostic push")\
-    _Pragma("clang diagnostic ignored \"-Wdeprecated-declarations\"")\
-    if ([ASDisplayNode suppressesInvalidCollectionUpdateExceptions]) {\
-      NSLog(__VA_ARGS__);\
-    } else {\
-      NSLog(__VA_ARGS__);\
-      [NSException raise:ASCollectionInvalidUpdateException format:__VA_ARGS__];\
-    }\
-  _Pragma("clang diagnostic pop")
+    NSLog(__VA_ARGS__);\
+    [NSException raise:ASCollectionInvalidUpdateException format:__VA_ARGS__];
 #else
   #define ASFailUpdateValidation(...) NSLog(__VA_ARGS__);
 #endif
@@ -116,7 +118,6 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
 @end
 
 @implementation _ASHierarchyChangeSet {
-  NSUInteger _countForAsyncLayout;
   std::vector<NSInteger> _oldItemCounts;
   std::vector<NSInteger> _newItemCounts;
   void (^_completionHandler)(BOOL finished);
@@ -125,7 +126,6 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
 @synthesize reverseSectionMapping = _reverseSectionMapping;
 @synthesize itemMappings = _itemMappings;
 @synthesize reverseItemMappings = _reverseItemMappings;
-@synthesize countForAsyncLayout = _countForAsyncLayout;
 
 - (instancetype)init
 {
@@ -238,7 +238,7 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
 - (NSIndexSet *)indexesForItemChangesOfType:(_ASHierarchyChangeType)changeType inSection:(NSUInteger)section
 {
   [self _ensureCompleted];
-  const auto result = [[NSMutableIndexSet alloc] init];
+  NSMutableIndexSet *result = [NSMutableIndexSet indexSet];
   for (_ASHierarchyItemChange *change in [self itemChangesOfType:changeType]) {
     [result addIndexes:[NSIndexSet as_indexSetFromIndexPaths:change.indexPaths inSection:section]];
   }
@@ -279,11 +279,11 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
   [self _ensureCompleted];
 
   if (_itemMappings == nil) {
-    _itemMappings = [[NSMutableArray alloc] init];
-    const auto insertMap = [_ASHierarchyItemChange sectionToIndexSetMapFromChanges:_originalInsertItemChanges];
-    const auto deleteMap = [_ASHierarchyItemChange sectionToIndexSetMapFromChanges:_originalDeleteItemChanges];
+    _itemMappings = [NSMutableArray array];
+    auto insertMap = [_ASHierarchyItemChange sectionToIndexSetMapFromChanges:_originalInsertItemChanges];
+    auto deleteMap = [_ASHierarchyItemChange sectionToIndexSetMapFromChanges:_originalDeleteItemChanges];
     NSInteger oldSection = 0;
-    for (NSInteger oldCount : _oldItemCounts) {
+    for (auto oldCount : _oldItemCounts) {
       NSInteger newSection = [self newSectionForOldSection:oldSection];
       ASIntegerMap *table;
       if (newSection == NSNotFound) {
@@ -303,7 +303,7 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
   [self _ensureCompleted];
 
   if (_reverseItemMappings == nil) {
-    _reverseItemMappings = [[NSMutableArray alloc] init];
+    _reverseItemMappings = [NSMutableArray array];
     for (NSInteger newSection = 0; newSection < _newItemCounts.size(); newSection++) {
       NSInteger oldSection = [self oldSectionForNewSection:newSection];
       ASIntegerMap *table;
@@ -498,7 +498,7 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
     for (_ASHierarchyItemChange *change in _reloadItemChanges) {
       NSAssert(change.changeType == _ASHierarchyChangeTypeReload, @"It must be a reload change to be in here");
 
-      const auto newIndexPaths = ASArrayByFlatMapping(change.indexPaths, NSIndexPath *indexPath, [self newIndexPathForOldIndexPath:indexPath]);
+      auto newIndexPaths = ASArrayByFlatMapping(change.indexPaths, NSIndexPath *indexPath, [self newIndexPathForOldIndexPath:indexPath]);
       
       // All reload changes are translated into deletes and inserts
       // We delete the items that needs reload together with other deleted items, at their original index
@@ -537,9 +537,10 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
   // Assert that the new section count is correct.
   if (newSectionCount != oldSectionCount + insertedSectionCount - deletedSectionCount) {
     if (_callbackOnAssert != nil) {
-      _callbackOnAssert();
+        _callbackOnAssert();
     }
-    ASFailUpdateValidation(@"Invalid number of sections. The number of sections after the update (%ld) must be equal to the number of sections before the update (%ld) plus or minus the number of sections inserted or deleted (%ld inserted, %ld deleted)", (long)newSectionCount, (long)oldSectionCount, (long)insertedSectionCount, (long)deletedSectionCount);
+
+    ASFailUpdateValidation(@"Invalid number of sections. The number of sections after the update (%zd) must be equal to the number of sections before the update (%zd) plus or minus the number of sections inserted or deleted (%tu inserted, %tu deleted)", newSectionCount, oldSectionCount, insertedSectionCount, deletedSectionCount);
     return;
   }
   
@@ -552,9 +553,10 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
   }
   if (invalidSectionDelete != NSNotFound) {
     if (_callbackOnAssert != nil) {
-      _callbackOnAssert();
+        _callbackOnAssert();
     }
-    ASFailUpdateValidation(@"Attempt to delete section %ld but there are only %ld sections before the update.", (long)invalidSectionDelete, (long)oldSectionCount);
+
+    ASFailUpdateValidation(@"Attempt to delete section %zd but there are only %zd sections before the update.", invalidSectionDelete, oldSectionCount);
     return;
   }
   
@@ -565,9 +567,10 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
       NSInteger item = indexPath.item;
       if (section >= oldSectionCount) {
         if (_callbackOnAssert != nil) {
-          _callbackOnAssert();
+            _callbackOnAssert();
         }
-        ASFailUpdateValidation(@"Attempt to delete item %ld from section %ld, but there are only %ld sections before the update.", (long)item, (long)section, (long)oldSectionCount);
+
+        ASFailUpdateValidation(@"Attempt to delete item %zd from section %zd, but there are only %zd sections before the update.", item, section, oldSectionCount);
         return;
       }
       
@@ -575,9 +578,10 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
       NSInteger oldItemCount = _oldItemCounts[section];
       if (item >= oldItemCount) {
         if (_callbackOnAssert != nil) {
-          _callbackOnAssert();
+            _callbackOnAssert();
         }
-        ASFailUpdateValidation(@"Attempt to delete item %ld from section %ld, which only contains %ld items before the update.", (long)item, (long)section, (long)oldItemCount);
+
+        ASFailUpdateValidation(@"Attempt to delete item %zd from section %zd, which only contains %zd items before the update.", item, section, oldItemCount);
         return;
       }
     }
@@ -590,9 +594,10 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
       // Assert that item insert happened in a valid section.
       if (section >= newSectionCount) {
         if (_callbackOnAssert != nil) {
-          _callbackOnAssert();
+            _callbackOnAssert();
         }
-        ASFailUpdateValidation(@"Attempt to insert item %ld into section %ld, but there are only %ld sections after the update.", (long)item, (long)section, (long)newSectionCount);
+
+        ASFailUpdateValidation(@"Attempt to insert item %zd into section %zd, but there are only %zd sections after the update.", item, section, newSectionCount);
         return;
       }
       
@@ -600,9 +605,10 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
       NSInteger newItemCount = _newItemCounts[section];
       if (item >= newItemCount) {
         if (_callbackOnAssert != nil) {
-          _callbackOnAssert();
+            _callbackOnAssert();
         }
-        ASFailUpdateValidation(@"Attempt to insert item %ld into section %ld, which only contains %ld items after the update.", (long)item, (long)section, (long)newItemCount);
+
+        ASFailUpdateValidation(@"Attempt to insert item %zd into section %zd, which only contains %zd items after the update.", item, section, newItemCount);
         return;
       }
     }
@@ -617,9 +623,10 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
   }
   if (invalidSectionInsert != NSNotFound) {
     if (_callbackOnAssert != nil) {
-      _callbackOnAssert();
+        _callbackOnAssert();
     }
-    ASFailUpdateValidation(@"Attempt to insert section %ld but there are only %ld sections after the update.", (long)invalidSectionInsert, (long)newSectionCount);
+
+    ASFailUpdateValidation(@"Attempt to insert section %zd but there are only %zd sections after the update.", invalidSectionInsert, newSectionCount);
     return;
   }
   
@@ -644,8 +651,9 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
     NSInteger deletedReloadedItem = [originalDeletedItems as_intersectionWithIndexes:reloadedItems].firstIndex;
     if (deletedReloadedItem != NSNotFound) {
       if (_callbackOnAssert != nil) {
-        _callbackOnAssert();
+          _callbackOnAssert();
       }
+
       ASFailUpdateValidation(@"Attempt to delete and reload the same item at index path %@", [NSIndexPath indexPathForItem:deletedReloadedItem inSection:oldSection]);
       return;
     }
@@ -656,9 +664,10 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
     NSInteger deletedItemCount = originalDeletedItems.count;
     if (newItemCount != oldItemCount + insertedItemCount - deletedItemCount) {
       if (_callbackOnAssert != nil) {
-        _callbackOnAssert();
+          _callbackOnAssert();
       }
-      ASFailUpdateValidation(@"Invalid number of items in section %ld. The number of items after the update (%ld) must be equal to the number of items before the update (%ld) plus or minus the number of items inserted or deleted (%ld inserted, %ld deleted).", (long)oldSection, (long)newItemCount, (long)oldItemCount, (long)insertedItemCount, (long)deletedItemCount);
+
+      ASFailUpdateValidation(@"Invalid number of items in section %zd. The number of items after the update (%zd) must be equal to the number of items before the update (%zd) plus or minus the number of items inserted or deleted (%zd inserted, %zd deleted).", oldSection, newItemCount, oldItemCount, insertedItemCount, deletedItemCount);
       return;
     }
   }
@@ -779,7 +788,7 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
   NSMutableArray *result = [[NSMutableArray alloc] init];
   
   __block ASDataControllerAnimationOptions currentOptions = 0;
-  const auto currentIndexes = [[NSMutableIndexSet alloc] init];
+  NSMutableIndexSet *currentIndexes = [NSMutableIndexSet indexSet];
 
   BOOL reverse = type == _ASHierarchyChangeTypeDelete || type == _ASHierarchyChangeTypeOriginalDelete;
   NSEnumerationOptions options = reverse ? NSEnumerationReverse : kNilOptions;
@@ -818,7 +827,7 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
 
 + (NSMutableIndexSet *)allIndexesInSectionChanges:(NSArray<_ASHierarchySectionChange *> *)changes
 {
-  const auto indexes = [[NSMutableIndexSet alloc] init];
+  NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
   for (_ASHierarchySectionChange *change in changes) {
     [indexes addIndexes:change.indexSet];
   }
@@ -893,7 +902,7 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
 //  will become: {@0 : [0, 1], @2 : [5]}
 + (NSDictionary *)sectionToIndexSetMapFromChanges:(NSArray<_ASHierarchyItemChange *> *)changes
 {
-  NSMutableDictionary *sectionToIndexSetMap = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary *sectionToIndexSetMap = [NSMutableDictionary dictionary];
   for (_ASHierarchyItemChange *change in changes) {
     for (NSIndexPath *indexPath in change.indexPaths) {
       NSNumber *sectionKey = @(indexPath.section);
@@ -945,10 +954,10 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
   ASDisplayNodeAssert(ASHierarchyChangeTypeIsFinal(type), @"Attempt to sort and coalesce item changes of intermediary type %@. Why?", NSStringFromASHierarchyChangeType(type));
     
   // Lookup table [NSIndexPath: AnimationOptions]
-  const auto animationOptions = [[NSMutableDictionary<NSIndexPath *, NSNumber *> alloc] init];
+  NSMutableDictionary *animationOptions = [NSMutableDictionary new];
   
   // All changed index paths, sorted
-  const auto allIndexPaths = [[NSMutableArray<NSIndexPath *> alloc] init];
+  NSMutableArray *allIndexPaths = [[NSMutableArray alloc] init];
   
   for (_ASHierarchyItemChange *change in changes) {
     for (NSIndexPath *indexPath in change.indexPaths) {
@@ -963,10 +972,10 @@ NSString *NSStringFromASHierarchyChangeType(_ASHierarchyChangeType changeType)
   [allIndexPaths sortUsingSelector:sorting];
 
   // Create new changes by grouping sorted changes by animation option
-  const auto result = [[NSMutableArray<_ASHierarchyItemChange *> alloc] init];
+  NSMutableArray *result = [[NSMutableArray alloc] init];
 
   ASDataControllerAnimationOptions currentOptions = 0;
-  const auto currentIndexPaths = [[NSMutableArray<NSIndexPath *> alloc] init];
+  NSMutableArray *currentIndexPaths = [NSMutableArray array];
 
   for (NSIndexPath *indexPath in allIndexPaths) {
     ASDataControllerAnimationOptions options = [animationOptions[indexPath] integerValue];

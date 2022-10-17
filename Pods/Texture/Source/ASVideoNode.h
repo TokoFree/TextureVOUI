@@ -2,15 +2,20 @@
 //  ASVideoNode.h
 //  Texture
 //
-//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
-//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
-//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
-#import <AsyncDisplayKit/ASAvailability.h>
 #import <AsyncDisplayKit/ASNetworkImageNode.h>
-
-#if AS_USE_VIDEO
 
 @class AVAsset, AVPlayer, AVPlayerLayer, AVPlayerItem, AVVideoComposition, AVAudioMix;
 @protocol ASVideoNodeDelegate;
@@ -74,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property BOOL shouldAggressivelyRecoverFromStall;
 
 @property (readonly) ASVideoNodePlayerState playerState;
-//! Defaults to 10000
+//! Defaults to 1000
 @property int32_t periodicTimeObserverTimescale;
 
 //! Defaults to AVLayerVideoGravityResizeAspect
@@ -106,7 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)videoNode:(ASVideoNode *)videoNode willChangePlayerState:(ASVideoNodePlayerState)state toState:(ASVideoNodePlayerState)toState;
 /**
- * @abstract Asks delegate if state change is allowed
+ * @abstract Ssks delegate if state change is allowed
  * ASVideoNodePlayerStatePlaying or ASVideoNodePlayerStatePaused.
  * asks delegate if state change is allowed.
  * @param videoNode The video node.
@@ -150,7 +155,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)videoNodeDidRecoverFromStall:(ASVideoNode *)videoNode;
 /**
- * @abstract Delegate method invoked when an error occurs while trying to load an asset
+ * @abstract Delegate method invoked when an error occurs while trying trying to load an asset
  * @param videoNode The videoNode.
  * @param key The key of value that failed to load.
  * @param asset The asset.
@@ -167,5 +172,3 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 NS_ASSUME_NONNULL_END
-
-#endif

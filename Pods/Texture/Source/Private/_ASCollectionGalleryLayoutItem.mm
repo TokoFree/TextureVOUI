@@ -2,23 +2,25 @@
 //  _ASCollectionGalleryLayoutItem.mm
 //  Texture
 //
-//  Copyright (c) Pinterest, Inc.  All rights reserved.
-//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) 2017-present, Pinterest, Inc.  All rights reserved.
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <AsyncDisplayKit/_ASCollectionGalleryLayoutItem.h>
 
 #import <AsyncDisplayKit/ASCollectionElement.h>
 #import <AsyncDisplayKit/ASLayout.h>
+#import <AsyncDisplayKit/ASLayoutElementPrivate.h>
 #import <AsyncDisplayKit/ASLayoutElementStylePrivate.h>
 #import <AsyncDisplayKit/ASLayoutSpec.h>
 
-@interface _ASGalleryLayoutItem ()
-@property ASPrimitiveTraitCollection primitiveTraitCollection;
-
-@end
-
-@implementation _ASGalleryLayoutItem
+@implementation _ASGalleryLayoutItem {
+  std::atomic<ASPrimitiveTraitCollection> _primitiveTraitCollection;
+}
 
 @synthesize style;
 
@@ -35,6 +37,7 @@
 }
 
 ASLayoutElementStyleExtensibilityForwarding
+ASPrimitiveTraitCollectionDefaults
 
 - (ASTraitCollection *)asyncTraitCollection
 {

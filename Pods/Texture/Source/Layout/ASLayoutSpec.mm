@@ -2,9 +2,17 @@
 //  ASLayoutSpec.mm
 //  Texture
 //
-//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
-//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
-//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <AsyncDisplayKit/ASLayoutSpec.h>
@@ -12,9 +20,14 @@
 
 #import <AsyncDisplayKit/ASLayoutSpec+Subclasses.h>
 
-#import <AsyncDisplayKit/ASCollections.h>
 #import <AsyncDisplayKit/ASLayoutElementStylePrivate.h>
+#import <AsyncDisplayKit/ASTraitCollection.h>
 #import <AsyncDisplayKit/ASEqualityHelpers.h>
+#import <AsyncDisplayKit/ASInternalHelpers.h>
+
+#import <objc/runtime.h>
+#import <map>
+#import <vector>
 
 @implementation ASLayoutSpec
 
@@ -56,7 +69,7 @@
 
 - (ASLayoutElementStyle *)style
 {
-  AS::MutexLocker l(__instanceLock__);
+  ASDN::MutexLocker l(__instanceLock__);
   if (_style == nil) {
     _style = [[ASLayoutElementStyle alloc] init];
   }
@@ -107,12 +120,14 @@ ASLayoutElementLayoutCalculationDefaults
 {
   ASDisplayNodeAssert(self.isMutable, @"Cannot set properties when layout spec is not mutable");
 
-#if ASDISPLAYNODE_ASSERTIONS_ENABLED
+  [_childrenArray removeAllObjects];
+  
+  NSUInteger i = 0;
   for (id<ASLayoutElement> child in children) {
     ASDisplayNodeAssert([child conformsToProtocol:NSProtocolFromString(@"ASLayoutElement")], @"Child %@ of spec %@ is not an ASLayoutElement!", child, self);
+    _childrenArray[i] = child;
+    i += 1;
   }
-#endif
-  [_childrenArray setArray:children];
 }
 
 - (nullable NSArray<id<ASLayoutElement>> *)children
@@ -127,7 +142,7 @@ ASLayoutElementLayoutCalculationDefaults
 
 #pragma mark - NSFastEnumeration
 
-- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id unowned _Nullable [_Nonnull])buffer count:(NSUInteger)len
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained _Nullable [_Nonnull])buffer count:(NSUInteger)len
 {
   return [_childrenArray countByEnumeratingWithState:state objects:buffer count:len];
 }
@@ -136,21 +151,11 @@ ASLayoutElementLayoutCalculationDefaults
 
 - (ASTraitCollection *)asyncTraitCollection
 {
-  AS::MutexLocker l(__instanceLock__);
+  ASDN::MutexLocker l(__instanceLock__);
   return [ASTraitCollection traitCollectionWithASPrimitiveTraitCollection:self.primitiveTraitCollection];
 }
 
-- (ASPrimitiveTraitCollection)primitiveTraitCollection
-{
-  AS::MutexLocker l(__instanceLock__);
-  return _primitiveTraitCollection;
-}
-
-- (void)setPrimitiveTraitCollection:(ASPrimitiveTraitCollection)traitCollection
-{
-  AS::MutexLocker l(__instanceLock__);
-  _primitiveTraitCollection = traitCollection;
-}
+ASPrimitiveTraitCollectionDefaults
 
 #pragma mark - ASLayoutElementStyleExtensibility
 
@@ -160,10 +165,10 @@ ASLayoutElementStyleExtensibilityForwarding
 
 - (NSMutableArray<NSDictionary *> *)propertiesForDescription
 {
-  const auto result = [NSMutableArray<NSDictionary *> array];
+  auto result = [NSMutableArray<NSDictionary *> array];
   if (NSArray *children = self.children) {
     // Use tiny descriptions because these trees can get nested very deep.
-    const auto tinyDescriptions = ASArrayByFlatMapping(children, id object, ASObjectDescriptionMakeTiny(object));
+    auto tinyDescriptions = ASArrayByFlatMapping(children, id object, ASObjectDescriptionMakeTiny(object));
     [result addObject:@{ @"children": tinyDescriptions }];
   }
   return result;
@@ -225,13 +230,13 @@ ASLayoutElementStyleExtensibilityForwarding
 
 - (NSString *)debugName
 {
-  AS::MutexLocker l(__instanceLock__);
+  ASDN::MutexLocker l(__instanceLock__);
   return _debugName;
 }
 
 - (void)setDebugName:(NSString *)debugName
 {
-  AS::MutexLocker l(__instanceLock__);
+  ASDN::MutexLocker l(__instanceLock__);
   if (!ASObjectIsEqual(_debugName, debugName)) {
     _debugName = [debugName copy];
   }
@@ -254,7 +259,17 @@ ASLayoutElementStyleExtensibilityForwarding
   return result;
 }
 
-ASSynthesizeLockingMethodsWithMutex(__instanceLock__)
+#pragma mark - NSLocking
+
+- (void)lock
+{
+  __instanceLock__.lock();
+}
+
+- (void)unlock
+{
+  __instanceLock__.unlock();
+}
 
 @end
 
@@ -293,9 +308,7 @@ ASSynthesizeLockingMethodsWithMutex(__instanceLock__)
 - (ASLayout *)calculateLayoutThatFits:(ASSizeRange)constrainedSize
 {
   NSArray *children = self.children;
-  const auto count = children.count;
-  ASLayout *rawSublayouts[count];
-  int i = 0;
+  NSMutableArray *sublayouts = [NSMutableArray arrayWithCapacity:children.count];
   
   CGSize size = constrainedSize.min;
   for (id<ASLayoutElement> child in children) {
@@ -305,9 +318,9 @@ ASSynthesizeLockingMethodsWithMutex(__instanceLock__)
     size.width = MAX(size.width,  sublayout.size.width);
     size.height = MAX(size.height, sublayout.size.height);
     
-    rawSublayouts[i++] = sublayout;
+    [sublayouts addObject:sublayout];
   }
-  const auto sublayouts = [NSArray<ASLayout *> arrayByTransferring:rawSublayouts count:i];
+  
   return [ASLayout layoutWithLayoutElement:self size:size sublayouts:sublayouts];
 }
 

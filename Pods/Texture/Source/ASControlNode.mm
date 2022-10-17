@@ -2,22 +2,29 @@
 //  ASControlNode.mm
 //  Texture
 //
-//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
-//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
-//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <AsyncDisplayKit/ASControlNode.h>
+#import <AsyncDisplayKit/ASControlNode+Private.h>
 #import <AsyncDisplayKit/ASControlNode+Subclasses.h>
 #import <AsyncDisplayKit/ASDisplayNode+Subclasses.h>
 #import <AsyncDisplayKit/ASImageNode.h>
 #import <AsyncDisplayKit/AsyncDisplayKit+Debug.h>
+#import <AsyncDisplayKit/ASInternalHelpers.h>
 #import <AsyncDisplayKit/ASControlTargetAction.h>
 #import <AsyncDisplayKit/ASDisplayNode+FrameworkPrivate.h>
 #import <AsyncDisplayKit/ASThread.h>
-#if TARGET_OS_TV
-#import <AsyncDisplayKit/ASControlNode+Private.h>
-#endif
 
 // UIControl allows dragging some distance outside of the control itself during
 // tracking. This value depends on the device idiom (25 or 70 points), so
@@ -26,6 +33,7 @@
 
 // Initial capacities for dispatch tables.
 #define kASControlNodeEventDispatchTableInitialCapacity 4
+#define kASControlNodeActionDispatchTableInitialCapacity 4
 
 @interface ASControlNode ()
 {
@@ -295,15 +303,13 @@ CGRect _ASControlNodeGetExpandedBounds(ASControlNode *controlNode);
     
     // only show tap-able areas for views with 1 or more addTarget:action: pairs
     if ([ASControlNode enableHitTestDebug] && _debugHighlightOverlay == nil) {
-      // do not use ASPerformBlockOnMainThread here, if it performs the block synchronously it will continue
-      // holding the lock while calling addSubnode.
-      dispatch_async(dispatch_get_main_queue(), ^{
+      ASPerformBlockOnMainThread(^{
         // add a highlight overlay node with area of ASControlNode + UIEdgeInsets
         self.clipsToBounds = NO;
-        self->_debugHighlightOverlay = [[ASImageNode alloc] init];
-        self->_debugHighlightOverlay.zPosition = 1000;  // ensure we're over the top of any siblings
-        self->_debugHighlightOverlay.layerBacked = YES;
-        [self addSubnode:self->_debugHighlightOverlay];
+        _debugHighlightOverlay = [[ASImageNode alloc] init];
+        _debugHighlightOverlay.zPosition = 1000;  // ensure we're over the top of any siblings
+        _debugHighlightOverlay.layerBacked = YES;
+        [self addSubnode:_debugHighlightOverlay];
       });
     }
   }
@@ -319,7 +325,7 @@ CGRect _ASControlNodeGetExpandedBounds(ASControlNode *controlNode);
     {
       // Do we already have an event table for this control event?
       id<NSCopying> eventKey = _ASControlNodeEventKeyForControlEvent(controlEvent);
-      NSMutableArray *eventTargetActionArray = self->_controlEventDispatchTable[eventKey];
+      NSMutableArray *eventTargetActionArray = _controlEventDispatchTable[eventKey];
       
       if (!eventTargetActionArray) {
         eventTargetActionArray = [[NSMutableArray alloc] init];
@@ -332,7 +338,7 @@ CGRect _ASControlNodeGetExpandedBounds(ASControlNode *controlNode);
       [eventTargetActionArray addObject:targetAction];
       
       if (eventKey) {
-        [self->_controlEventDispatchTable setObject:eventTargetActionArray forKey:eventKey];
+        [_controlEventDispatchTable setObject:eventTargetActionArray forKey:eventKey];
       }
     });
 
@@ -393,7 +399,7 @@ CGRect _ASControlNodeGetExpandedBounds(ASControlNode *controlNode);
     {
       // Grab the dispatch table for this event (if we have it).
       id<NSCopying> eventKey = _ASControlNodeEventKeyForControlEvent(controlEvent);
-      NSMutableArray *eventTargetActionArray = self->_controlEventDispatchTable[eventKey];
+      NSMutableArray *eventTargetActionArray = _controlEventDispatchTable[eventKey];
       if (!eventTargetActionArray) {
         return;
       }
@@ -413,7 +419,7 @@ CGRect _ASControlNodeGetExpandedBounds(ASControlNode *controlNode);
       
       if (eventTargetActionArray.count == 0) {
         // If there are no targets for this event anymore, remove it.
-        [self->_controlEventDispatchTable removeObjectForKey:eventKey];
+        [_controlEventDispatchTable removeObjectForKey:eventKey];
       }
     });
 }
@@ -435,7 +441,7 @@ CGRect _ASControlNodeGetExpandedBounds(ASControlNode *controlNode);
       (ASControlNodeEvent controlEvent)
       {
         // Iterate on each target action pair
-        for (ASControlTargetAction *targetAction in self->_controlEventDispatchTable[_ASControlNodeEventKeyForControlEvent(controlEvent)]) {
+        for (ASControlTargetAction *targetAction in _controlEventDispatchTable[_ASControlNodeEventKeyForControlEvent(controlEvent)]) {
           ASControlTargetAction *resolvedTargetAction = [[ASControlTargetAction alloc] init];
           resolvedTargetAction.action = targetAction.action;
           resolvedTargetAction.target = targetAction.target;

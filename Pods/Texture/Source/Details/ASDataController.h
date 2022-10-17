@@ -2,9 +2,17 @@
 //  ASDataController.h
 //  Texture
 //
-//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
-//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
-//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #pragma once
@@ -12,11 +20,18 @@
 #import <UIKit/UIKit.h>
 #import <AsyncDisplayKit/ASBlockTypes.h>
 #import <AsyncDisplayKit/ASDimension.h>
+#import <AsyncDisplayKit/ASEventLog.h>
 #ifdef __cplusplus
 #import <vector>
 #endif
 
 NS_ASSUME_NONNULL_BEGIN
+
+#if ASEVENTLOG_ENABLE
+#define ASDataControllerLogEvent(dataController, ...) [dataController.eventLog logEventWithBacktrace:(AS_SAVE_EVENT_BACKTRACES ? [NSThread callStackSymbols] : nil) format:__VA_ARGS__]
+#else
+#define ASDataControllerLogEvent(dataController, ...)
+#endif
 
 @class ASCellNode;
 @class ASCollectionElement;
@@ -32,8 +47,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NSUInteger ASDataControllerAnimationOptions;
 
-ASDK_EXTERN NSString * const ASDataControllerRowNodeKind;
-ASDK_EXTERN NSString * const ASCollectionInvalidUpdateException;
+extern NSString * const ASDataControllerRowNodeKind;
+extern NSString * const ASCollectionInvalidUpdateException;
 
 /**
  Data source for data controller
@@ -45,7 +60,7 @@ ASDK_EXTERN NSString * const ASCollectionInvalidUpdateException;
 /**
  Fetch the ASCellNode block for specific index path. This block should return the ASCellNode for the specified index path.
  */
-- (ASCellNodeBlock)dataController:(ASDataController *)dataController nodeBlockAtIndexPath:(NSIndexPath *)indexPath shouldAsyncLayout:(BOOL *)shouldAsyncLayout;
+- (ASCellNodeBlock)dataController:(ASDataController *)dataController nodeBlockAtIndexPath:(NSIndexPath *)indexPath;
 
 /**
  Fetch the number of rows in specific section.
@@ -64,18 +79,6 @@ ASDK_EXTERN NSString * const ASCollectionInvalidUpdateException;
 - (BOOL)dataController:(ASDataController *)dataController presentedSizeForElement:(ASCollectionElement *)element matchesSize:(CGSize)size;
 
 - (nullable id)dataController:(ASDataController *)dataController nodeModelForItemAtIndexPath:(NSIndexPath *)indexPath;
-
-/**
- * Called just after dispatching ASCellNode allocation and layout to the concurrent background queue.
- * In some cases, for example on the first content load for a screen, it may be desirable to call
- * -waitUntilAllUpdatesAreProcessed at this point.
- *
- * Returning YES will cause the ASDataController to wait on the background queue, and this ensures
- * that any new / changed cells are in the hierarchy by the very next CATransaction / frame draw.
- */
-- (BOOL)dataController:(ASDataController *)dataController shouldSynchronouslyProcessChangeSet:(_ASHierarchyChangeSet *)changeSet;
-- (BOOL)dataController:(ASDataController *)dataController shouldEagerlyLayoutNode:(ASCellNode *)node;
-- (BOOL)dataControllerShouldSerializeNodeCreation:(ASDataController *)dataController;
 
 @optional
 
@@ -156,7 +159,7 @@ ASDK_EXTERN NSString * const ASCollectionInvalidUpdateException;
  */
 @interface ASDataController : NSObject
 
-- (instancetype)initWithDataSource:(id<ASDataControllerSource>)dataSource node:(nullable id<ASRangeManagingNode>)node NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithDataSource:(id<ASDataControllerSource>)dataSource node:(nullable id<ASRangeManagingNode>)node eventLog:(nullable ASEventLog *)eventLog NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 
@@ -220,6 +223,18 @@ ASDK_EXTERN NSString * const ASCollectionInvalidUpdateException;
  */
 @property (nonatomic, readonly) BOOL initialReloadDataHasBeenCalled;
 
+#if ASEVENTLOG_ENABLE
+/*
+ * @abstract The primitive event tracing object. You shouldn't directly use it to log event. Use the ASDataControllerLogEvent macro instead.
+ */
+@property (nonatomic, readonly) ASEventLog *eventLog;
+#endif
+
+/**
+ * @see ASCollectionNode+Beta.h for full documentation.
+ */
+@property (nonatomic) BOOL usesSynchronousDataLoading;
+
 /** @name Data Updating */
 
 - (void)updateWithChangeSet:(_ASHierarchyChangeSet *)changeSet;
@@ -280,6 +295,7 @@ ASDK_EXTERN NSString * const ASCollectionInvalidUpdateException;
  * The default value is YES.
 */
 @property (nonatomic) BOOL enableFlushEditing;
+
 
 @end
 

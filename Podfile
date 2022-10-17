@@ -6,8 +6,12 @@ target 'TextureVOUI' do
   use_frameworks!
 
 #  pod 'Texture/IGListKit', :git => 'git@github.com:TokoFree/Texture.git', :commit =>'6eef31e4de6bbb35d9bdd33614164fdd4f6146a3' # Texture 2
-   pod 'Texture/IGListKit', :git => 'git@github.com:jeffersonsetiawan/Texture.git', :commit => '07c3b1505ec34924ee21bea8f32e7c6a9e801bb2' # Texture 3 latest
+  pod 'Texture', :git => 'git@github.com:TokoFree/Texture.git', :commit =>'90ce23e78f5ac93f97a61aaa07b3aa6255cd9f61' # Texture 3 latest
   pod 'FLEX', '4.6.1', :configurations => $DEBUG_CONFIGS
+  pod 'RxSwift', '5.1.1'
+  pod 'RxCocoa', '5.1.1'
+  pod 'RxCocoa-Texture', :git => 'git@github.com:jeffersonsetiawan/RxCocoa-Texture.git', :commit =>'1334cb57f4a349b1d2a1fd5eca3d411317534d81'
+  pod 'NSObject+Rx', '5.1.0'
 
   target 'TextureVOUITests' do
     inherit! :search_paths

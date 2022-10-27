@@ -2,9 +2,17 @@
 //  ASDisplayNode+FrameworkPrivate.h
 //  Texture
 //
-//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
-//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
-//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 //
@@ -31,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
  cancelled below the point they are enabled.  They continue to the leaves of the hierarchy.
  */
 
-typedef NS_OPTIONS(unsigned char, ASHierarchyState)
+typedef NS_OPTIONS(NSUInteger, ASHierarchyState)
 {
   /** The node may or may not have a supernode, but no supernode has a special hierarchy-influencing option enabled. */
   ASHierarchyStateNormal                  = 0,
@@ -115,6 +123,11 @@ __unused static NSString * _Nonnull NSStringFromASHierarchyStateChange(ASHierarc
 #undef HIERARCHY_STATE_DELTA
 
 @interface ASDisplayNode () <ASDescriptionProvider, ASDebugDescriptionProvider>
+{
+@protected
+  ASInterfaceState _interfaceState;
+  ASHierarchyState _hierarchyState;
+}
 
 // The view class to use when creating a new display node instance. Defaults to _ASDisplayView.
 + (Class)viewClass;
@@ -124,6 +137,9 @@ __unused static NSString * _Nonnull NSStringFromASHierarchyStateChange(ASHierarc
 
 // Returns the bounds of the node without reaching the view or layer
 - (CGRect)_locked_threadSafeBounds;
+
+// delegate to inform of ASInterfaceState changes (used by ASNodeController)
+@property (nonatomic, weak) id<ASInterfaceStateDelegate> interfaceStateDelegate;
 
 // The -pendingInterfaceState holds the value that will be applied to -interfaceState by the
 // ASCATransactionQueue. If already applied, it matches -interfaceState. Thread-safe access.
@@ -155,11 +171,6 @@ __unused static NSString * _Nonnull NSStringFromASHierarchyStateChange(ASHierarc
 @property (nonatomic) ASHierarchyState hierarchyState;
 
 /**
- * Represent the current custom action in representation for the node
- */
-@property (nonatomic, weak) UIAccessibilityCustomAction *accessibilityCustomAction;
-
-/**
  * @abstract Return if the node is range managed or not
  *
  * @discussion Currently only set interface state on nodes in table and collection views. For other nodes, if they are
@@ -174,7 +185,7 @@ __unused static NSString * _Nonnull NSStringFromASHierarchyStateChange(ASHierarc
  * @abstract Ensure that all rendering is complete for this node and its descendants.
  *
  * @discussion Calling this method on the main thread after a node is added to the view hierarchy will ensure that
- * placeholder states are never visible to the user.  It is used by ASTableView, ASCollectionView, and ASDKViewController
+ * placeholder states are never visible to the user.  It is used by ASTableView, ASCollectionView, and ASViewController
  * to implement their respective ".neverShowPlaceholders" option.
  *
  * If all nodes have layer.contents set and/or their layer does not have -needsDisplay set, the method will return immediately.
@@ -242,10 +253,10 @@ __unused static NSString * _Nonnull NSStringFromASHierarchyStateChange(ASHierarc
 /**
  * @abstract Indicates if this node is a view controller's root node. Defaults to NO.
  *
- * @discussion Set to YES in -[ASDKViewController initWithNode:].
+ * @discussion Set to YES in -[ASViewController initWithNode:].
  *
- * YES here only means that this node is used as an ASDKViewController node. It doesn't mean that this node is a root of
- * ASDisplayNode hierarchy, e.g. when its view controller is parented by another ASDKViewController.
+ * YES here only means that this node is used as an ASViewController node. It doesn't mean that this node is a root of
+ * ASDisplayNode hierarchy, e.g. when its view controller is parented by another ASViewController.
  */
 @property (nonatomic, getter=isViewControllerRoot) BOOL viewControllerRoot;
 
@@ -290,18 +301,13 @@ __unused static NSString * _Nonnull NSStringFromASHierarchyStateChange(ASHierarc
 - (BOOL)_isLayoutTransitionInvalid;
 
 /**
- * Same as @c -_isLayoutTransitionInvalid but must be called with the node's instance lock held.
- */
-- (BOOL)_locked_isLayoutTransitionInvalid;
-
-/**
  * Internal method that can be overriden by subclasses to add specific behavior after the measurement of a layout
  * transition did finish.
  */
 - (void)_layoutTransitionMeasurementDidFinish;
 
 /**
- * Informs the node that the pending layout transition did complete
+ * Informs the node that hte pending layout transition did complete
  */
 - (void)_completePendingLayoutTransition;
 
@@ -311,18 +317,6 @@ __unused static NSString * _Nonnull NSStringFromASHierarchyStateChange(ASHierarc
 - (void)_pendingLayoutTransitionDidComplete;
 
 @end
-
-/**
- * Defines interactive accessibility traits which will be exposed as UIAccessibilityCustomActions
- * for nodes within nodes that have isAccessibilityContainer is YES
- */
-NS_INLINE UIAccessibilityTraits ASInteractiveAccessibilityTraitsMask() {
-  return UIAccessibilityTraitLink | UIAccessibilityTraitKeyboardKey | UIAccessibilityTraitButton;
-}
-
-@interface ASDisplayNode (AccessibilityInternal)
-- (nullable NSArray *)accessibilityElements;
-@end;
 
 @interface UIView (ASDisplayNodeInternal)
 @property (nullable, weak) ASDisplayNode *asyncdisplaykit_node;

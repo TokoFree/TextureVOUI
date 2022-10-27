@@ -2,9 +2,17 @@
 //  ASImageNode.h
 //  Texture
 //
-//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
-//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
-//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <UIKit/UIKit.h>
@@ -22,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @return A transformed image.
  */
 typedef UIImage * _Nullable (^asimagenode_modification_block_t)(UIImage *image, ASPrimitiveTraitCollection traitCollection);
+
 
 /**
  * @abstract Draws images.
@@ -172,8 +181,9 @@ typedef UIImage * _Nullable (^asimagenode_modification_block_t)(UIImage *image, 
  *
  * @discussion This method is for subclasses to override so they can know if an animated image
  * has been set on the node.
+ * @warning this method is called with the node's lock held.
  */
-- (void)animatedImageSet:(nullable id <ASAnimatedImageProtocol>)newAnimatedImage previousAnimatedImage:(nullable id <ASAnimatedImageProtocol>)previousAnimatedImage ASDISPLAYNODE_REQUIRES_SUPER;
+- (void)animatedImageSet:(id <ASAnimatedImageProtocol>)newAnimatedImage previousAnimatedImage:(id <ASAnimatedImageProtocol>)previousAnimatedImage;
 
 @end
 
@@ -185,6 +195,8 @@ typedef UIImage * _Nullable (^asimagenode_modification_block_t)(UIImage *image, 
 
 @end
 
+ASDISPLAYNODE_EXTERN_C_BEGIN
+
 /**
  * @abstract Image modification block that rounds (and optionally adds a border to) an image.
  *
@@ -195,7 +207,7 @@ typedef UIImage * _Nullable (^asimagenode_modification_block_t)(UIImage *image, 
  *
  * @return An ASImageNode image modification block.
  */
-ASDK_EXTERN asimagenode_modification_block_t ASImageNodeRoundBorderModificationBlock(CGFloat borderWidth, UIColor * _Nullable borderColor);
+asimagenode_modification_block_t ASImageNodeRoundBorderModificationBlock(CGFloat borderWidth, UIColor * _Nullable borderColor);
 
 /**
  * @abstract Image modification block that applies a tint color à la UIImage configured with
@@ -207,6 +219,7 @@ ASDK_EXTERN asimagenode_modification_block_t ASImageNodeRoundBorderModificationB
  *
  * @return An ASImageNode image modification block.
  */
-ASDK_EXTERN asimagenode_modification_block_t ASImageNodeTintColorModificationBlock(UIColor *color);
+asimagenode_modification_block_t ASImageNodeTintColorModificationBlock(UIColor *color);
 
+ASDISPLAYNODE_EXTERN_C_END
 NS_ASSUME_NONNULL_END

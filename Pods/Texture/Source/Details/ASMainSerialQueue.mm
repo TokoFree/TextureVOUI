@@ -2,57 +2,75 @@
 //  ASMainSerialQueue.mm
 //  Texture
 //
-//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
-//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
-//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
+//
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <AsyncDisplayKit/ASMainSerialQueue.h>
 
 #import <AsyncDisplayKit/ASThread.h>
 #import <AsyncDisplayKit/ASInternalHelpers.h>
-#import <queue>
 
 @interface ASMainSerialQueue ()
 {
-  AS::Mutex _serialQueueLock;
-  std::queue<dispatch_block_t> _blocks;
+  ASDN::Mutex _serialQueueLock;
+  NSMutableArray *_blocks;
 }
 
 @end
 
 @implementation ASMainSerialQueue
 
+- (instancetype)init
+{
+  if (!(self = [super init])) {
+    return nil;
+  }
+  
+  _blocks = [[NSMutableArray alloc] init];
+  return self;
+}
+
 - (NSUInteger)numberOfScheduledBlocks
 {
-  AS::MutexLocker l(_serialQueueLock);
-  return _blocks.size();
+  ASDN::MutexLocker l(_serialQueueLock);
+  return _blocks.count;
 }
 
 - (void)performBlockOnMainThread:(dispatch_block_t)block
 {
+  ASDN::MutexLocker l(_serialQueueLock);
+  [_blocks addObject:block];
   {
-    AS::MutexLocker l(_serialQueueLock);
-    _blocks.push(block);
+    ASDN::MutexUnlocker u(_serialQueueLock);
+    [self runBlocks];
   }
-
-  [self runBlocks];
 }
 
 - (void)runBlocks
 {
   dispatch_block_t mainThread = ^{
-    AS::UniqueLock l(self->_serialQueueLock);
     do {
-      if (self->_blocks.empty()) {
+      ASDN::MutexLocker l(_serialQueueLock);
+      dispatch_block_t block;
+      if (_blocks.count > 0) {
+        block = _blocks[0];
+        [_blocks removeObjectAtIndex:0];
+      } else {
         break;
       }
-      dispatch_block_t block = self->_blocks.front();
-      self->_blocks.pop();
       {
-        l.unlock();
+        ASDN::MutexUnlocker u(_serialQueueLock);
         block();
-        l.lock();
       }
     } while (true);
   };
@@ -62,15 +80,7 @@
 
 - (NSString *)description
 {
-  NSString *desc = [super description];
-  std::queue<dispatch_block_t> blocks = _blocks;
-  [desc stringByAppendingString:@" Blocks: "];
-  while (!blocks.empty()) {
-      dispatch_block_t block = blocks.front();
-      [desc stringByAppendingFormat:@"%@", block];
-      blocks.pop();
-  }
-  return desc;
+  return [[super description] stringByAppendingFormat:@" Blocks: %@", _blocks];
 }
 
 @end

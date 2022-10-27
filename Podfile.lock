@@ -3,15 +3,14 @@ PODS:
   - IGListDiffKit (4.0.0)
   - IGListKit (4.0.0):
     - IGListDiffKit (= 4.0.0)
-  - Texture/Core (3.1.0)
-  - Texture/IGListKit (3.1.0):
-    - IGListDiffKit (~> 4.0)
+  - Texture/Core (2.7)
+  - Texture/IGListKit (2.7):
     - IGListKit (~> 4.0)
     - Texture/Core
 
 DEPENDENCIES:
   - FLEX (= 4.6.1)
-  - "Texture/IGListKit (from `git@github.com:jeffersonsetiawan/Texture.git`, commit `07c3b1505ec34924ee21bea8f32e7c6a9e801bb2`)"
+  - "Texture/IGListKit (from `git@github.com:TokoFree/Texture.git`, commit `6eef31e4de6bbb35d9bdd33614164fdd4f6146a3`)"
 
 SPEC REPOS:
   trunk:
@@ -21,20 +20,20 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   Texture:
-    :commit: 07c3b1505ec34924ee21bea8f32e7c6a9e801bb2
-    :git: "git@github.com:jeffersonsetiawan/Texture.git"
+    :commit: 6eef31e4de6bbb35d9bdd33614164fdd4f6146a3
+    :git: "git@github.com:TokoFree/Texture.git"
 
 CHECKOUT OPTIONS:
   Texture:
-    :commit: 07c3b1505ec34924ee21bea8f32e7c6a9e801bb2
-    :git: "git@github.com:jeffersonsetiawan/Texture.git"
+    :commit: 6eef31e4de6bbb35d9bdd33614164fdd4f6146a3
+    :git: "git@github.com:TokoFree/Texture.git"
 
 SPEC CHECKSUMS:
   FLEX: bbc55d197f87d7cde2454c3981aa47069b694144
   IGListDiffKit: 665d6cf43ce726e676013db9c7d6c4294259b6b2
   IGListKit: fd5a5d21935298f5849fa49d426843cff97b77c7
-  Texture: 54a6a5a05644d9c2c8b81afa24db655a8d7f55f3
+  Texture: fd48858d030388507518f606775f3f80b38b5092
 
-PODFILE CHECKSUM: 31578a678424b59044aadd60fbe4892ce7592ba4
+PODFILE CHECKSUM: e9eedc76c61f949063c9202c5269c65d1a782c25
 
 COCOAPODS: 1.11.3

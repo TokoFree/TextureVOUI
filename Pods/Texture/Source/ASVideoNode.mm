@@ -2,21 +2,27 @@
 //  ASVideoNode.mm
 //  Texture
 //
-//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
-//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
-//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
+//  grant of patent rights can be found in the PATENTS file in the same directory.
 //
-
-#import <AsyncDisplayKit/ASVideoNode.h>
-
-#if AS_USE_VIDEO
+//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
+//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
 
 #import <AVFoundation/AVFoundation.h>
 #import <AsyncDisplayKit/ASDisplayNode+FrameworkPrivate.h>
 #import <AsyncDisplayKit/ASDisplayNode+Subclasses.h>
-#import <AsyncDisplayKit/ASDisplayNodeInternal.h>
+#import <AsyncDisplayKit/ASVideoNode.h>
 #import <AsyncDisplayKit/ASEqualityHelpers.h>
 #import <AsyncDisplayKit/ASInternalHelpers.h>
+#import <AsyncDisplayKit/ASDisplayNodeExtras.h>
+#import <AsyncDisplayKit/ASThread.h>
 
 static BOOL ASAssetIsEqual(AVAsset *asset1, AVAsset *asset2) {
   return ASObjectIsEqual(asset1, asset2)
@@ -289,7 +295,7 @@ static NSString * const kRate = @"rate";
 - (void)imageAtTime:(CMTime)imageTime completionHandler:(void(^)(UIImage *image))completionHandler
 {
   ASPerformBlockOnBackgroundThread(^{
-    AVAsset *asset = self->_asset;
+    AVAsset *asset = self.asset;
 
     // Skip the asset image generation if we don't have any tracks available that are capable of supporting it
     NSArray<AVAssetTrack *>* visualAssetArray = [asset tracksWithMediaCharacteristic:AVMediaCharacteristicVisual];
@@ -300,7 +306,7 @@ static NSString * const kRate = @"rate";
 
     AVAssetImageGenerator *previewImageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:asset];
     previewImageGenerator.appliesPreferredTrackTransform = YES;
-    previewImageGenerator.videoComposition = self->_videoComposition;
+    previewImageGenerator.videoComposition = _videoComposition;
 
     [previewImageGenerator generateCGImagesAsynchronouslyForTimes:@[[NSValue valueWithCMTime:imageTime]]
                                                 completionHandler:^(CMTime requestedTime, CGImageRef image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error) {
@@ -324,7 +330,7 @@ static NSString * const kRate = @"rate";
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-  AS::UniqueLock l(__instanceLock__);
+  ASLockScopeSelf();
 
   if (object == _currentPlayerItem) {
     if ([keyPath isEqualToString:kStatus]) {
@@ -332,9 +338,7 @@ static NSString * const kRate = @"rate";
         if (self.playerState != ASVideoNodePlayerStatePlaying) {
           self.playerState = ASVideoNodePlayerStateReadyToPlay;
           if (_shouldBePlaying && ASInterfaceStateIncludesVisible(self.interfaceState)) {
-            l.unlock();
             [self play];
-            l.lock();
           }
         }
         // If we don't yet have a placeholder image update it now that we should have data available for it
@@ -356,11 +360,7 @@ static NSString * const kRate = @"rate";
         if (self.playerState == ASVideoNodePlayerStateLoading && _delegateFlags.delegateVideoNodeDidRecoverFromStall) {
           [self.delegate videoNodeDidRecoverFromStall:self];
         }
-        
-        l.unlock();
         [self play]; // autoresume after buffer catches up
-        // NOTE: Early return without re-locking.
-        return;
       }
     } else if ([keyPath isEqualToString:kplaybackBufferEmpty]) {
       if (_shouldBePlaying && [change[NSKeyValueChangeNewKey] boolValue] == YES && ASInterfaceStateIncludesVisible(self.interfaceState)) {
@@ -378,8 +378,6 @@ static NSString * const kRate = @"rate";
       }
     }
   }
-  
-  // NOTE: Early return above.
 }
 
 - (void)tapped
@@ -415,7 +413,7 @@ static NSString * const kRate = @"rate";
   NSArray<NSString *> *requestedKeys = @[@"playable"];
   [asset loadValuesAsynchronouslyForKeys:requestedKeys completionHandler:^{
     ASPerformBlockOnMainThread(^{
-      if (self->_delegateFlags.delegateVideoNodeDidFinishInitialLoading) {
+      if (_delegateFlags.delegateVideoNodeDidFinishInitialLoading) {
         [self.delegate videoNodeDidFinishInitialLoading:self];
       }
       [self prepareToPlayAsset:asset withKeys:requestedKeys];
@@ -857,5 +855,3 @@ static NSString * const kRate = @"rate";
 }
 
 @end
-
-#endif

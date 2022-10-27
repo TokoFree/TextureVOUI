@@ -11,7 +11,7 @@ target 'TextureVOUI' do
 
   target 'TextureVOUITests' do
     inherit! :search_paths
-    # Pods for testing
+    pod 'SnapshotTesting', :git => 'git@github.com:jeffersonsetiawan/swift-snapshot-testing.git', :commit => '40ed72a5448fd485f3a74eb8bd091a8f2e48e04b'
   end
 
   target 'TextureVOUIUITests' do

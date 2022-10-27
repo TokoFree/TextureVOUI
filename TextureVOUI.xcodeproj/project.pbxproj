@@ -422,6 +422,7 @@
 				E5E1483E26EF12F200056475 /* Sources */,
 				E5E1483F26EF12F200056475 /* Frameworks */,
 				E5E1484026EF12F200056475 /* Resources */,
+				837EB2B0DB3AB2A7244F2314 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -582,6 +583,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TextureVOUI/Pods-TextureVOUI-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		837EB2B0DB3AB2A7244F2314 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TextureVOUITests/Pods-TextureVOUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TextureVOUITests/Pods-TextureVOUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TextureVOUITests/Pods-TextureVOUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8B020825ADEADFA64C792FB1 /* [CP] Check Pods Manifest.lock */ = {

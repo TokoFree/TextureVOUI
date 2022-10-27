@@ -3,6 +3,7 @@ PODS:
   - IGListDiffKit (4.0.0)
   - IGListKit (4.0.0):
     - IGListDiffKit (= 4.0.0)
+  - SnapshotTesting (1.10.0)
   - Texture/Core (3.1.0)
   - Texture/IGListKit (3.1.0):
     - IGListDiffKit (~> 4.0)
@@ -11,6 +12,7 @@ PODS:
 
 DEPENDENCIES:
   - FLEX (= 4.6.1)
+  - "SnapshotTesting (from `git@github.com:jeffersonsetiawan/swift-snapshot-testing.git`, commit `40ed72a5448fd485f3a74eb8bd091a8f2e48e04b`)"
   - "Texture/IGListKit (from `git@github.com:jeffersonsetiawan/Texture.git`, commit `07c3b1505ec34924ee21bea8f32e7c6a9e801bb2`)"
 
 SPEC REPOS:
@@ -20,11 +22,17 @@ SPEC REPOS:
     - IGListKit
 
 EXTERNAL SOURCES:
+  SnapshotTesting:
+    :commit: 40ed72a5448fd485f3a74eb8bd091a8f2e48e04b
+    :git: "git@github.com:jeffersonsetiawan/swift-snapshot-testing.git"
   Texture:
     :commit: 07c3b1505ec34924ee21bea8f32e7c6a9e801bb2
     :git: "git@github.com:jeffersonsetiawan/Texture.git"
 
 CHECKOUT OPTIONS:
+  SnapshotTesting:
+    :commit: 40ed72a5448fd485f3a74eb8bd091a8f2e48e04b
+    :git: "git@github.com:jeffersonsetiawan/swift-snapshot-testing.git"
   Texture:
     :commit: 07c3b1505ec34924ee21bea8f32e7c6a9e801bb2
     :git: "git@github.com:jeffersonsetiawan/Texture.git"
@@ -33,8 +41,9 @@ SPEC CHECKSUMS:
   FLEX: bbc55d197f87d7cde2454c3981aa47069b694144
   IGListDiffKit: 665d6cf43ce726e676013db9c7d6c4294259b6b2
   IGListKit: fd5a5d21935298f5849fa49d426843cff97b77c7
+  SnapshotTesting: 67e4b5e930008786d9808dfdff17efe2f403a0b0
   Texture: 54a6a5a05644d9c2c8b81afa24db655a8d7f55f3
 
-PODFILE CHECKSUM: 31578a678424b59044aadd60fbe4892ce7592ba4
+PODFILE CHECKSUM: 4d9cd087a2924c4aa8f797083d9c757a3b8c3c85
 
 COCOAPODS: 1.11.3

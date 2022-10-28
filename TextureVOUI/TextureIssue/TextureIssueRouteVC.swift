@@ -18,6 +18,7 @@ public final class TextureIssueRouteVC: UITableViewController {
         case parentWrapperSetNeedsLayoutIssue = "Parent node with ASWrapperLayout does not auto setNeedsLayout after setNeedsLayout children"
         case overlayTexture2Problem = "ASOverlaySpec Depth Issue on Texture 2"
         case ancestorInCollectionNode = "Can't Convert between ASCollectionNode and ASCellNode"
+        case nodeCreationOnLayout = "Node Creation on layout phase"
     }
 
     private let routes: [Route] = Route.allCases
@@ -52,6 +53,8 @@ public final class TextureIssueRouteVC: UITableViewController {
             navigationController?.pushViewController(ASOverlayTexture2IssueVC(), animated: true)
         case .ancestorInCollectionNode:
             navigationController?.pushViewController(DemoScrollHorizontalVC(), animated: true)
+        case .nodeCreationOnLayout:
+            navigationController?.pushViewController(NodeCreationInsideLayoutVC(), animated: true)
         }
     }
 

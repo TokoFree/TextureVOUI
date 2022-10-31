@@ -20,6 +20,7 @@
 		23FF8AEB7D36FEDAEE26529D /* Pods_TextureVOUI_TextureVOUIUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FFC37D9B6963553F1467625 /* Pods_TextureVOUI_TextureVOUIUITests.framework */; };
 		6EC8C73C2FDB520A8B6A33BC /* Pods_TextureVOUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C757464E59701BD85B5E9162 /* Pods_TextureVOUI.framework */; };
 		99AEEAB9000E31568945BD76 /* Pods_TextureVOUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E01831D4EB9F64D525C9C53 /* Pods_TextureVOUITests.framework */; };
+		9C0B631F290BC65C00A478D1 /* NodeCreationInsideLayoutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B631E290BC65C00A478D1 /* NodeCreationInsideLayoutVC.swift */; };
 		9C495730273B830500788D64 /* AnimateLayoutTransitionNotCalledVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C49572F273B7F1B00788D64 /* AnimateLayoutTransitionNotCalledVC.swift */; };
 		9C495737273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C495736273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift */; };
 		9C5C5302276736E200C7632C /* AccessibilityIdentifierCasesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5C5301276736E200C7632C /* AccessibilityIdentifierCasesViewController.swift */; };
@@ -85,6 +86,7 @@
 		797B6ED780A0AD5400238063 /* Pods-TextureVOUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUITests.debug.xcconfig"; path = "Target Support Files/Pods-TextureVOUITests/Pods-TextureVOUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		90ACBB9AB6AC129260717D47 /* Pods-TextureVOUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUI.debug.xcconfig"; path = "Target Support Files/Pods-TextureVOUI/Pods-TextureVOUI.debug.xcconfig"; sourceTree = "<group>"; };
 		98A1B4C62DA3CA0DE17D25FB /* Pods-TextureVOUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextureVOUITests.release.xcconfig"; path = "Target Support Files/Pods-TextureVOUITests/Pods-TextureVOUITests.release.xcconfig"; sourceTree = "<group>"; };
+		9C0B631E290BC65C00A478D1 /* NodeCreationInsideLayoutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeCreationInsideLayoutVC.swift; sourceTree = "<group>"; };
 		9C49572F273B7F1B00788D64 /* AnimateLayoutTransitionNotCalledVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimateLayoutTransitionNotCalledVC.swift; sourceTree = "<group>"; };
 		9C495736273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift; sourceTree = "<group>"; };
 		9C5C5301276736E200C7632C /* AccessibilityIdentifierCasesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityIdentifierCasesViewController.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				E5941CF927057ACD00E3841D /* ASTableNodeDeinitCellVC.swift */,
 				1DF26783273BB9C700F1F1D3 /* ASOverlayTexture2IssueVC.swift */,
 				1D20867F27FFCA8A00D9F9F0 /* UIViewConvert */,
+				9C0B631E290BC65C00A478D1 /* NodeCreationInsideLayoutVC.swift */,
 			);
 			path = TextureIssue;
 			sourceTree = "<group>";
@@ -649,6 +652,7 @@
 				E5CC9DE726F36D0B00E21BCE /* NSAttributedString+Helper.swift in Sources */,
 				9C495737273B839E00788D64 /* ParentWithWrapperDoesNotAutoSetNeedsLayoutVC.swift in Sources */,
 				9C68D7DB2757756200AA7E29 /* AccessibilityUIKitViewController.swift in Sources */,
+				9C0B631F290BC65C00A478D1 /* NodeCreationInsideLayoutVC.swift in Sources */,
 				9C5C530C2769F9A700C7632C /* CellNodeAsWrapperIdentifierViewController.swift in Sources */,
 				9C495730273B830500788D64 /* AnimateLayoutTransitionNotCalledVC.swift in Sources */,
 				9C5C530527673EB400C7632C /* ControlNodeAsWrapperIdentifierViewController.swift in Sources */,

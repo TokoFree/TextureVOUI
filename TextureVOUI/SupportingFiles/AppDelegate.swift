@@ -21,5 +21,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to select a configuration to create the new scene with.
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
+    
+    func ad() {
+        enum A {
+            case foo
+            case bar(Void)
+        }
+        
+        let data: Void? = ()
+//        data.map(A.foo)
+        let x = A.foo
+        let y = A.bar
+        data.map(A.bar)
+    }
 }
 
+//import UIKit
+//
+//protocol ShopReview: UIViewController {
+//    func onContentLoaded()
+//    func didTapProduct()
+//
+//    static func createPage(shopId: Int) -> ShopReview
+//}
+//
+//class MyVC: UIViewController, ShopReview {
+//    func onContentLoaded() {
+//
+//    }
+//
+//    func didTapProduct() {
+//
+//    }
+//
+//
+//    static func
+//}

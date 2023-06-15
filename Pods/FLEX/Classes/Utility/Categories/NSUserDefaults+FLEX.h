@@ -19,6 +19,7 @@ extern NSString * const kFLEXDefaultsHideVariablePreviewsKey;
 extern NSString * const kFLEXDefaultsNetworkObserverEnabledKey;
 extern NSString * const kFLEXDefaultsNetworkHostDenylistKey;
 extern NSString * const kFLEXDefaultsDisableOSLogForceASLKey;
+extern NSString * const kFLEXDefaultsAPNSCaptureEnabledKey;
 extern NSString * const kFLEXDefaultsRegisterJSONExplorerKey;
 
 /// All BOOL preferences are NO by default
@@ -35,9 +36,14 @@ extern NSString * const kFLEXDefaultsRegisterJSONExplorerKey;
 /// Whether or not to register the object explorer as a JSON viewer on launch
 @property (nonatomic) BOOL flex_registerDictionaryJSONViewerOnLaunch;
 
+/// The last selected screen in the network observer
+@property (nonatomic) NSInteger flex_lastNetworkObserverMode;
+
 /// Disable os_log and re-enable ASL. May break Console.app output.
 @property (nonatomic) BOOL flex_disableOSLog;
 @property (nonatomic) BOOL flex_cacheOSLogMessages;
+
+@property (nonatomic) BOOL flex_enableAPNSCapture;
 
 @property (nonatomic) BOOL flex_explorerHidesPropertyIvars;
 @property (nonatomic) BOOL flex_explorerHidesPropertyMethods;

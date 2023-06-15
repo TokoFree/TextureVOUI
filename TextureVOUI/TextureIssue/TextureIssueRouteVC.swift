@@ -9,6 +9,8 @@ import UIKit
 
 public final class TextureIssueRouteVC: UITableViewController {
     private enum Route: String, CaseIterable {
+        case uiTestIssue = "UI Test issue on component too deep"
+        case uiTestOnUIkit = "UITest on UIKit"
         case setNeedsLayoutChildIssue = "Parent setNeedsLayout issue"
         case setNeedsLayoutChildSuccess = "Parent setNeedsLayout non issue in Unify"
         case safeAreaIssue = "ChildNode doesn't have the same safeArea as parent"
@@ -55,6 +57,10 @@ public final class TextureIssueRouteVC: UITableViewController {
             navigationController?.pushViewController(DemoScrollHorizontalVC(), animated: true)
         case .nodeCreationOnLayout:
             navigationController?.pushViewController(NodeCreationInsideLayoutVC(), animated: true)
+        case .uiTestIssue:
+            navigationController?.pushViewController(ComponentTooDeepVC(), animated: true)
+        case .uiTestOnUIkit:
+            navigationController?.pushViewController(ComponentTooDeepUIKitVC(), animated: true)
         }
     }
 

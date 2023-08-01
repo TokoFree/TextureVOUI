@@ -1,5 +1,5 @@
 //
-//  CategoryWidgetCollectionCellNode.swift
+//  ProductCardCollectionCellNode.swift
 //  TextureVOUI
 //
 //  Created by andhika.setiadi on 01/08/23.
@@ -7,7 +7,7 @@
 
 import AsyncDisplayKit
 
-internal final class CategoryWidgetCollectionCellNode: ASCellNode {
+internal final class ProductCardCollectionCellNode: ASCellNode {
     // MARK: Nodes
     
     private let collectionLayout: UICollectionViewFlowLayout = {
@@ -23,7 +23,7 @@ internal final class CategoryWidgetCollectionCellNode: ASCellNode {
     
     // MARK: Variables
     
-    internal var items: [Category] = [] {
+    internal var items: [Product] = [] {
         didSet {
             guard oldValue != items else { return }
             
@@ -42,7 +42,7 @@ internal final class CategoryWidgetCollectionCellNode: ASCellNode {
         
         /// 200 + 10 bottom content inset
         ///
-        style.height = ASDimensionMake(130)
+        style.height = ASDimensionMake(210)
     }
     
     internal override func didLoad() {
@@ -71,7 +71,7 @@ internal final class CategoryWidgetCollectionCellNode: ASCellNode {
     #endif
 }
 
-extension CategoryWidgetCollectionCellNode: ASCollectionDataSource {
+extension ProductCardCollectionCellNode: ASCollectionDataSource {
     internal func numberOfSections(in collectionNode: ASCollectionNode) -> Int {
         return 1
     }
@@ -83,7 +83,7 @@ extension CategoryWidgetCollectionCellNode: ASCollectionDataSource {
     internal func collectionNode(_ collectionNode: ASCollectionNode, nodeForItemAt indexPath: IndexPath) -> ASCellNode {
         guard let data = items[safe: indexPath.row] else { return ASCellNode() }
         
-        let cell = CategoryWidgetCellNode()
+        let cell = ProductCardCellNode()
         cell.setup(data)
         return cell
     }
@@ -92,21 +92,21 @@ extension CategoryWidgetCollectionCellNode: ASCollectionDataSource {
         return ASSizeRange(
             min: CGSize.zero,
             max: CGSize(
-                width: 70,
-                height: 120
+                width: 100,
+                height: 200
             )
         )
     }
 }
 
-extension CategoryWidgetCollectionCellNode: ASCollectionDelegate {}
+extension ProductCardCollectionCellNode: ASCollectionDelegate {}
 
 // MARK: Cell Class Node
 
-fileprivate final class CategoryWidgetCellNode: ASCellNode {
+fileprivate final class ProductCardCellNode: ASCellNode {
     // MARK: Nodes
     
-    private let categoryImageNode: ASImageNode = {
+    private let productImageNode: ASImageNode = {
         let node = ASImageNode()
         node.contentMode = .scaleToFill
         node.onDidLoad {
@@ -117,6 +117,7 @@ fileprivate final class CategoryWidgetCellNode: ASCellNode {
     }()
     
     private let titleTextNode = ASTextNode2()
+    private let weightTextNode = ASTextNode2()
     
     // MARK: Variables
     
@@ -130,24 +131,26 @@ fileprivate final class CategoryWidgetCellNode: ASCellNode {
     
     internal override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         let size = max(0, constrainedSize.max.width)
-        categoryImageNode.style.preferredSize = CGSize(width: size, height: size)
+        productImageNode.style.preferredSize = CGSize(width: size, height: size)
         
         let contentStack = ASStackLayoutSpec.vertical()
         contentStack.spacing = 8
-        contentStack.alignItems = .center
+        contentStack.alignItems = .start
         contentStack.children = [
-            categoryImageNode,
-            titleTextNode
+            productImageNode,
+            titleTextNode,
+            weightTextNode
         ]
         
         return ASWrapperLayoutSpec(layoutElement: contentStack)
     }
     
-    internal func setup(_ category: Category) {
-        categoryImageNode.image = UIImage(named: category.image)
-        categoryImageNode.layoutIfNeeded()
+    internal func setup(_ product: Product) {
+        productImageNode.image = UIImage(named: product.image)
+        productImageNode.layoutIfNeeded()
         
-        titleTextNode.attributedText = .title(category.title, alignment: .center)
+        titleTextNode.attributedText = .title(product.title)
+        weightTextNode.attributedText = .title(product.weight)
     }
     
     #if DEBUG

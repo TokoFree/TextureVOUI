@@ -91,10 +91,7 @@ extension PromoWidgetCollectionCellNode: ASCollectionDataSource {
     
     internal func collectionNode(_ collectionNode: ASCollectionNode, constrainedSizeForItemAt indexPath: IndexPath) -> ASSizeRange {
         return ASSizeRange(
-            min: CGSize(
-                width: 0,
-                height: 0
-            ),
+            min: CGSize.zero,
             max: CGSize(
                 width: collectionNode.calculatedSize.width - 48, /// 32 contentInset + 16 for sneak peek image
                 height: 200
@@ -104,6 +101,8 @@ extension PromoWidgetCollectionCellNode: ASCollectionDataSource {
 }
 
 extension PromoWidgetCollectionCellNode: ASCollectionDelegate {}
+
+// MARK: Cell Class Node
 
 fileprivate final class PromoWidgetCellNode: ASCellNode {
     // MARK: Nodes

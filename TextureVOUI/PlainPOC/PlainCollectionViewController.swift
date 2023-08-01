@@ -156,16 +156,19 @@ extension PlainCollectionViewController: ASCollectionDataSource {
             return cell
             
         case let .promoWidget(bannerImages):
-            print(">> dbg: masuk sini promoWidget")
             let cell = PromoWidgetCollectionCellNode()
             cell.items = bannerImages
             return cell
             
-        case .categoryWidget:
-            return ASCellNode()
+        case let .categoryWidget(categoryData):
+            let cell = CategoryWidgetCollectionCellNode()
+            cell.items = categoryData
+            return cell
             
-        case .productCardWidget:
-            return ASCellNode()
+        case let .productCardWidget(productData):
+            let cell = ProductCardCollectionCellNode()
+            cell.items = productData
+            return cell
         }
     }
     

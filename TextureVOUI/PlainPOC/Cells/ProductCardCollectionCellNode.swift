@@ -40,7 +40,7 @@ internal final class ProductCardCollectionCellNode: ASCellNode {
         backgroundColor = .white
         style.width = ASDimensionMake("100%")
         
-        /// 200 + 10 bottom content inset
+        /// 160 + 10 bottom content inset
         ///
         style.height = ASDimensionMake(170)
     }
@@ -108,7 +108,7 @@ fileprivate final class ProductCardCellNode: ASCellNode {
     
     private let productImageNode: ASImageNode = {
         let node = ASImageNode()
-        node.contentMode = .scaleToFill
+        node.contentMode = .scaleAspectFill
         node.onDidLoad {
             $0.layer.cornerRadius = 8
         }

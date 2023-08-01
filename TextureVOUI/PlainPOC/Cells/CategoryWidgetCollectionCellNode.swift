@@ -40,7 +40,7 @@ internal final class CategoryWidgetCollectionCellNode: ASCellNode {
         backgroundColor = .white
         style.width = ASDimensionMake("100%")
         
-        /// 200 + 10 bottom content inset
+        /// 120 + 10 bottom content inset
         ///
         style.height = ASDimensionMake(130)
     }
@@ -108,7 +108,7 @@ fileprivate final class CategoryWidgetCellNode: ASCellNode {
     
     private let categoryImageNode: ASImageNode = {
         let node = ASImageNode()
-        node.contentMode = .scaleToFill
+        node.contentMode = .scaleAspectFill
         node.onDidLoad {
             $0.layer.cornerRadius = 8
         }

@@ -12,6 +12,7 @@ internal final class AddressWidgetCellNode: ASCellNode {
     
     private let pinImageNode: ASImageNode = {
         let node = ASImageNode()
+        node.image = #imageLiteral(resourceName: "push_pin_filled")
         node.contentMode = .scaleAspectFit
         node.style.preferredSize = CGSize(width: 20, height: 20)
         return node
@@ -56,9 +57,7 @@ internal final class AddressWidgetCellNode: ASCellNode {
     }
     
     internal func setup(_ address: String) {
-        pinImageNode.image = #imageLiteral(resourceName: "push_pin_filled")
         titleTextNode.attributedText = .title(address)
-        
         setNeedsLayout()
     }
     

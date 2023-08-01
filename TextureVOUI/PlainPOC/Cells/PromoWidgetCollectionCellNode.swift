@@ -109,7 +109,7 @@ fileprivate final class PromoWidgetCellNode: ASCellNode {
     
     private let bannerImageNode: ASImageNode = {
         let node = ASImageNode()
-        node.contentMode = .scaleToFill
+        node.contentMode = .scaleAspectFill
         node.onDidLoad {
             $0.layer.cornerRadius = 8
         }

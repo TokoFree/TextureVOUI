@@ -17,6 +17,7 @@ public final class RouteVC: UITableViewController {
         case voiceOverActivationPoint = "Voice Over Activation Point"
         case uiTestRoute = "UITest Accessibility Cases Example"
         case textureIssue = "⚠️ Texture Issue"
+        case plainTextureCollection = "CollectionNode POC"
     }
 
     private let routes: [Route] = Route.allCases
@@ -49,6 +50,8 @@ public final class RouteVC: UITableViewController {
             navigationController?.pushViewController(CollectionWithSectionVC(), animated: true)
         case .collectionNodeSection:
             navigationController?.pushViewController(CollectionWithSectionNodeVC(), animated: true)
+        case .plainTextureCollection:
+            navigationController?.pushViewController(PlainCollectionViewController(), animated: true)
         }
     }
 

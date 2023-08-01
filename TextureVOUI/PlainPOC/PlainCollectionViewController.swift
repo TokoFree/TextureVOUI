@@ -79,8 +79,8 @@ internal final class PlainCollectionViewController: ASDKViewController<ASDisplay
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "chevron.left")?.withRenderingMode(.alwaysOriginal),
             style: .plain,
-            target: nil,
-            action: nil
+            target: self,
+            action: #selector(handleBackButton)
         )
         navigationItem.titleView = searchBarView
         navigationItem.rightBarButtonItems = [
@@ -103,6 +103,10 @@ internal final class PlainCollectionViewController: ASDKViewController<ASDisplay
                 action: nil
             )
         ]
+    }
+    
+    @objc private func handleBackButton() {
+        navigationController?.popViewController(animated: true)
     }
     
     #if DEBUG

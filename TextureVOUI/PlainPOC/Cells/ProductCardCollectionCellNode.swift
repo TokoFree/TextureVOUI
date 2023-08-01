@@ -42,7 +42,7 @@ internal final class ProductCardCollectionCellNode: ASCellNode {
         
         /// 200 + 10 bottom content inset
         ///
-        style.height = ASDimensionMake(210)
+        style.height = ASDimensionMake(170)
     }
     
     internal override func didLoad() {
@@ -93,7 +93,7 @@ extension ProductCardCollectionCellNode: ASCollectionDataSource {
             min: CGSize.zero,
             max: CGSize(
                 width: 100,
-                height: 200
+                height: 160
             )
         )
     }
